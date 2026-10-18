@@ -1,0 +1,636 @@
+{
+  "fonte": "Restaurante-Bom-paladar/src/content/menu.ts (menu de outubro de 2026)",
+  "moeda": "MZN (meticais)",
+  "restaurante": {
+    "nome": "Bom Paladar Restaurante & Bar",
+    "morada": {
+      "street": "Rua Robert Mugabe",
+      "city": "Quelimane",
+      "region": "Zambézia",
+      "country": "Moçambique",
+      "countryCode": "MZ"
+    },
+    "telefone": "+258 87 062 4564",
+    "horario": [
+      {
+        "days": "Todos os dias",
+        "schemaDays": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "closes": "00:00"
+      }
+    ],
+    "slogan": "Sabor, qualidade e boa companhia!"
+  },
+  "notas": {
+    "precos": "Preços em meticais (MT), sujeitos a alteração sem aviso prévio.",
+    "bar": "Águas, refrigerantes, sumos, cafetaria, cervejas e outras bebidas: consulte o empregado ou o balcão do bar."
+  },
+  "secoes": [
+    {
+      "id": "buffet",
+      "nome": "Buffet",
+      "nota": "Preço por pessoa",
+      "intro": "Três opções de buffet com entradas, bebidas, pratos de carne, aves e peixe, guarnições, saladas e sobremesa.",
+      "itens": [
+        {
+          "id": "buffet-1500",
+          "nome": "Buffet 1.500",
+          "preco": 1500,
+          "unidade": "p/ pessoa",
+          "descricao": "O essencial da cozinha da casa, com bebidas e sobremesa.",
+          "foto": "/images/dishes/buffet",
+          "composicao": [
+            {
+              "grupo": "Entradas",
+              "itens": [
+                "Chamuças",
+                "Rissóis"
+              ]
+            },
+            {
+              "grupo": "Bebidas",
+              "itens": [
+                "Água Vumba ou Gurué 1,5 L",
+                "Sumo Compal 1 L",
+                "Refrigerantes de 2 L (Coca-Cola, Fanta e Sprite)"
+              ]
+            },
+            {
+              "grupo": "Carnes",
+              "itens": [
+                "Bife na panela",
+                "Feijoada à Bom Paladar"
+              ]
+            },
+            {
+              "grupo": "Aves",
+              "itens": [
+                "Frango à Zambeziana ou água e sal de galinha cafreal"
+              ]
+            },
+            {
+              "grupo": "Peixes",
+              "itens": [
+                "Peixe pedra ou garoupa grelhado"
+              ]
+            },
+            {
+              "grupo": "Verduras",
+              "itens": [
+                "Quiabo ou couve mal passada"
+              ]
+            },
+            {
+              "grupo": "Guarnições",
+              "itens": [
+                "Batata frita",
+                "Arroz branco",
+                "Arroz de legumes",
+                "Chima (branca)"
+              ]
+            },
+            {
+              "grupo": "Saladas",
+              "itens": [
+                "Salada fria com maionese",
+                "Salada de alface ou pepino com tomate e repolho"
+              ]
+            },
+            {
+              "grupo": "Sobremesas",
+              "itens": [
+                "Mousse de malambe ou pudim"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "buffet-2000",
+          "nome": "Buffet 2.000",
+          "preco": 2000,
+          "unidade": "p/ pessoa",
+          "descricao": "Mais carnes e o marisco da casa: camarão e lulas.",
+          "foto": "/images/dishes/buffet-mesa",
+          "composicao": [
+            {
+              "grupo": "Entradas",
+              "itens": [
+                "Chamuças",
+                "Rissóis",
+                "Coxinhas"
+              ]
+            },
+            {
+              "grupo": "Bebidas",
+              "itens": [
+                "Água Vumba ou Gurué 1,5 L",
+                "Sumo Compal 1 L",
+                "Refrigerantes de 2 L (Coca-Cola, Fanta e Sprite)"
+              ]
+            },
+            {
+              "grupo": "Carnes",
+              "itens": [
+                "Bife na panela",
+                "Guisado de carne de vaca",
+                "Feijoada à Bom Paladar"
+              ]
+            },
+            {
+              "grupo": "Aves",
+              "itens": [
+                "Galinha cafreal ou aviário à Zambeziana",
+                "Água e sal de galinha cafreal ou aviário"
+              ]
+            },
+            {
+              "grupo": "Mariscos e peixes",
+              "itens": [
+                "Peixe grelhado (pedra, garoupa ou cherewa)",
+                "Camarão médio grelhado ou na frigideira",
+                "Lulas grelhadas ou na frigideira"
+              ]
+            },
+            {
+              "grupo": "Verduras",
+              "itens": [
+                "Mucuane de mandioca, quiabo ou couve mal passada"
+              ]
+            },
+            {
+              "grupo": "Guarnições",
+              "itens": [
+                "Batata frita",
+                "Arroz branco",
+                "Arroz de legumes",
+                "Mucapata",
+                "Chima (branca)"
+              ]
+            },
+            {
+              "grupo": "Saladas",
+              "itens": [
+                "Salada fria com maionese",
+                "Salada de alface ou pepino com tomate e repolho"
+              ]
+            },
+            {
+              "grupo": "Sobremesas",
+              "itens": [
+                "Mousse de malambe ou mousse de chocolate"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "buffet-2800",
+          "nome": "Buffet 2.800",
+          "preco": 2800,
+          "unidade": "p/ pessoa",
+          "descricao": "O buffet completo: sopa, cabrito, camarão tigre e lagosta.",
+          "foto": "/images/dishes/buffet-variado",
+          "composicao": [
+            {
+              "grupo": "Entradas e cafetaria",
+              "itens": [
+                "Café",
+                "Chá",
+                "Chamuças",
+                "Rissóis",
+                "Casquinhas de caranguejo"
+              ]
+            },
+            {
+              "grupo": "Sopas",
+              "itens": [
+                "Sopa de legumes, abóbora ou feijão"
+              ]
+            },
+            {
+              "grupo": "Bebidas",
+              "itens": [
+                "Água Vumba ou Gurué 1,5 L",
+                "Sumo Compal 1 L",
+                "Sumo natural (servido no jarro com torneira)"
+              ]
+            },
+            {
+              "grupo": "Carnes",
+              "itens": [
+                "Bife na panela (carne importada)",
+                "Cabrito no forno (perna)",
+                "Feijoada à Bom Paladar"
+              ]
+            },
+            {
+              "grupo": "Aves",
+              "itens": [
+                "Galinha cafreal ou aviário à Zambeziana",
+                "Espetada de peito de frango"
+              ]
+            },
+            {
+              "grupo": "Mariscos e peixes",
+              "itens": [
+                "Peixe pedra ou garoupa grelhado com molho de manteiga ou coco",
+                "Camarão tigre grelhado com molho de manteiga ou coco",
+                "Lulas grelhadas",
+                "Lagostas médias grelhadas"
+              ]
+            },
+            {
+              "grupo": "Verduras",
+              "itens": [
+                "Mucuane de mandioca, quiabo ou couve mal passada"
+              ]
+            },
+            {
+              "grupo": "Guarnições",
+              "itens": [
+                "Batata frita",
+                "Arroz branco",
+                "Arroz de coco",
+                "Arroz de legumes",
+                "Mucapata",
+                "Legumes salteados"
+              ]
+            },
+            {
+              "grupo": "Saladas",
+              "itens": [
+                "Salada fria com maionese",
+                "Salada de alface ou pepino",
+                "Salada de atum"
+              ]
+            },
+            {
+              "grupo": "Sobremesas",
+              "itens": [
+                "Bolo gelado ou pudim",
+                "Mousse de malambe",
+                "Frutas"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "massas",
+      "nome": "Menu Pasta",
+      "itens": [
+        {
+          "id": "carbonara",
+          "nome": "Massa Tagliatelle Carbonara",
+          "preco": 950,
+          "descricao": "Peito de frango, salsicha, natas e cogumelos.",
+          "foto": "/images/dishes/massa-carbonara"
+        },
+        {
+          "id": "fettuccine",
+          "nome": "Massa Fettuccine",
+          "preco": 850,
+          "descricao": "Peito de frango, cenoura raspada, salsa picada e molho de tomate.",
+          "foto": "/images/dishes/massa-fettuccine"
+        },
+        {
+          "id": "bolonhesa",
+          "nome": "Massa Bolonhesa",
+          "preco": 850,
+          "descricao": "Esparguete com carne moída e molho de tomate.",
+          "foto": "/images/dishes/massa-bolonhesa"
+        },
+        {
+          "id": "puttanesca-marisco",
+          "nome": "Massa Putanesca de Marisco",
+          "preco": 1200,
+          "descricao": "Lulas, camarão, piri-piri, caranguejo desfiado e coentros.",
+          "foto": "/images/dishes/massa-marisco"
+        }
+      ]
+    },
+    {
+      "id": "lasanhas",
+      "nome": "Lasanhas",
+      "itens": [
+        {
+          "id": "lasanha-carne",
+          "nome": "Lasanha de Carne Moída",
+          "preco": 700,
+          "foto": "/images/dishes/lasanha-carne"
+        },
+        {
+          "id": "lasanha-frango",
+          "nome": "Lasanha de Frango Desfiado",
+          "preco": 700,
+          "foto": "/images/dishes/lasanha-frango"
+        },
+        {
+          "id": "lasanha-legumes",
+          "nome": "Lasanha de Legumes",
+          "preco": 500,
+          "foto": "/images/dishes/lasanha-legumes"
+        }
+      ]
+    },
+    {
+      "id": "cocktails",
+      "nome": "Cocktails",
+      "itens": [
+        {
+          "id": "margarita",
+          "nome": "Margarita",
+          "preco": 350,
+          "descricao": "Tequila branca, triple sec, lima e sumo de lima.",
+          "foto": "/images/dishes/cocktail-margarita"
+        },
+        {
+          "id": "intense-girl",
+          "nome": "Bom Paladar Intense Girl",
+          "preco": 400,
+          "descricao": "Licor de morango, piña colada, rum e sumo de ananás.",
+          "foto": "/images/dishes/cocktail-intense-girl"
+        },
+        {
+          "id": "caipirinha",
+          "nome": "Caipirinha",
+          "preco": 350,
+          "descricao": "Cachaça, lima, maracujá, frutos vermelhos, kiwi, tangerina e xarope de açúcar.",
+          "foto": "/images/dishes/cocktail-caipirinha"
+        },
+        {
+          "id": "caipirosca",
+          "nome": "Caipirosca",
+          "preco": 300,
+          "descricao": "Vodka, lima, maracujá, frutos vermelhos, kiwi, tangerina e xarope de açúcar.",
+          "foto": "/images/dishes/cocktail-caipirosca"
+        },
+        {
+          "id": "mojito",
+          "nome": "Mojito",
+          "preco": 300,
+          "descricao": "Rum branco, lima, hortelã, Sprite ou água tónica.",
+          "foto": "/images/dishes/cocktail-mojito"
+        },
+        {
+          "id": "tequila-sunrise",
+          "nome": "Tequila Sunrise",
+          "preco": 500,
+          "descricao": "Tequila branca, sumo de laranja e grenadine.",
+          "foto": "/images/dishes/cocktail-tequila-sunrise"
+        },
+        {
+          "id": "gin-tonico",
+          "nome": "Gin Tónico à Bom Paladar",
+          "preco": 400,
+          "foto": "/images/dishes/cocktail-gin-tonico"
+        },
+        {
+          "id": "sexy-on-the-beach",
+          "nome": "Sexy on the Beach",
+          "preco": 400,
+          "descricao": "Vodka, licor de pêssego e sumo de laranja.",
+          "foto": "/images/dishes/cocktail-sexy-on-the-beach"
+        },
+        {
+          "id": "blue-lagoon",
+          "nome": "Blue Lagoon",
+          "preco": 300,
+          "descricao": "Vodka, licor Blue Curaçao, sumo de limão e Sprite.",
+          "foto": "/images/dishes/cocktail-blue-lagoon"
+        },
+        {
+          "id": "blue-hawaii",
+          "nome": "Blue Hawaii",
+          "preco": 350,
+          "descricao": "Vodka, licor de pêssego, licor Piña Curaçao e Sprite.",
+          "foto": "/images/dishes/cocktail-blue-hawaii"
+        },
+        {
+          "id": "pina-colada",
+          "nome": "Piña Colada",
+          "preco": 450,
+          "descricao": "Rum branco, cocktail base de piña colada e sumo de ananás.",
+          "foto": "/images/dishes/cocktail-pina-colada"
+        },
+        {
+          "id": "caipirinha-cerveja",
+          "nome": "Caipirinha de Cerveja à Bom Paladar",
+          "preco": 400,
+          "foto": "/images/dishes/cocktail-caipirinha-cerveja"
+        },
+        {
+          "id": "sangria",
+          "nome": "Sangria de Vinho Branco / Tinto",
+          "preco": 800,
+          "descricao": "Aguardente de cana, triple sec, xarope de menta, brandy, vinho e Sprite.",
+          "foto": "/images/dishes/sangria"
+        },
+        {
+          "id": "shots",
+          "nome": "Shots",
+          "preco": null,
+          "descricao": "Blow Job, Guitinha, B52, Tequila Gold, Tequila Branca, Blue Kamikaze, Jägermeister e Jägerbomb.",
+          "foto": "/images/dishes/shots"
+        }
+      ]
+    },
+    {
+      "id": "vinhos-tintos",
+      "nome": "Vinhos Tintos",
+      "nota": "Garrafa",
+      "intro": "Descubra um mundo de sabores na nossa carta de vinhos!",
+      "itens": [
+        {
+          "id": "silk-and-spice",
+          "nome": "Silk and Spice",
+          "preco": 2100
+        },
+        {
+          "id": "cabriz-novo",
+          "nome": "Cabriz (Novo)",
+          "preco": 1400
+        },
+        {
+          "id": "cabriz-reserva",
+          "nome": "Cabriz (Reserva)",
+          "preco": 2800
+        },
+        {
+          "id": "mucho-mas",
+          "nome": "Mucho Más",
+          "preco": 2800
+        },
+        {
+          "id": "cadao-novo",
+          "nome": "Cadão (Novo)",
+          "preco": 1400
+        },
+        {
+          "id": "cadao-reserva",
+          "nome": "Cadão (Reserva)",
+          "preco": 2200
+        },
+        {
+          "id": "reguengos-reserva",
+          "nome": "Reguengos (Reserva)",
+          "preco": 2600
+        },
+        {
+          "id": "segredos-novo",
+          "nome": "Segredos de S. Miguel (Novo)",
+          "preco": 1700
+        },
+        {
+          "id": "segredos-reserva",
+          "nome": "Segredos de S. Miguel (Reserva)",
+          "preco": 3500
+        },
+        {
+          "id": "duas-quintas",
+          "nome": "Duas Quintas",
+          "preco": 3500
+        },
+        {
+          "id": "pe-tinto",
+          "nome": "Pé Tinto",
+          "preco": 1400
+        },
+        {
+          "id": "portada-tinto",
+          "nome": "Portada",
+          "preco": 1400
+        },
+        {
+          "id": "quinta-bolota-prestige",
+          "nome": "Quinta da Bolota Prestige",
+          "preco": 2200
+        },
+        {
+          "id": "chocolate-block",
+          "nome": "The Chocolate Block",
+          "preco": 3000
+        },
+        {
+          "id": "spylano",
+          "nome": "Spylano",
+          "preco": 1800
+        },
+        {
+          "id": "casa-santar",
+          "nome": "Casa de Santar",
+          "preco": 2400
+        },
+        {
+          "id": "dona-vitoria",
+          "nome": "Dona Vitória",
+          "preco": 2200
+        },
+        {
+          "id": "herdade-s-miguel",
+          "nome": "Herdade de S. Miguel",
+          "preco": 4800
+        },
+        {
+          "id": "casa-insua",
+          "nome": "Casa da Ínsua",
+          "preco": 3200
+        },
+        {
+          "id": "instinto",
+          "nome": "Instinto (1 L)",
+          "preco": 1300
+        }
+      ]
+    },
+    {
+      "id": "vinhos-brancos",
+      "nome": "Brancos, Verdes & Rosé",
+      "nota": "Garrafa",
+      "itens": [
+        {
+          "id": "robertson-branco",
+          "nome": "Robertson Winery Branco",
+          "preco": 1100
+        },
+        {
+          "id": "aveleda-alvarinho",
+          "nome": "Aveleda Alvarinho",
+          "preco": 1500
+        },
+        {
+          "id": "aveleda-fonte",
+          "nome": "Aveleda Fonte",
+          "preco": 1500
+        },
+        {
+          "id": "fleur-du-cap",
+          "nome": "Fleur du Cap",
+          "preco": 1250
+        },
+        {
+          "id": "pacheca",
+          "nome": "Pacheca",
+          "preco": 1700
+        },
+        {
+          "id": "casal-garcia-branco",
+          "nome": "Casal Garcia Branco",
+          "preco": 1200
+        },
+        {
+          "id": "casal-garcia-verde",
+          "nome": "Casal Garcia Verde",
+          "preco": 1500
+        },
+        {
+          "id": "nederburg-lyric",
+          "nome": "Nederburg Lyric (Branco)",
+          "preco": 1250
+        },
+        {
+          "id": "quinta-bolota-verde",
+          "nome": "Quinta da Bolota Verde",
+          "preco": 1000
+        },
+        {
+          "id": "portada-branco",
+          "nome": "Portada Branco",
+          "preco": 1300
+        },
+        {
+          "id": "chardonnay-verde",
+          "nome": "Chardonnay Verde",
+          "preco": 1200
+        },
+        {
+          "id": "spier-sauvignon",
+          "nome": "Sauvignon Blanc Spier",
+          "preco": 1200
+        },
+        {
+          "id": "petusco-verde",
+          "nome": "Petusco Verde",
+          "preco": 1500
+        },
+        {
+          "id": "robertson-rose",
+          "nome": "Robertson Rosé",
+          "preco": 1250
+        },
+        {
+          "id": "pluma-verde",
+          "nome": "Pluma Verde",
+          "preco": 1200
+        }
+      ]
+    }
+  ]
+}
