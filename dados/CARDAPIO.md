@@ -1,6 +1,6 @@
 # Cardápio — Bom Paladar Restaurante & Bar
 
-Menu atualizado (outubro de 2026), recolhido do site do restaurante (`Restaurante-Bom-paladar/src/content/menu.ts`).
+Menu atualizado (outubro de 2026), recolhido do site do restaurante (`Restaurante-Bom-paladar/src/content/menu.ts`) e **conferido item a item com as fotos dos cardápios impressos** em [`fotos-cardapio/`](fotos-cardapio/) (buffets 1.500, 2.000 e 2.800, pasta e lasanhas, cocktails, carta de vinhos). Todos os nomes e preços coincidem.
 
 - **Morada:** Rua Robert Mugabe, Quelimane, Zambézia, Moçambique
 - **Telefone / WhatsApp:** +258 87 062 4564
@@ -147,3 +147,5 @@ Descubra um mundo de sabores na nossa carta de vinhos!
 - **Bebidas avulsas** (águas, refrigerantes, sumos, cafetaria, cervejas) não constam do menu novo.
 - Pizzas, mariscos à la carte, carnes e petiscos do menu antigo **saíram** do menu atual.
 - Hora de abertura e dias de funcionamento.
+- O cardápio impresso escreve "galinha **cafrial**"; aqui ficou "cafreal" (grafia corrente).
+- Falta ainda **um cardápio** que o cliente vai enviar.
