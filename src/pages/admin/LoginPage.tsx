@@ -6,18 +6,19 @@ import { useAuth } from '../../lib/auth'
 import { mensagemDeErro } from '../../lib/errors'
 import { supabase } from '../../lib/supabase'
 
+// Entra-se só com a palavra-passe: a conta de administrador é única e o email fica fixo.
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@bompaladar.co.mz'
+
 const esquema = z.object({
-  email: z.string().trim().email('Escreva um email válido.'),
-  senha: z.string().min(6, 'A senha tem pelo menos 6 caracteres.'),
+  senha: z.string().min(6, 'A palavra-passe tem pelo menos 6 caracteres.'),
 })
 
 export function LoginPage() {
   const { sessao } = useAuth()
   const navigate = useNavigate()
   const de = (useLocation().state as { de?: string } | null)?.de ?? '/admin'
-  const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
-  const [erros, setErros] = useState<{ email?: string; senha?: string }>({})
+  const [erroSenha, setErroSenha] = useState<string | undefined>()
   const [erro, setErro] = useState<string | null>(null)
   const [aEntrar, setAEntrar] = useState(false)
 
@@ -26,17 +27,13 @@ export function LoginPage() {
   async function entrar(e: FormEvent) {
     e.preventDefault()
     setErro(null)
-    const r = esquema.safeParse({ email, senha })
-    if (!r.success) {
-      const f = r.error.flatten().fieldErrors
-      setErros({ email: f.email?.[0], senha: f.senha?.[0] })
-      return
-    }
-    setErros({})
+    const r = esquema.safeParse({ senha })
+    if (!r.success) return setErroSenha(r.error.issues[0]?.message)
+    setErroSenha(undefined)
     setAEntrar(true)
-    const { error } = await supabase.auth.signInWithPassword({ email: r.data.email, password: r.data.senha })
+    const { error } = await supabase.auth.signInWithPassword({ email: ADMIN_EMAIL, password: r.data.senha })
     setAEntrar(false)
-    if (error) return setErro(mensagemDeErro(error))
+    if (error) return setErro(/Invalid login credentials/i.test(error.message) ? 'Palavra-passe errada.' : mensagemDeErro(error))
     navigate(de, { replace: true })
   }
 
@@ -49,42 +46,23 @@ export function LoginPage() {
         </div>
         <div className="flex flex-col gap-4">
           <div>
-            <label htmlFor="email" className="rotulo">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="username"
-              className="campo"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              aria-invalid={Boolean(erros.email)}
-              aria-describedby={erros.email ? 'email-erro' : undefined}
-            />
-            {erros.email && (
-              <p id="email-erro" className="mt-1 text-sm text-ember-600">
-                {erros.email}
-              </p>
-            )}
-          </div>
-          <div>
             <label htmlFor="senha" className="rotulo">
-              Senha
+              Palavra-passe
             </label>
             <input
               id="senha"
               type="password"
               autoComplete="current-password"
+              autoFocus
               className="campo"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              aria-invalid={Boolean(erros.senha)}
-              aria-describedby={erros.senha ? 'senha-erro' : undefined}
+              aria-invalid={Boolean(erroSenha)}
+              aria-describedby={erroSenha ? 'senha-erro' : undefined}
             />
-            {erros.senha && (
+            {erroSenha && (
               <p id="senha-erro" className="mt-1 text-sm text-ember-600">
-                {erros.senha}
+                {erroSenha}
               </p>
             )}
           </div>

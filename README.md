@@ -20,22 +20,27 @@ O projeto **Bom Paladar QR** já foi criado (região `eu-central-1`, ref `zvxown
 
 O seed é gerado a partir de `dados/cardapio.json` com `npm run seed`. Itens sem preço no cardápio impresso (a linha "Shots" dos cocktails) ficam de fora; os shots com preço estão em "Espirituosas (Gin) / Shots".
 
-## 2. Criar o administrador
+## 2. Administrador
 
-O administrador é criado à mão:
+O painel abre só com a **palavra-passe** (não pede email). Por trás há uma única conta no Supabase Auth, `admin@bompaladar.co.mz`, já criada no projeto Bom Paladar QR com o papel de administrador. A palavra-passe foi combinada com o restaurante e **não está escrita no código nem no Git**.
 
-1. Authentication → Users → **Add user** → **Create new user**, com email e senha (marque **Auto Confirm User**).
-2. No **SQL Editor**, dê-lhe o papel de administrador (troque o email):
+**Mudar a palavra-passe:** Supabase → Authentication → Users → `admin@bompaladar.co.mz` → **Reset password** não serve (o email não recebe mensagens); use o SQL Editor:
 
-   ```sql
-   update auth.users
-   set raw_app_meta_data = raw_app_meta_data || '{"role": "admin"}'
-   where email = 'admin@exemplo.com';
-   ```
+```sql
+update auth.users
+set encrypted_password = extensions.crypt('NovaPalavraPasse', extensions.gen_salt('bf'))
+where email = 'admin@bompaladar.co.mz';
+```
 
-3. Se já tinha a sessão aberta no painel, saia e entre de novo.
+**Num projeto novo:** Authentication → Users → **Add user** com esse email (marque **Auto Confirm User**) e depois dê-lhe o papel de administrador:
 
-Só contas com `app_metadata.role = 'admin'` veem dados: mesmo que alguém crie uma conta, as regras da base não lhe dão acesso a nada.
+```sql
+update auth.users
+set raw_app_meta_data = raw_app_meta_data || '{"role": "admin"}'
+where email = 'admin@bompaladar.co.mz';
+```
+
+Para usar outro email, defina `VITE_ADMIN_EMAIL`. Só contas com `app_metadata.role = 'admin'` veem dados: mesmo que alguém crie uma conta, as regras da base não lhe dão acesso a nada.
 
 ## 3. Variáveis de ambiente
 
@@ -46,6 +51,7 @@ Copie `.env.example` para `.env`:
 | `VITE_SUPABASE_URL` | Project Settings → API → Project URL |
 | `VITE_SUPABASE_ANON_KEY` | Project Settings → API Keys → chave **publishable** (ou a `anon` legacy) |
 | `VITE_SITE_URL` | Endereço público do site, sem barra no fim (é o que fica nos QR Codes) |
+| `VITE_ADMIN_EMAIL` | Opcional. Email da conta de administrador (por omissão `admin@bompaladar.co.mz`) |
 
 A chave **service role nunca** entra no projeto. O `.env` não vai para o Git.
 
