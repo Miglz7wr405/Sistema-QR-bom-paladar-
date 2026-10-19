@@ -42,6 +42,9 @@ OPCOES = {
     'Sangria de Vinho Branco / Tinto': ('Sangria', ['Vinho branco', 'Vinho tinto']),
 }
 
+# Ordem pedida pelo restaurante: Pasta, Lasanhas e só depois os Buffets; o resto como no cardápio.
+PRIMEIRO = ['massas', 'lasanhas', 'buffet']
+
 # Itens sem preço no cardápio impresso ficam de fora: não se podem pedir pelo QR.
 # Os shots com preço estão na secção "Espirituosas (Gin) / Shots".
 
@@ -69,7 +72,8 @@ def main():
         '',
     ]
     total = 0
-    for ordem_cat, sec in enumerate(dados['secoes'], start=1):
+    secoes = sorted(dados['secoes'], key=lambda s: PRIMEIRO.index(s['id']) if s['id'] in PRIMEIRO else len(PRIMEIRO))
+    for ordem_cat, sec in enumerate(secoes, start=1):
         unidade_sec = {'Dose': 'dose', 'Garrafa': 'garrafa'}.get(sec.get('nota') or '')
         linhas.append(f"insert into public.categories (nome, ordem) values ({sql(sec['nome'])}, {ordem_cat});")
         valores = []
