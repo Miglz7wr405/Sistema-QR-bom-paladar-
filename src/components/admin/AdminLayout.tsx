@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../lib/auth'
 import { formatarHora } from '../../lib/format'
 import { supabase } from '../../lib/supabase'
@@ -45,6 +45,7 @@ function tocarAlerta(ctx: AudioContext) {
 export function AdminLayout() {
   const { sessao, admin } = useAuth()
   const navigate = useNavigate()
+  const local = useLocation()
   const [versao, setVersao] = useState(0)
   const [mesasNovas, setMesasNovas] = useState<Set<string>>(new Set())
   const [alerta, setAlerta] = useState<string | null>(null)
@@ -118,10 +119,11 @@ export function AdminLayout() {
                 <NavLink
                   key={para}
                   to={para}
-                  end={para === '/admin'}
-                  className={({ isActive }) =>
-                    `shrink-0 rounded-lg px-3 py-2 text-sm font-medium ${isActive ? 'bg-gold-500 text-ink-950' : 'text-cream-200 hover:bg-ink-800'}`
-                  }
+                  end={para === '/admin' || para === '/admin/mesas'}
+                  className={({ isActive }) => {
+                    const ativo = isActive || (para === '/admin' && /^\/admin\/mesas\/[^/]+/.test(local.pathname))
+                    return `shrink-0 rounded-lg px-3 py-2 text-sm font-medium ${ativo ? 'bg-gold-500 text-ink-950' : 'text-cream-200 hover:bg-ink-800'}`
+                  }}
                 >
                   {rotulo}
                 </NavLink>
