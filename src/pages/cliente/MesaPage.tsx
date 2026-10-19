@@ -6,7 +6,7 @@ import { FolhaPrato } from '../../components/cliente/FolhaPrato'
 import { MeusPedidos } from '../../components/cliente/MeusPedidos'
 import { Aviso, Logo, Spinner } from '../../components/ui/Ui'
 import { enviarPedido, obterCardapio, obterMesa, obterPedidosDaMesa } from '../../lib/api'
-import { carrinhoReducer, contarItens, paraPedido, quantidadeDoPrato, totalCarrinho, type LinhaCarrinho } from '../../lib/cart'
+import { carrinhoReducer, contarItens, paraPedido, totalCarrinho, type LinhaCarrinho } from '../../lib/cart'
 import { mensagemDeErro } from '../../lib/errors'
 import { formatarPreco } from '../../lib/format'
 import type { Categoria, MesaInfo, PedidoCliente, Prato } from '../../lib/types'
@@ -40,7 +40,6 @@ export function MesaPage() {
   const [erroEnvio, setErroEnvio] = useState<string | null>(null)
   const [confirmado, setConfirmado] = useState<{ total: number } | null>(null)
   const [pedidos, setPedidos] = useState<PedidoCliente[] | null>(null)
-  const [aviso, setAviso] = useState<string | null>(null)
   const enviando = useRef(false)
 
   const carregar = useCallback(async () => {
@@ -89,11 +88,6 @@ export function MesaPage() {
     }
   }, [estado.fase, atualizarPedidos])
 
-  useEffect(() => {
-    if (!aviso) return
-    const id = window.setTimeout(() => setAviso(null), 2200)
-    return () => window.clearTimeout(id)
-  }, [aviso])
 
   async function enviar() {
     if (enviando.current || linhas.length === 0) return
@@ -155,7 +149,7 @@ export function MesaPage() {
   const nItens = contarItens(linhas)
   const pedidosAbertos = pedidos?.filter((p) => p.estado !== 'cancelado' && p.estado !== 'entregue').length ?? 0
 
-  // "Pedir já": vai direto para o pedido; só abre a folha se for preciso escolher a opção ou as pessoas.
+  // "Pedir já": junta ao pedido e abre "O meu pedido"; antes pergunta a opção ou as pessoas, se for preciso.
   function pedirJa(prato: Prato) {
     if (prato.opcoes.length > 1 || prato.unidade === 'p/ pessoa') return setPratoAberto(prato)
     dispatch({
@@ -165,8 +159,23 @@ export function MesaPage() {
       nota: '',
       quantidade: 1,
     })
-    const n = quantidadeDoPrato(linhas, prato.id) + 1
-    setAviso(`✓ ${prato.nome}${n > 1 ? ` · ${n} no pedido` : ' no pedido'}`)
+    setCarrinhoAberto(true)
+  }
+
+  // Primeira categoria de bebidas (os Cocktails); dali o cliente desce para cervejas, vinhos, sumos…
+  const bebidas =
+    categorias.find((c) => /cocktail/i.test(c.nome)) ??
+    categorias.find((c) => /bebida|refrigerante|sumo|cerveja|água|vinho/i.test(c.nome) && pratos.some((p) => p.category_id === c.id))
+
+  function irParaBebidas() {
+    setCarrinhoAberto(false)
+    setSeparador('cardapio')
+    if (!bebidas) return
+    // Espera a folha fechar (e a página voltar a poder rolar) antes de descer até às bebidas.
+    window.setTimeout(() => {
+      const el = document.getElementById(`cat-${bebidas.id}`)
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' })
+    }, 60)
   }
 
   return (
@@ -223,11 +232,6 @@ export function MesaPage() {
         </div>
       )}
 
-      {aviso && (
-        <div role="status" className="fixed inset-x-4 bottom-24 z-50 mx-auto w-fit max-w-[calc(100%-2rem)] rounded-full bg-cream-50 px-4 py-2.5 font-menu text-sm font-bold text-ink-900 shadow-2xl ring-2 ring-gold-500">
-          {aviso}
-        </div>
-      )}
 
       <FolhaPrato
         prato={pratoAberto}
@@ -235,13 +239,14 @@ export function MesaPage() {
         aoAdicionar={(acao) => {
           dispatch(acao)
           setPratoAberto(null)
-          setAviso(`✓ ${acao.quantidade}× ${acao.prato.nome}${acao.opcao ? ` (${acao.opcao})` : ''} no pedido`)
+          setCarrinhoAberto(true)
         }}
       />
 
       <FolhaCarrinho
         aberta={carrinhoAberto}
         aoFechar={() => setCarrinhoAberto(false)}
+        aoAdicionarBebida={bebidas ? irParaBebidas : undefined}
         linhas={linhas}
         dispatch={dispatch}
         notaGeral={notaGeral}

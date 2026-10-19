@@ -13,6 +13,8 @@ interface Props {
   aEnviar: boolean
   erro: string | null
   aoEnviar: () => void
+  /** Fecha o pedido e leva o cliente às bebidas do cardápio. */
+  aoAdicionarBebida?: () => void
 }
 
 /** Nota de um item ("sem cebola", "sem gelo"): guarda-se quando o campo perde o foco. */
@@ -40,7 +42,7 @@ function NotaDaLinha({ linha, dispatch }: { linha: LinhaCarrinho; dispatch: Disp
   )
 }
 
-export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, setNotaGeral, aEnviar, erro, aoEnviar }: Props) {
+export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, setNotaGeral, aEnviar, erro, aoEnviar, aoAdicionarBebida }: Props) {
   const total = totalCarrinho(linhas)
   return (
     <Folha aberta={aberta} aoFechar={aoFechar} titulo="O meu pedido">
@@ -73,6 +75,16 @@ export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, s
               </li>
             ))}
           </ul>
+        )}
+
+        {aoAdicionarBebida && (
+          <button
+            type="button"
+            onClick={aoAdicionarBebida}
+            className="btn w-full rounded-full border-2 border-ink-900 py-3 font-menu text-base font-extrabold uppercase text-ink-900 hover:bg-ink-900 hover:text-gold-300"
+          >
+            🍹 Adicionar bebida
+          </button>
         )}
 
         <div>

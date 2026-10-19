@@ -61,7 +61,7 @@ export function Folha({ aberta, aoFechar, titulo, children }: { aberta: boolean;
       document.body.style.overflow = overflow
       raiz?.removeAttribute('inert')
       window.removeEventListener('keydown', tecla)
-      anterior?.focus()
+      anterior?.focus({ preventScroll: true })
     }
   }, [aberta, aoFechar])
 
