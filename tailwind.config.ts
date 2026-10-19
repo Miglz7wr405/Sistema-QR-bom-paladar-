@@ -12,10 +12,16 @@ export default {
         cream: { 50: '#fbf8f1', 100: '#f4eee1', 200: '#e8dfcb' },
         basil: { 500: '#3f7d3a', 600: '#2f6229' },
         muted: '#5c5852',
+        papel: '#f3f2ee',
+        quadro: '#b7b7bb',
       },
       fontFamily: {
         display: ['Oswald', 'Arial Narrow', 'sans-serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        // Letras dos cardápios impressos: assinatura manuscrita, "MENU" em Didone e listas em maiúsculas.
+        script: ['"Great Vibes"', 'cursive'],
+        didone: ['"Bodoni Moda"', 'Didot', 'serif'],
+        menu: ['Montserrat', 'Arial', 'sans-serif'],
       },
     },
   },

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Cardapio } from '../../components/cliente/Cardapio'
+import { CardapioImpresso } from '../../components/cliente/CardapioImpresso'
 import { FolhaCarrinho } from '../../components/cliente/FolhaCarrinho'
 import { FolhaPrato } from '../../components/cliente/FolhaPrato'
 import { MeusPedidos } from '../../components/cliente/MeusPedidos'
 import { Aviso, Logo, Spinner } from '../../components/ui/Ui'
 import { enviarPedido, obterCardapio, obterMesa, obterPedidosDaMesa } from '../../lib/api'
-import { carrinhoReducer, contarItens, paraPedido, totalCarrinho, type LinhaCarrinho } from '../../lib/cart'
+import { carrinhoReducer, contarItens, paraPedido, quantidadeDoPrato, totalCarrinho, type LinhaCarrinho } from '../../lib/cart'
 import { mensagemDeErro } from '../../lib/errors'
 import { formatarPreco } from '../../lib/format'
 import type { Categoria, MesaInfo, PedidoCliente, Prato } from '../../lib/types'
@@ -155,61 +155,76 @@ export function MesaPage() {
   const nItens = contarItens(linhas)
   const pedidosAbertos = pedidos?.filter((p) => p.estado !== 'cancelado' && p.estado !== 'entregue').length ?? 0
 
+  // "Pedir já": vai direto para o pedido; só abre a folha se for preciso escolher a opção ou as pessoas.
+  function pedirJa(prato: Prato) {
+    if (prato.opcoes.length > 1 || prato.unidade === 'p/ pessoa') return setPratoAberto(prato)
+    dispatch({
+      tipo: 'adicionar',
+      prato: { id: prato.id, nome: prato.nome, preco: prato.preco, unidade: prato.unidade },
+      opcao: prato.opcoes[0] ?? null,
+      nota: '',
+      quantidade: 1,
+    })
+    const n = quantidadeDoPrato(linhas, prato.id) + 1
+    setAviso(`✓ ${prato.nome}${n > 1 ? ` · ${n} no pedido` : ' no pedido'}`)
+  }
+
   return (
-    <div className="min-h-dvh bg-cream-50 pb-32">
-      <header className="sticky top-0 z-30 bg-ink-900 text-cream-50 shadow-md">
-        <div className="mx-auto flex h-[60px] max-w-2xl items-center justify-between px-4">
-          <Logo claro />
-          <span className="rounded-full bg-gold-500 px-3.5 py-1 font-display text-lg text-ink-950">{mesa.nome}</span>
+    <div className="min-h-dvh bg-ink-950 pb-32">
+      <header className="sticky top-0 z-30 border-b border-gold-500/40 bg-ink-900 text-cream-50 shadow-md">
+        <div className="mx-auto flex h-16 max-w-2xl items-center justify-between gap-2 px-4">
+          <span className="min-w-0 whitespace-nowrap leading-none">
+            <span className="block font-script text-[26px] text-cream-50">Bom Paladar</span>
+            <span className="block font-menu text-[7px] font-semibold uppercase tracking-[0.25em] text-gold-400">Restaurante &amp; Bar</span>
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="whitespace-nowrap rounded-full bg-gold-500 px-3 py-1 font-menu text-sm font-extrabold uppercase text-ink-950">{mesa.nome}</span>
+            <button
+              type="button"
+              onClick={() => {
+                setSeparador(separador === 'cardapio' ? 'pedidos' : 'cardapio')
+                window.scrollTo({ top: 0 })
+              }}
+              className="relative whitespace-nowrap rounded-full px-3 py-1.5 font-menu text-[11px] font-bold uppercase text-gold-300 ring-1 ring-gold-500/60"
+            >
+              {separador === 'cardapio' ? 'Meus pedidos' : 'Cardápio'}
+              {separador === 'cardapio' && pedidosAbertos > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-ember-500 px-1 text-[11px] text-white">
+                  {pedidosAbertos}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
       <div className="mx-auto max-w-2xl px-4">
-        <div role="tablist" aria-label="Secções" className="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-cream-100 p-1">
-          {(
-            [
-              ['cardapio', 'Cardápio'],
-              ['pedidos', 'Os meus pedidos'],
-            ] as const
-          ).map(([valor, rotulo]) => (
-            <button
-              key={valor}
-              type="button"
-              role="tab"
-              aria-selected={separador === valor}
-              onClick={() => {
-                setSeparador(valor)
-                window.scrollTo({ top: 0 })
-              }}
-              className={`min-h-10 rounded-lg text-sm font-semibold transition ${separador === valor ? 'bg-white text-ink-900 shadow-sm' : 'text-muted'}`}
-            >
-              {rotulo}
-              {valor === 'pedidos' && pedidosAbertos > 0 && (
-                <span className="ml-1.5 rounded-full bg-ember-500 px-1.5 text-xs text-white">{pedidosAbertos}</span>
-              )}
-            </button>
-          ))}
-        </div>
-
         {separador === 'cardapio' ? (
-          <Cardapio categorias={categorias} pratos={pratos} aoEscolher={setPratoAberto} />
+          <CardapioImpresso categorias={categorias} pratos={pratos} linhas={linhas} aoPedir={pedirJa} />
         ) : (
-          <MeusPedidos pedidos={pedidos} aoVerCardapio={() => setSeparador('cardapio')} />
+          <div className="my-4 rounded-2xl bg-cream-50 px-4 pt-2">
+            <h1 className="pt-3 font-menu text-lg font-extrabold uppercase">Os meus pedidos</h1>
+            <MeusPedidos pedidos={pedidos} aoVerCardapio={() => setSeparador('cardapio')} />
+          </div>
         )}
       </div>
 
       {nItens > 0 && !confirmado && (
-        <div className="fixed inset-x-0 bottom-0 z-40 bg-gradient-to-t from-cream-50 via-cream-50 to-transparent px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-6">
-          <button type="button" onClick={() => setCarrinhoAberto(true)} className="btn-primario mx-auto flex w-full max-w-2xl justify-between py-4 text-base shadow-xl">
-            <span className="rounded-lg bg-gold-500 px-2 py-0.5 text-sm text-ink-950">{nItens}</span>
-            <span>Ver pedido</span>
+        <div className="fixed inset-x-0 bottom-0 z-40 bg-gradient-to-t from-ink-950 via-ink-950/90 to-transparent px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-6">
+          <button
+            type="button"
+            onClick={() => setCarrinhoAberto(true)}
+            className="btn mx-auto flex w-full max-w-2xl justify-between rounded-full bg-gold-500 px-5 py-4 font-menu text-base font-extrabold uppercase text-ink-950 shadow-xl hover:bg-gold-400"
+          >
+            <span className="rounded-full bg-ink-900 px-2.5 py-0.5 text-sm text-gold-300">{nItens}</span>
+            <span>Ver o meu pedido</span>
             <span className="tabular-nums">{formatarPreco(totalCarrinho(linhas))}</span>
           </button>
         </div>
       )}
 
       {aviso && (
-        <div role="status" className="fixed inset-x-0 top-20 z-50 mx-auto w-fit rounded-full bg-ink-900 px-4 py-2 text-sm text-gold-200 shadow-lg">
+        <div role="status" className="fixed inset-x-4 bottom-24 z-50 mx-auto w-fit max-w-[calc(100%-2rem)] rounded-full bg-cream-50 px-4 py-2.5 font-menu text-sm font-bold text-ink-900 shadow-2xl ring-2 ring-gold-500">
           {aviso}
         </div>
       )}
@@ -220,7 +235,7 @@ export function MesaPage() {
         aoAdicionar={(acao) => {
           dispatch(acao)
           setPratoAberto(null)
-          setAviso(`${acao.quantidade}× ${acao.prato.nome} no carrinho`)
+          setAviso(`✓ ${acao.quantidade}× ${acao.prato.nome}${acao.opcao ? ` (${acao.opcao})` : ''} no pedido`)
         }}
       />
 
@@ -241,7 +256,7 @@ export function MesaPage() {
           <span className="flex h-20 w-20 items-center justify-center rounded-full bg-basil-500 text-4xl" aria-hidden>
             ✓
           </span>
-          <h1 className="font-display text-3xl text-gold-300">Pedido enviado!</h1>
+          <h1 className="font-script text-6xl text-gold-300">Pedido enviado!</h1>
           <p className="max-w-xs text-cream-200">
             O pedido da <strong className="text-cream-50">{mesa.nome}</strong> chegou à cozinha. Total: {formatarPreco(confirmado.total)}.
           </p>

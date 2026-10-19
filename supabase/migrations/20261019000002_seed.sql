@@ -124,7 +124,7 @@ insert into public.menu_items (category_id, nome, descricao, preco, unidade, opc
 select c.id, v.* from public.categories c, (values
   ('Água sem gás 0,5 L', null, 50, null, '{}'::text[], null::jsonb, null, 1),
   ('Água sem gás 1,5 L', null, 120, null, '{}'::text[], null::jsonb, null, 2),
-  ('Água com gás', null, 120, null, array['Salgada', 'Outros sabores']::text[], null::jsonb, null, 3),
+  ('Água com gás', null, 120, null, array['Com gás salgada', 'Com gás, outros sabores']::text[], null::jsonb, null, 3),
   ('Tónica ou Soda', null, 100, null, array['Tónica', 'Soda']::text[], null::jsonb, null, 4),
   ('Café expresso', null, 100, null, '{}'::text[], null::jsonb, null, 5),
   ('Chá', null, 200, null, array['Chá verde', 'Chá preto']::text[], null::jsonb, null, 6)

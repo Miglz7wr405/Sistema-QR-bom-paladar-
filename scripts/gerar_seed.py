@@ -12,7 +12,7 @@ DESTINO = RAIZ / 'supabase' / 'migrations' / '20261019000002_seed.sql'
 
 # Linhas do cardápio com vários produtos ao mesmo preço: nome curto e opções legíveis.
 OPCOES = {
-    'Água com gás salgada / outros sabores': ('Água com gás', ['Salgada', 'Outros sabores']),
+    'Água com gás salgada / outros sabores': ('Água com gás', ['Com gás salgada', 'Com gás, outros sabores']),
     'Arroz branco / Arroz de coco / Arroz de legumes': ('Arroz', ['Arroz branco', 'Arroz de coco', 'Arroz de legumes']),
     'Arroz de tomate / Arroz de feijão c/ salsicha': ('Arroz de tomate ou de feijão c/ salsicha', ['Arroz de tomate', 'Arroz de feijão c/ salsicha']),
     'Xima / Xima caracata': ('Xima', ['Xima', 'Xima caracata']),

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { carrinhoReducer, contarItens, paraPedido, totalCarrinho, type LinhaCarrinho } from './cart'
+import { carrinhoReducer, contarItens, paraPedido, quantidadeDoPrato, totalCarrinho, type LinhaCarrinho } from './cart'
 import { formatarPreco, limitesDoDia } from './format'
 
 const massa = { id: 'a', nome: 'Massa Bolonhesa', preco: 850, unidade: null }
@@ -36,6 +36,20 @@ describe('carrinho', () => {
     expect(c[0]?.quantidade).toBe(99)
     c = carrinhoReducer(c, { tipo: 'quantidade', chave: c[0]!.chave, quantidade: 0 })
     expect(c).toHaveLength(0)
+  })
+
+  it('a nota escreve-se no carrinho e junta linhas que ficam iguais', () => {
+    let c = com(
+      { tipo: 'adicionar', prato: massa, opcao: null, nota: '', quantidade: 1 },
+      { tipo: 'adicionar', prato: massa, opcao: null, nota: 'sem queijo', quantidade: 2 },
+    )
+    c = carrinhoReducer(c, { tipo: 'nota', chave: c[0]!.chave, nota: 'picante' })
+    expect(c).toHaveLength(2)
+    expect(c[0]?.nota).toBe('picante')
+    c = carrinhoReducer(c, { tipo: 'nota', chave: c[0]!.chave, nota: 'Sem queijo' })
+    expect(c).toHaveLength(1)
+    expect(c[0]?.quantidade).toBe(3)
+    expect(quantidadeDoPrato(c, 'a')).toBe(3)
   })
 
   it('envia só ids, quantidades, notas e opções (nunca o preço)', () => {

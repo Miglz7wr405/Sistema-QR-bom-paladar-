@@ -10,6 +10,12 @@ export function formatarPreco(valor: number): string {
   return decimais === '00' ? `${comPontos} MT` : `${comPontos},${decimais} MT`
 }
 
+/** Como nos cartões do bar e dos vinhos: 1500 -> "1.500,00 MT" */
+export function formatarPrecoImpresso(valor: number): string {
+  const [inteiro, decimais] = (Math.round(Number(valor) * 100) / 100).toFixed(2).split('.') as [string, string]
+  return `${inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${decimais} MT`
+}
+
 /** Hora em Maputo, 24h: "14:05". */
 export function formatarHora(iso: string): string {
   return new Intl.DateTimeFormat('pt-PT', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: FUSO }).format(new Date(iso))
