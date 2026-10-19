@@ -1,14 +1,13 @@
 # Cardápio — Bom Paladar Restaurante & Bar
 
-Menu atualizado (outubro de 2026), recolhido do site do restaurante (`Restaurante-Bom-paladar/src/content/menu.ts`) e **conferido item a item com as fotos dos cardápios impressos** em [`fotos-cardapio/`](fotos-cardapio/) (buffets 1.500, 2.000 e 2.800, pasta e lasanhas, cocktails, carta de vinhos). Todos os nomes e preços coincidem.
+Menu atualizado (outubro de 2026), recolhido do site do restaurante (`Restaurante-Bom-paladar/src/content/menu.ts`) e **conferido item a item com as fotos dos cardápios impressos** em [`fotos-cardapio/`](fotos-cardapio/) (buffets 1.500, 2.000 e 2.800, pasta e lasanhas, cocktails, carta de vinhos, e a folha do bar com extras e bebidas). Todos os nomes e preços coincidem.
 
 - **Morada:** Rua Robert Mugabe, Quelimane, Zambézia, Moçambique
 - **Telefone / WhatsApp:** +258 87 062 4564
 - **Horário:** Todos os dias, até às 00:00 (hora de abertura por confirmar)
 - Preços em meticais (MT), sujeitos a alteração sem aviso prévio.
-- Águas, refrigerantes, sumos, cafetaria, cervejas e outras bebidas: consulte o empregado ou o balcão do bar.
 
-**6 secções, 59 itens.** Dados estruturados em [`cardapio.json`](cardapio.json).
+**17 secções, 126 itens.** Dados estruturados em [`cardapio.json`](cardapio.json).
 
 ## Buffet _(Preço por pessoa)_
 
@@ -140,12 +139,139 @@ Descubra um mundo de sabores na nossa carta de vinhos!
 | Robertson Rosé |  | 1.250 MT |
 | Pluma Verde |  | 1.200 MT |
 
+# Extras, sobremesas e bar
+
+Da folha impressa do bar ([foto](fotos-cardapio/bar-extras-bebidas.jpg)). Quando uma linha tem vários produtos separados por "/", todos custam o mesmo.
+
+## Extras _(Acompanhamentos à parte)_
+
+| Item | Preço |
+|---|---|
+| Arroz branco / Arroz de coco / Arroz de legumes | 200 MT |
+| Arroz de tomate / Arroz de feijão c/ salsicha | 300 MT |
+| Xima / Xima caracata | 200 MT |
+| Legumes salteados | 200 MT |
+| Feijão preto | 200 MT |
+| Salada mista | 200 MT |
+
+## Sobremesas
+
+| Item | Preço |
+|---|---|
+| Pudim de ovos | 250 MT |
+| Mousse de malambe | 250 MT |
+| Salada de frutas da época | 300 MT |
+
+## Águas / Cafetaria
+
+| Item | Preço |
+|---|---|
+| Água sem gás 0,5 L | 50 MT |
+| Água sem gás 1,5 L | 120 MT |
+| Água com gás salgada / outros sabores | 120 MT |
+| Tónica / Soda | 100 MT |
+| Café expresso | 100 MT |
+| Chá verde / Chá preto | 200 MT |
+
+## Refrigerantes e Sumos
+
+| Item | Preço |
+|---|---|
+| Coca Zero / Dry Lemon / Ginger Ale | 100 MT |
+| Coca-Cola e outros | 100 MT |
+| Red Bull | 200 MT |
+| Guaraná | 100 MT |
+| Cappy (todos os sabores) | 100 MT |
+| Compal (grande) | 200 MT |
+| Sumo natural c/ 1 sabor | 200 MT |
+| Sumo natural até 2 sabores | 250 MT |
+
+## Sidras
+
+| Item | Preço |
+|---|---|
+| Brutal / Hunter's Gold / Savanna Dry / Savanna Lemon | 150 MT |
+| Bernini | 200 MT |
+| Breezer (vários sabores) | 150 MT |
+
+## Cerveja de Pressão Super Bock
+
+| Item | Preço |
+|---|---|
+| Copo mini (20 ml) | 140 MT |
+| Copo médio (35 ml) | 190 MT |
+| Caneca (50 ml) | 250 MT |
+
+## Cervejas Lata / Garrafa
+
+| Item | Preço |
+|---|---|
+| Super Bock / Castle Lite | 120 MT |
+| Manica (lata) / 2M lata (grf) / Laurentina Preta / Txilar | 100 MT |
+| Heineken Mini | 130 MT |
+| Heineken sem álcool / Stella Artois | 160 MT |
+| Corona | 140 MT |
+| Heineken Silver / Castle Double Malt | 160 MT |
+
+## Espumantes _(Garrafa)_
+
+| Item | Preço |
+|---|---|
+| Annabelle | 1.600 MT |
+| Tosti Moscato | 1.700 MT |
+| J.C. Le Roux | 1.300 MT |
+| Espumante sem álcool | 1.200 MT |
+
+## Espirituosas (Gin) / Shots _(Dose)_
+
+| Item | Preço |
+|---|---|
+| Gordon's Gin | 100 MT |
+| Tanqueray London Dry | 170 MT |
+| Tanqueray Nº Ten / Tanqueray Blackcurrant / The Botanist | 240 MT |
+| Bulldog / Hendrick's / Beefeater Pink / Beefeater Orange / Musgrave | 170 MT |
+| Streeton Blue / Orange / Pink | 150 MT |
+| Inverroche Classic / Verdant / Tanqueray Sevilla | 180 MT |
+| Beefeater London | 150 MT |
+| Bombay Sapphire | 170 MT |
+| Sambuca Black / White (shot) | 250 MT |
+| Blow Job (shot) | 250 MT |
+| Jägermeister (shot) | 250 MT |
+| Lovoka de caramelo / Lovoka de chocolate (shot) | 250 MT |
+| Tequila Cactus Jack Azul (shot) | 250 MT |
+| Tequila Olmeca Silver (shot) | 170 MT |
+
+## Whisky Blended / Scotch e Single Malt _(Dose)_
+
+| Item | Preço |
+|---|---|
+| Grant's Novo / Ballantine's / Jameson Novo / Dewar's | 125 MT |
+| Johnnie Walker Red Label | 125 MT |
+| Johnnie Walker Black Label / Jameson IPA / Jack Daniel's | 180 MT |
+| The Glenfiddich 12 / Jameson Black Barrel | 230 MT |
+| Johnnie Walker Green Label / Gold Label | 330 MT |
+| The Glenfiddich 15 | 280 MT |
+| Chivas 12 anos | 200 MT |
+
+## Aguardentes / Digestivos e Cognac _(Dose)_
+
+| Item | Preço |
+|---|---|
+| 1920 Brandy / Vodka Smirnoff | 150 MT |
+| São Domingos | 150 MT |
+| CRF Reserva / Hennessy / Rémy Martin | 270 MT |
+| Vodka Absolut | 200 MT |
+| Captain Morgan Black / Gold | 150 MT |
+| Martini Tinto / Branco / Amarula | 150 MT |
+| Tia Maria / Vinho do Porto Ferreira / Licor Beirão | 200 MT |
+
 ## Por confirmar com o restaurante
 
 - Nomes de vinhos difíceis de ler no cartão impresso: **Cadão** (Novo e Reserva), **Spylano**, **Petusco Verde**. O cartão tem um segundo **Mucho Más a 2.330 MT** que não foi incluído.
-- **Shots** sem preço no menu impresso ("Consultar").
-- **Bebidas avulsas** (águas, refrigerantes, sumos, cafetaria, cervejas) não constam do menu novo.
-- Pizzas, mariscos à la carte, carnes e petiscos do menu antigo **saíram** do menu atual.
+- **Cerveja de pressão**: o cartão diz copo mini 20 ml, médio 35 ml e caneca 50 ml; deve ser **cl** (20 cl, 35 cl, 50 cl).
+- **Shots**: no menu de cocktails não têm preço; a folha do bar dá 250 MT (Blow Job, Jägermeister, Sambuca, Lovoka, Cactus Jack) e 170 MT (Olmeca Silver). Faltam B52, Guitinha, Blue Kamikaze, Jägerbomb e Tequila Gold.
+- **Gin, whisky e aguardentes**: preços por dose (a confirmar).
+- "Martin Tinto/Branco" foi lido como **Martini**.
+- A folha do bar diz "*Para PIZZAS consultar o MENU": existe ainda um **menu de pizzas** que não temos.
 - Hora de abertura e dias de funcionamento.
 - O cardápio impresso escreve "galinha **cafrial**"; aqui ficou "cafreal" (grafia corrente).
-- Falta ainda **um cardápio** que o cliente vai enviar.

@@ -1,5 +1,5 @@
 {
-  "fonte": "Restaurante-Bom-paladar/src/content/menu.ts (menu de outubro de 2026)",
+  "fonte": "Cardápios impressos (fotos em dados/fotos-cardapio/), via Restaurante-Bom-paladar/src/content/menu.ts para buffets, pasta, cocktails e vinhos",
   "moeda": "MZN (meticais)",
   "restaurante": {
     "nome": "Bom Paladar Restaurante & Bar",
@@ -29,8 +29,7 @@
     "slogan": "Sabor, qualidade e boa companhia!"
   },
   "notas": {
-    "precos": "Preços em meticais (MT), sujeitos a alteração sem aviso prévio.",
-    "bar": "Águas, refrigerantes, sumos, cafetaria, cervejas e outras bebidas: consulte o empregado ou o balcão do bar."
+    "precos": "Preços em meticais (MT), sujeitos a alteração sem aviso prévio."
   },
   "secoes": [
     {
@@ -631,6 +630,538 @@
           "preco": 1200
         }
       ]
+    },
+    {
+      "id": "extras",
+      "nome": "Extras",
+      "itens": [
+        {
+          "id": "extras-arroz-branco-arroz-de-coco-arroz-de-legumes",
+          "nome": "Arroz branco / Arroz de coco / Arroz de legumes",
+          "preco": 200,
+          "opcoes": [
+            "Arroz branco",
+            "Arroz de coco",
+            "Arroz de legumes"
+          ]
+        },
+        {
+          "id": "extras-arroz-de-tomate-arroz-de-feijao-c-salsicha",
+          "nome": "Arroz de tomate / Arroz de feijão c/ salsicha",
+          "preco": 300,
+          "opcoes": [
+            "Arroz de tomate",
+            "Arroz de feijão c/ salsicha"
+          ]
+        },
+        {
+          "id": "extras-xima-xima-caracata",
+          "nome": "Xima / Xima caracata",
+          "preco": 200,
+          "opcoes": [
+            "Xima",
+            "Xima caracata"
+          ]
+        },
+        {
+          "id": "extras-legumes-salteados",
+          "nome": "Legumes salteados",
+          "preco": 200
+        },
+        {
+          "id": "extras-feijao-preto",
+          "nome": "Feijão preto",
+          "preco": 200
+        },
+        {
+          "id": "extras-salada-mista",
+          "nome": "Salada mista",
+          "preco": 200
+        }
+      ],
+      "nota": "Acompanhamentos à parte"
+    },
+    {
+      "id": "sobremesas",
+      "nome": "Sobremesas",
+      "itens": [
+        {
+          "id": "sobremesas-pudim-de-ovos",
+          "nome": "Pudim de ovos",
+          "preco": 250
+        },
+        {
+          "id": "sobremesas-mousse-de-malambe",
+          "nome": "Mousse de malambe",
+          "preco": 250
+        },
+        {
+          "id": "sobremesas-salada-de-frutas-da-epoca",
+          "nome": "Salada de frutas da época",
+          "preco": 300
+        }
+      ]
+    },
+    {
+      "id": "aguas-cafetaria",
+      "nome": "Águas / Cafetaria",
+      "itens": [
+        {
+          "id": "aguas-cafetaria-agua-sem-gas-0-5-l",
+          "nome": "Água sem gás 0,5 L",
+          "preco": 50
+        },
+        {
+          "id": "aguas-cafetaria-agua-sem-gas-1-5-l",
+          "nome": "Água sem gás 1,5 L",
+          "preco": 120
+        },
+        {
+          "id": "aguas-cafetaria-agua-com-gas-salgada-outros-sabores",
+          "nome": "Água com gás salgada / outros sabores",
+          "preco": 120,
+          "opcoes": [
+            "Água com gás salgada",
+            "outros sabores"
+          ]
+        },
+        {
+          "id": "aguas-cafetaria-tonica-soda",
+          "nome": "Tónica / Soda",
+          "preco": 100,
+          "opcoes": [
+            "Tónica",
+            "Soda"
+          ]
+        },
+        {
+          "id": "aguas-cafetaria-cafe-expresso",
+          "nome": "Café expresso",
+          "preco": 100
+        },
+        {
+          "id": "aguas-cafetaria-cha-verde-cha-preto",
+          "nome": "Chá verde / Chá preto",
+          "preco": 200,
+          "opcoes": [
+            "Chá verde",
+            "Chá preto"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "refrigerantes-sumos",
+      "nome": "Refrigerantes e Sumos",
+      "itens": [
+        {
+          "id": "refrigerantes-sumos-coca-zero-dry-lemon-ginger-ale",
+          "nome": "Coca Zero / Dry Lemon / Ginger Ale",
+          "preco": 100,
+          "opcoes": [
+            "Coca Zero",
+            "Dry Lemon",
+            "Ginger Ale"
+          ]
+        },
+        {
+          "id": "refrigerantes-sumos-coca-cola-e-outros",
+          "nome": "Coca-Cola e outros",
+          "preco": 100
+        },
+        {
+          "id": "refrigerantes-sumos-red-bull",
+          "nome": "Red Bull",
+          "preco": 200
+        },
+        {
+          "id": "refrigerantes-sumos-guarana",
+          "nome": "Guaraná",
+          "preco": 100
+        },
+        {
+          "id": "refrigerantes-sumos-cappy-todos-os-sabores",
+          "nome": "Cappy (todos os sabores)",
+          "preco": 100
+        },
+        {
+          "id": "refrigerantes-sumos-compal-grande",
+          "nome": "Compal (grande)",
+          "preco": 200
+        },
+        {
+          "id": "refrigerantes-sumos-sumo-natural-c-1-sabor",
+          "nome": "Sumo natural c/ 1 sabor",
+          "preco": 200
+        },
+        {
+          "id": "refrigerantes-sumos-sumo-natural-ate-2-sabores",
+          "nome": "Sumo natural até 2 sabores",
+          "preco": 250
+        }
+      ]
+    },
+    {
+      "id": "sidras",
+      "nome": "Sidras",
+      "itens": [
+        {
+          "id": "sidras-brutal-hunter-s-gold-savanna-dry-savanna-lemon",
+          "nome": "Brutal / Hunter's Gold / Savanna Dry / Savanna Lemon",
+          "preco": 150,
+          "opcoes": [
+            "Brutal",
+            "Hunter's Gold",
+            "Savanna Dry",
+            "Savanna Lemon"
+          ]
+        },
+        {
+          "id": "sidras-bernini",
+          "nome": "Bernini",
+          "preco": 200
+        },
+        {
+          "id": "sidras-breezer-varios-sabores",
+          "nome": "Breezer (vários sabores)",
+          "preco": 150
+        }
+      ]
+    },
+    {
+      "id": "cerveja-pressao",
+      "nome": "Cerveja de Pressão Super Bock",
+      "itens": [
+        {
+          "id": "cerveja-pressao-copo-mini-20-ml",
+          "nome": "Copo mini (20 ml)",
+          "preco": 140
+        },
+        {
+          "id": "cerveja-pressao-copo-medio-35-ml",
+          "nome": "Copo médio (35 ml)",
+          "preco": 190
+        },
+        {
+          "id": "cerveja-pressao-caneca-50-ml",
+          "nome": "Caneca (50 ml)",
+          "preco": 250
+        }
+      ]
+    },
+    {
+      "id": "cervejas",
+      "nome": "Cervejas Lata / Garrafa",
+      "itens": [
+        {
+          "id": "cervejas-super-bock-castle-lite",
+          "nome": "Super Bock / Castle Lite",
+          "preco": 120,
+          "opcoes": [
+            "Super Bock",
+            "Castle Lite"
+          ]
+        },
+        {
+          "id": "cervejas-manica-lata-2m-lata-grf-laurentina-preta-txilar",
+          "nome": "Manica (lata) / 2M lata (grf) / Laurentina Preta / Txilar",
+          "preco": 100,
+          "opcoes": [
+            "Manica (lata)",
+            "2M lata (grf)",
+            "Laurentina Preta",
+            "Txilar"
+          ]
+        },
+        {
+          "id": "cervejas-heineken-mini",
+          "nome": "Heineken Mini",
+          "preco": 130
+        },
+        {
+          "id": "cervejas-heineken-sem-alcool-stella-artois",
+          "nome": "Heineken sem álcool / Stella Artois",
+          "preco": 160,
+          "opcoes": [
+            "Heineken sem álcool",
+            "Stella Artois"
+          ]
+        },
+        {
+          "id": "cervejas-corona",
+          "nome": "Corona",
+          "preco": 140
+        },
+        {
+          "id": "cervejas-heineken-silver-castle-double-malt",
+          "nome": "Heineken Silver / Castle Double Malt",
+          "preco": 160,
+          "opcoes": [
+            "Heineken Silver",
+            "Castle Double Malt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "espumantes",
+      "nome": "Espumantes",
+      "itens": [
+        {
+          "id": "espumantes-annabelle",
+          "nome": "Annabelle",
+          "preco": 1600
+        },
+        {
+          "id": "espumantes-tosti-moscato",
+          "nome": "Tosti Moscato",
+          "preco": 1700
+        },
+        {
+          "id": "espumantes-j-c-le-roux",
+          "nome": "J.C. Le Roux",
+          "preco": 1300
+        },
+        {
+          "id": "espumantes-espumante-sem-alcool",
+          "nome": "Espumante sem álcool",
+          "preco": 1200
+        }
+      ],
+      "nota": "Garrafa"
+    },
+    {
+      "id": "gin-shots",
+      "nome": "Espirituosas (Gin) / Shots",
+      "itens": [
+        {
+          "id": "gin-shots-gordon-s-gin",
+          "nome": "Gordon's Gin",
+          "preco": 100
+        },
+        {
+          "id": "gin-shots-tanqueray-london-dry",
+          "nome": "Tanqueray London Dry",
+          "preco": 170
+        },
+        {
+          "id": "gin-shots-tanqueray-no-ten-tanqueray-blackcurrant-the-botanist",
+          "nome": "Tanqueray Nº Ten / Tanqueray Blackcurrant / The Botanist",
+          "preco": 240,
+          "opcoes": [
+            "Tanqueray Nº Ten",
+            "Tanqueray Blackcurrant",
+            "The Botanist"
+          ]
+        },
+        {
+          "id": "gin-shots-bulldog-hendrick-s-beefeater-pink-beefeater-orange-musgrave",
+          "nome": "Bulldog / Hendrick's / Beefeater Pink / Beefeater Orange / Musgrave",
+          "preco": 170,
+          "opcoes": [
+            "Bulldog",
+            "Hendrick's",
+            "Beefeater Pink",
+            "Beefeater Orange",
+            "Musgrave"
+          ]
+        },
+        {
+          "id": "gin-shots-streeton-blue-orange-pink",
+          "nome": "Streeton Blue / Orange / Pink",
+          "preco": 150,
+          "opcoes": [
+            "Streeton Blue",
+            "Orange",
+            "Pink"
+          ]
+        },
+        {
+          "id": "gin-shots-inverroche-classic-verdant-tanqueray-sevilla",
+          "nome": "Inverroche Classic / Verdant / Tanqueray Sevilla",
+          "preco": 180,
+          "opcoes": [
+            "Inverroche Classic",
+            "Verdant",
+            "Tanqueray Sevilla"
+          ]
+        },
+        {
+          "id": "gin-shots-beefeater-london",
+          "nome": "Beefeater London",
+          "preco": 150
+        },
+        {
+          "id": "gin-shots-bombay-sapphire",
+          "nome": "Bombay Sapphire",
+          "preco": 170
+        },
+        {
+          "id": "gin-shots-sambuca-black-white-shot",
+          "nome": "Sambuca Black / White (shot)",
+          "preco": 250,
+          "opcoes": [
+            "Sambuca Black",
+            "White (shot)"
+          ]
+        },
+        {
+          "id": "gin-shots-blow-job-shot",
+          "nome": "Blow Job (shot)",
+          "preco": 250
+        },
+        {
+          "id": "gin-shots-jagermeister-shot",
+          "nome": "Jägermeister (shot)",
+          "preco": 250
+        },
+        {
+          "id": "gin-shots-lovoka-de-caramelo-lovoka-de-chocolate-shot",
+          "nome": "Lovoka de caramelo / Lovoka de chocolate (shot)",
+          "preco": 250,
+          "opcoes": [
+            "Lovoka de caramelo",
+            "Lovoka de chocolate (shot)"
+          ]
+        },
+        {
+          "id": "gin-shots-tequila-cactus-jack-azul-shot",
+          "nome": "Tequila Cactus Jack Azul (shot)",
+          "preco": 250
+        },
+        {
+          "id": "gin-shots-tequila-olmeca-silver-shot",
+          "nome": "Tequila Olmeca Silver (shot)",
+          "preco": 170
+        }
+      ],
+      "nota": "Dose"
+    },
+    {
+      "id": "whisky",
+      "nome": "Whisky Blended / Scotch e Single Malt",
+      "itens": [
+        {
+          "id": "whisky-grant-s-novo-ballantine-s-jameson-novo-dewar-s",
+          "nome": "Grant's Novo / Ballantine's / Jameson Novo / Dewar's",
+          "preco": 125,
+          "opcoes": [
+            "Grant's Novo",
+            "Ballantine's",
+            "Jameson Novo",
+            "Dewar's"
+          ]
+        },
+        {
+          "id": "whisky-johnnie-walker-red-label",
+          "nome": "Johnnie Walker Red Label",
+          "preco": 125
+        },
+        {
+          "id": "whisky-johnnie-walker-black-label-jameson-ipa-jack-daniel-s",
+          "nome": "Johnnie Walker Black Label / Jameson IPA / Jack Daniel's",
+          "preco": 180,
+          "opcoes": [
+            "Johnnie Walker Black Label",
+            "Jameson IPA",
+            "Jack Daniel's"
+          ]
+        },
+        {
+          "id": "whisky-the-glenfiddich-12-jameson-black-barrel",
+          "nome": "The Glenfiddich 12 / Jameson Black Barrel",
+          "preco": 230,
+          "opcoes": [
+            "The Glenfiddich 12",
+            "Jameson Black Barrel"
+          ]
+        },
+        {
+          "id": "whisky-johnnie-walker-green-label-gold-label",
+          "nome": "Johnnie Walker Green Label / Gold Label",
+          "preco": 330,
+          "opcoes": [
+            "Johnnie Walker Green Label",
+            "Gold Label"
+          ]
+        },
+        {
+          "id": "whisky-the-glenfiddich-15",
+          "nome": "The Glenfiddich 15",
+          "preco": 280
+        },
+        {
+          "id": "whisky-chivas-12-anos",
+          "nome": "Chivas 12 anos",
+          "preco": 200
+        }
+      ],
+      "nota": "Dose"
+    },
+    {
+      "id": "aguardentes",
+      "nome": "Aguardentes / Digestivos e Cognac",
+      "itens": [
+        {
+          "id": "aguardentes-1920-brandy-vodka-smirnoff",
+          "nome": "1920 Brandy / Vodka Smirnoff",
+          "preco": 150,
+          "opcoes": [
+            "1920 Brandy",
+            "Vodka Smirnoff"
+          ]
+        },
+        {
+          "id": "aguardentes-sao-domingos",
+          "nome": "São Domingos",
+          "preco": 150
+        },
+        {
+          "id": "aguardentes-crf-reserva-hennessy-remy-martin",
+          "nome": "CRF Reserva / Hennessy / Rémy Martin",
+          "preco": 270,
+          "opcoes": [
+            "CRF Reserva",
+            "Hennessy",
+            "Rémy Martin"
+          ]
+        },
+        {
+          "id": "aguardentes-vodka-absolut",
+          "nome": "Vodka Absolut",
+          "preco": 200
+        },
+        {
+          "id": "aguardentes-captain-morgan-black-gold",
+          "nome": "Captain Morgan Black / Gold",
+          "preco": 150,
+          "opcoes": [
+            "Captain Morgan Black",
+            "Gold"
+          ]
+        },
+        {
+          "id": "aguardentes-martini-tinto-branco-amarula",
+          "nome": "Martini Tinto / Branco / Amarula",
+          "preco": 150,
+          "opcoes": [
+            "Martini Tinto",
+            "Branco",
+            "Amarula"
+          ]
+        },
+        {
+          "id": "aguardentes-tia-maria-vinho-do-porto-ferreira-licor-beirao",
+          "nome": "Tia Maria / Vinho do Porto Ferreira / Licor Beirão",
+          "preco": 200,
+          "opcoes": [
+            "Tia Maria",
+            "Vinho do Porto Ferreira",
+            "Licor Beirão"
+          ]
+        }
+      ],
+      "nota": "Dose"
     }
   ]
 }
