@@ -1,7 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 
-const url = import.meta.env.VITE_SUPABASE_URL
-const chave = import.meta.env.VITE_SUPABASE_ANON_KEY
+// Valores do projeto Bom Paladar QR, para o deploy funcionar sem configurar variáveis.
+// A chave é a publishable (pública por natureza; o acesso é controlado pelas regras da base).
+// As variáveis de ambiente, se existirem, têm prioridade.
+const url = import.meta.env.VITE_SUPABASE_URL || 'https://zvxownsxaaznyqdqzhgc.supabase.co'
+const chave = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_g70RiuIP-WcXZLYEKz2L5Q_4-qMCMfU'
 
 export const configurado = Boolean(url && chave)
 

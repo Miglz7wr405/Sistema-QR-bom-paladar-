@@ -72,6 +72,8 @@ Abra `http://localhost:5173/admin` para o painel. Para o link de uma mesa, vá a
 
 ## 5. Publicar na Vercel
 
+**Não é preciso configurar variáveis:** o endereço e a chave pública do projeto Bom Paladar QR já estão no código, e os QR Codes usam o endereço onde o painel está aberto. Basta importar o repositório e carregar em **Deploy**. As variáveis abaixo só servem para usar outro projeto Supabase ou fixar o domínio dos QR.
+
 1. Em [vercel.com](https://vercel.com) → **Add New → Project** → importe o repositório. A Vercel deteta o Vite (build `npm run build`, saída `dist`).
 2. Em **Environment Variables**, defina `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` e `VITE_SITE_URL` (o domínio final, ex.: `https://pedidos.bompaladar.co.mz`).
 3. **Deploy**. O `vercel.json` manda todas as rotas para o `index.html`, para o React Router funcionar.
