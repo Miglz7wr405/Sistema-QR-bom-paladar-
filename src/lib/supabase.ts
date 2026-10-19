@@ -13,7 +13,11 @@ export const supabase = createClient(url || 'http://localhost', chave || 'sem-ch
   auth: { persistSession: true, autoRefreshToken: true },
 })
 
-export const SITE_URL = (import.meta.env.VITE_SITE_URL || window.location.origin).replace(/\/+$/, '')
+// Endereço que vai nos QR Codes impressos. Fixo no site oficial para os QR não dependerem do link
+// por onde o painel foi aberto; em desenvolvimento (localhost) usa o próprio endereço.
+const SITE_OFICIAL = 'https://sistema-qr-bom-paladar.vercel.app'
+const emLocal = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || (emLocal ? window.location.origin : SITE_OFICIAL)).replace(/\/+$/, '')
 
 export function linkDaMesa(token: string): string {
   return `${SITE_URL}/m/${token}`

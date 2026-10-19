@@ -78,7 +78,7 @@ Abra `http://localhost:5173/admin` para o painel. Para o link de uma mesa, vá a
 2. Em **Environment Variables**, defina `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` e `VITE_SITE_URL` (o domínio final, ex.: `https://pedidos.bompaladar.co.mz`).
 3. **Deploy**. O `vercel.json` manda todas as rotas para o `index.html`, para o React Router funcionar.
 4. No Supabase → Authentication → URL Configuration, ponha o domínio da Vercel em **Site URL**.
-5. No painel, **QR Codes → Imprimir**. Se mudar o domínio, volte a imprimir (o QR guarda o endereço).
+5. No painel, **QR Codes → ⬇ Descarregar PDF**: todas as mesas em A4, 4 cartões A6 por folha com linhas de corte (ou **⬇ Imagem (PNG)** de uma só mesa, para a gráfica ou WhatsApp). Os QR apontam sempre para `https://sistema-qr-bom-paladar.vercel.app` (ou para `VITE_SITE_URL`, se definida). Se mudar o domínio, volte a imprimir (o QR guarda o endereço).
 
 **Primeiro teste depois de publicar:** abra o link de duas mesas em dois telemóveis, faça um pedido em cada um e confirme que cada pedido cai só na mesa certa.
 
