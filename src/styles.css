@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold-500 ring-offset-2 ring-offset-cream-50;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primario {
+    @apply btn bg-ink-900 text-gold-300 hover:bg-ink-800;
+  }
+  .btn-dourado {
+    @apply btn bg-gold-500 text-ink-950 hover:bg-gold-400;
+  }
+  .btn-secundario {
+    @apply btn border border-cream-200 bg-white text-ink-900 hover:bg-cream-100;
+  }
+  .btn-perigo {
+    @apply btn bg-ember-500 text-white hover:bg-ember-600;
+  }
+  .campo {
+    @apply w-full rounded-xl border border-cream-200 bg-white px-3 py-2.5 text-base text-ink-900 placeholder:text-muted/70 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30;
+  }
+  .rotulo {
+    @apply mb-1 block text-sm font-medium text-ink-800;
+  }
+  .cartao {
+    @apply rounded-2xl border border-cream-200 bg-white shadow-sm;
+  }
+}
+
+@media print {
+  .nao-imprimir {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+}
