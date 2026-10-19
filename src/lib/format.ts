@@ -49,11 +49,15 @@ export function limitesDoDia(dia: string): { de: string; ate: string } {
 export const ESTADOS: Record<EstadoPedido, { rotulo: string; classe: string }> = {
   recebido: { rotulo: 'Recebido', classe: 'bg-gold-200 text-ink-900' },
   em_preparacao: { rotulo: 'Em preparação', classe: 'bg-ember-500 text-white' },
-  entregue: { rotulo: 'Entregue', classe: 'bg-basil-500 text-white' },
+  entregue: { rotulo: 'Atendido', classe: 'bg-basil-500 text-white' },
   cancelado: { rotulo: 'Cancelado', classe: 'bg-ink-600 text-white line-through' },
 }
 
-export const PROXIMO_ESTADO: Partial<Record<EstadoPedido, EstadoPedido>> = {
-  recebido: 'em_preparacao',
-  em_preparacao: 'entregue',
+/** Pedidos atendidos (painel) e todos os pedidos (telemóvel do cliente) desaparecem da vista depois disto. */
+export const JANELA_MINUTOS = 20
+
+export function dentroDaJanela(iso: string, agora = Date.now()): boolean {
+  return agora - new Date(iso).getTime() < JANELA_MINUTOS * 60 * 1000
 }
+
+export const porAtender = (estado: EstadoPedido) => estado === 'recebido' || estado === 'em_preparacao'

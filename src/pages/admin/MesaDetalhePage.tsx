@@ -4,7 +4,7 @@ import { useRealtime } from '../../components/admin/AdminLayout'
 import { CartaoPedido } from '../../components/admin/CartaoPedido'
 import { Aviso, Spinner, Vazio } from '../../components/ui/Ui'
 import { mensagemDeErro } from '../../lib/errors'
-import { formatarHora, formatarPreco } from '../../lib/format'
+import { dentroDaJanela, formatarHora, formatarPreco, JANELA_MINUTOS, porAtender } from '../../lib/format'
 import { supabase } from '../../lib/supabase'
 import type { EstadoPedido, Mesa, Pedido, Sessao } from '../../lib/types'
 
@@ -17,6 +17,13 @@ export function MesaDetalhePage() {
   const [erro, setErro] = useState<string | null>(null)
   const [ocupado, setOcupado] = useState(false)
   const [recarregar, setRecarregar] = useState(0)
+  const [agora, setAgora] = useState(Date.now())
+
+  // Os pedidos atendidos saem da vista 20 minutos depois: volta a desenhar a cada 30 s.
+  useEffect(() => {
+    const id = window.setInterval(() => setAgora(Date.now()), 30_000)
+    return () => window.clearInterval(id)
+  }, [])
 
   useEffect(() => {
     marcarVista(id)
@@ -53,15 +60,16 @@ export function MesaDetalhePage() {
     const { error } = await supabase.from('orders').update({ estado }).eq('id', pedido.id)
     setOcupado(false)
     if (error) return setErro(mensagemDeErro(error))
-    setPedidos((lista) => lista.map((p) => (p.id === pedido.id ? { ...p, estado } : p)))
+    setPedidos((lista) => lista.map((p) => (p.id === pedido.id ? { ...p, estado, atualizado_em: new Date().toISOString() } : p)))
+    setAgora(Date.now())
   }
 
   async function fecharMesa() {
     if (!sessao) return
-    const porEntregar = pedidos.filter((p) => p.estado === 'recebido' || p.estado === 'em_preparacao').length
+    const pendentes = pedidos.filter((p) => porAtender(p.estado)).length
     const texto =
-      porEntregar > 0
-        ? `Ainda há ${porEntregar} pedido(s) por entregar. Fechar a mesa mesmo assim?`
+      pendentes > 0
+        ? `Ainda há ${pendentes} pedido(s) por atender. Fechar a mesa mesmo assim?`
         : 'A conta foi paga? Fechar a mesa deixa-a livre para o próximo cliente.'
     if (!window.confirm(texto)) return
     setOcupado(true)
@@ -75,6 +83,8 @@ export function MesaDetalhePage() {
   if (mesa === null) return <Vazio titulo="Mesa não encontrada" />
 
   const validos = pedidos.filter((p) => p.estado !== 'cancelado')
+  const pendentes = pedidos.filter((p) => porAtender(p.estado)).reverse()
+  const recentes = pedidos.filter((p) => !porAtender(p.estado) && dentroDaJanela(p.atualizado_em, agora))
   const total = validos.reduce((s, p) => s + Number(p.total), 0)
 
   return (
@@ -106,14 +116,29 @@ export function MesaDetalhePage() {
         </div>
       )}
 
-      {pedidos.length === 0 ? (
-        <Vazio titulo="Sem pedidos" texto="Quando o cliente fizer um pedido pelo QR Code, ele aparece aqui na hora." />
+      {pendentes.length === 0 ? (
+        <Vazio titulo="Nada por atender" texto="Quando o cliente fizer um pedido pelo QR Code, ele aparece aqui na hora." />
       ) : (
-        <div className="grid gap-3 md:grid-cols-2">
-          {pedidos.map((p) => (
-            <CartaoPedido key={p.id} pedido={p} ocupado={ocupado} aoMudarEstado={(e) => void mudarEstado(p, e)} />
-          ))}
-        </div>
+        <>
+          <h2 className="mb-3 font-display text-xl">Por atender ({pendentes.length})</h2>
+          <div className="grid gap-3 md:grid-cols-2">
+            {pendentes.map((p) => (
+              <CartaoPedido key={p.id} pedido={p} ocupado={ocupado} aoMudarEstado={(e) => void mudarEstado(p, e)} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {recentes.length > 0 && (
+        <section className="mt-8 opacity-70">
+          <h2 className="mb-1 font-display text-lg">Atendidos</h2>
+          <p className="mb-3 text-sm text-muted">Saem desta lista {JANELA_MINUTOS} minutos depois. Ficam sempre no Histórico.</p>
+          <div className="grid gap-3 md:grid-cols-2">
+            {recentes.map((p) => (
+              <CartaoPedido key={p.id} pedido={p} />
+            ))}
+          </div>
+        </section>
       )}
     </>
   )

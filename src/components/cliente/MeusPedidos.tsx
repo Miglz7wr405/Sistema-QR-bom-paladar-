@@ -1,4 +1,4 @@
-import { formatarHora, formatarPreco } from '../../lib/format'
+import { formatarHora, formatarPreco, JANELA_MINUTOS } from '../../lib/format'
 import type { PedidoCliente } from '../../lib/types'
 import { Spinner, Vazio } from '../ui/Ui'
 import { EstadoBadge } from './EstadoBadge'
@@ -12,7 +12,7 @@ export function MeusPedidos({ pedidos, aoVerCardapio }: Props) {
   if (pedidos === null) return <Spinner rotulo="A carregar os pedidos…" />
   if (pedidos.length === 0) {
     return (
-      <Vazio titulo="Ainda não fez pedidos" texto="Os pedidos desta mesa aparecem aqui, com o estado de cada um.">
+      <Vazio titulo="Sem pedidos recentes" texto={`Os pedidos desta mesa aparecem aqui durante ${JANELA_MINUTOS} minutos, com o estado de cada um.`}>
         <button type="button" className="btn-primario mt-3" onClick={aoVerCardapio}>
           Ver o cardápio
         </button>
@@ -24,7 +24,7 @@ export function MeusPedidos({ pedidos, aoVerCardapio }: Props) {
 
   return (
     <div className="flex flex-col gap-3 pt-4">
-      <p className="text-sm text-muted">Atualiza sozinho a cada 10 segundos.</p>
+      <p className="text-sm text-muted">Pedidos dos últimos {JANELA_MINUTOS} minutos. Atualiza sozinho.</p>
       {pedidos.map((p) => (
         <article key={p.id} className={`cartao p-4 ${p.estado === 'cancelado' ? 'opacity-60' : ''}`}>
           <header className="mb-2 flex items-center justify-between gap-2">
@@ -48,7 +48,7 @@ export function MeusPedidos({ pedidos, aoVerCardapio }: Props) {
         </article>
       ))}
       <div className="flex items-center justify-between rounded-2xl bg-ink-900 px-4 py-3 text-cream-50">
-        <span>Total da mesa</span>
+        <span>Total destes pedidos</span>
         <span className="font-display text-xl text-gold-300 tabular-nums">{formatarPreco(total)}</span>
       </div>
       <p className="pb-4 text-center text-xs text-muted">Paga no fim, ao empregado ou no caixa.</p>
