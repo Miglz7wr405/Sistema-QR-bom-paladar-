@@ -1,0 +1,85 @@
+"""Corta os lotes gravados na ElevenLabs em um ficheiro por pedaço e escreve o índice.
+
+Uso: python3 -I scripts/voz/cortar.py <pasta com lote1.mp3, lote2.mp3, ... e/ou faltam.mp3>
+Escreve public/voz/<n>.mp3 e public/voz/indice.json ({chave: ficheiro}).
+faltam.mp3 é a gravação de lotes/faltam.txt (pedacos.py --faltam) e corta-se pela lista lotes/faltam.json.
+Cada lote tem de ter tantos trechos de voz como pedaços (separados pelas pausas de 1 s; só pausas de 0,9 s ou mais contam, para não partir nomes como "Sauvignon Blanc Spier"); se não bater, pára.
+"""
+
+import json
+import pathlib
+import re
+import subprocess
+import sys
+
+RAIZ = pathlib.Path(__file__).resolve().parents[2]
+PEDACOS = RAIZ / 'scripts' / 'voz' / 'pedacos.json'
+FALTAM = RAIZ / 'scripts' / 'voz' / 'lotes' / 'faltam.json'
+SAIDA = RAIZ / 'public' / 'voz'
+FOLGA = 0.05  # segundos de margem antes e depois de cada trecho
+
+
+def silencios(ficheiro: pathlib.Path) -> tuple[list[tuple[float, float]], float]:
+    r = subprocess.run(
+        ['ffmpeg', '-hide_banner', '-nostats', '-i', str(ficheiro), '-af', 'silencedetect=noise=-40dB:d=0.9', '-f', 'null', '-'],
+        capture_output=True, text=True, check=True,
+    )
+    inicios = [float(x) for x in re.findall(r'silence_start: ([\d.]+)', r.stderr)]
+    fins = [float(x) for x in re.findall(r'silence_end: ([\d.]+)', r.stderr)]
+    duracao = float(subprocess.run(
+        ['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(ficheiro)],
+        capture_output=True, text=True, check=True,
+    ).stdout)
+    if len(fins) < len(inicios):  # silêncio até ao fim do ficheiro
+        fins.append(duracao)
+    return list(zip(inicios, fins)), duracao
+
+
+def trechos(ficheiro: pathlib.Path) -> list[tuple[float, float]]:
+    """Intervalos com voz: o que fica entre os silêncios."""
+    sil, duracao = silencios(ficheiro)
+    lista, inicio = [], 0.0
+    for a, b in sil:
+        if a - inicio > 0.08:
+            lista.append((inicio, a))
+        inicio = b
+    if duracao - inicio > 0.08:
+        lista.append((inicio, duracao))
+    return lista
+
+
+def cortar(nome_lote: str, audio: pathlib.Path, chaves: list[str], indice: dict[str, str]):
+    partes = trechos(audio)
+    if len(partes) != len(chaves):
+        sys.exit(f'{nome_lote}: {len(partes)} trechos de voz para {len(chaves)} pedaços — não corta')
+    for k, (a, b) in zip(chaves, partes):
+        nome = re.sub(r'[^a-z0-9]+', '-', k).strip('-') + '.mp3'
+        subprocess.run(
+            ['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-ss', f'{max(0, a - FOLGA):.3f}', '-to', f'{b + FOLGA:.3f}',
+             '-i', str(audio), '-ac', '1', '-ar', '22050', '-b:a', '48k', str(SAIDA / nome)],
+            check=True,
+        )
+        indice[k] = nome
+    print(f'{nome_lote}: {len(chaves)} pedaços cortados')
+
+
+def main():
+    pasta = pathlib.Path(sys.argv[1])
+    pedacos = json.loads(PEDACOS.read_text())
+    SAIDA.mkdir(parents=True, exist_ok=True)
+    indice_ficheiro = SAIDA / 'indice.json'
+    indice = json.loads(indice_ficheiro.read_text()) if indice_ficheiro.exists() else {}
+    for lote in sorted({p['lote'] for p in pedacos}):
+        audio = pasta / f'lote{lote}.mp3'
+        if not audio.exists():
+            print(f'lote {lote}: sem áudio, ignorado')
+            continue
+        cortar(f'lote {lote}', audio, [p['chave'] for p in pedacos if p['lote'] == lote], indice)
+    if (pasta / 'faltam.mp3').exists():
+        cortar('faltam', pasta / 'faltam.mp3', json.loads(FALTAM.read_text()), indice)
+    indice_ficheiro.write_text(json.dumps(dict(sorted(indice.items())), ensure_ascii=False, indent=1))
+    print(f'{len(indice)} pedaços no índice')
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,1460 @@
+[
+ {
+  "chave": "mesa 1 pediu",
+  "falar": "Mesa 1 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 2 pediu",
+  "falar": "Mesa 2 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 3 pediu",
+  "falar": "Mesa 3 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 4 pediu",
+  "falar": "Mesa 4 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 5 pediu",
+  "falar": "Mesa 5 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 6 pediu",
+  "falar": "Mesa 6 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 7 pediu",
+  "falar": "Mesa 7 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 8 pediu",
+  "falar": "Mesa 8 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 9 pediu",
+  "falar": "Mesa 9 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 10 pediu",
+  "falar": "Mesa 10 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 11 pediu",
+  "falar": "Mesa 11 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 12 pediu",
+  "falar": "Mesa 12 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 13 pediu",
+  "falar": "Mesa 13 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 14 pediu",
+  "falar": "Mesa 14 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 15 pediu",
+  "falar": "Mesa 15 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 16 pediu",
+  "falar": "Mesa 16 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 17 pediu",
+  "falar": "Mesa 17 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 18 pediu",
+  "falar": "Mesa 18 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 19 pediu",
+  "falar": "Mesa 19 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 20 pediu",
+  "falar": "Mesa 20 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 21 pediu",
+  "falar": "Mesa 21 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 22 pediu",
+  "falar": "Mesa 22 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 23 pediu",
+  "falar": "Mesa 23 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 24 pediu",
+  "falar": "Mesa 24 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 25 pediu",
+  "falar": "Mesa 25 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 26 pediu",
+  "falar": "Mesa 26 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 27 pediu",
+  "falar": "Mesa 27 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 28 pediu",
+  "falar": "Mesa 28 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 29 pediu",
+  "falar": "Mesa 29 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "mesa 30 pediu",
+  "falar": "Mesa 30 pediu",
+  "grupo": "mesa",
+  "lote": 1
+ },
+ {
+  "chave": "n2",
+  "falar": "dois",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n2f",
+  "falar": "duas",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n3",
+  "falar": "três",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n4",
+  "falar": "quatro",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n5",
+  "falar": "cinco",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n6",
+  "falar": "seis",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n7",
+  "falar": "sete",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n8",
+  "falar": "oito",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n9",
+  "falar": "nove",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n10",
+  "falar": "dez",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n11",
+  "falar": "onze",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n12",
+  "falar": "doze",
+  "grupo": "numero",
+  "lote": 1
+ },
+ {
+  "chave": "n13",
+  "falar": "treze",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n14",
+  "falar": "catorze",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n15",
+  "falar": "quinze",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n16",
+  "falar": "dezasseis",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n17",
+  "falar": "dezassete",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n18",
+  "falar": "dezoito",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n19",
+  "falar": "dezanove",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "n20",
+  "falar": "vinte",
+  "grupo": "numero",
+  "lote": 2
+ },
+ {
+  "chave": "e",
+  "falar": "e",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "para",
+  "falar": "para",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "pessoas",
+  "falar": "pessoas",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "para uma pessoa",
+  "falar": "para uma pessoa",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "com nota veja no ecra",
+  "falar": "Com nota, veja no ecrã.",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "e mais itens veja no ecra",
+  "falar": "e mais itens, veja no ecrã.",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "novo pedido",
+  "falar": "Novo pedido.",
+  "grupo": "conector",
+  "lote": 2
+ },
+ {
+  "chave": "massa tagliatelle carbonara",
+  "falar": "Massa Tagliatelle Carbonara",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "massa fettuccine",
+  "falar": "Massa Fettuccine",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "massa bolonhesa",
+  "falar": "Massa Bolonhesa",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "massa putanesca de marisco",
+  "falar": "Massa Putanesca de Marisco",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "lasanha de carne moida",
+  "falar": "Lasanha de Carne Moída",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "lasanha de frango desfiado",
+  "falar": "Lasanha de Frango Desfiado",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "lasanha de legumes",
+  "falar": "Lasanha de Legumes",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "buffet 1 500",
+  "falar": "Buffet de mil e quinhentos",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "buffet 2 000",
+  "falar": "Buffet de dois mil",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "buffet 2 800",
+  "falar": "Buffet de dois mil e oitocentos",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "margarita",
+  "falar": "Margarita",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "bom paladar intense girl",
+  "falar": "Bom Paladar Intense Girl",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "caipirinha",
+  "falar": "Caipirinha",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "caipirosca",
+  "falar": "Caipirosca",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "mojito",
+  "falar": "Mojito",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "tequila sunrise",
+  "falar": "Tequila Sunrise",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "gin tonico a bom paladar",
+  "falar": "Gin Tónico à Bom Paladar",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "sexy on the beach",
+  "falar": "Sexy on the Beach",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "blue lagoon",
+  "falar": "Blue Lagoon",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "blue hawaii",
+  "falar": "Blue Hawaii",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "pina colada",
+  "falar": "Piña Colada",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "caipirinha de cerveja a bom paladar",
+  "falar": "Caipirinha de Cerveja à Bom Paladar",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "sangria",
+  "falar": "Sangria",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "silk and spice",
+  "falar": "Silk and Spice",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "cabriz novo",
+  "falar": "Cabriz Novo",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "cabriz reserva",
+  "falar": "Cabriz Reserva",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "mucho mas",
+  "falar": "Mucho Más",
+  "grupo": "prato",
+  "lote": 2
+ },
+ {
+  "chave": "cadao novo",
+  "falar": "Cadão Novo",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "cadao reserva",
+  "falar": "Cadão Reserva",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "reguengos reserva",
+  "falar": "Reguengos Reserva",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "segredos de s miguel novo",
+  "falar": "Segredos de São Miguel Novo",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "segredos de s miguel reserva",
+  "falar": "Segredos de São Miguel Reserva",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "duas quintas",
+  "falar": "Duas Quintas",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "pe tinto",
+  "falar": "Pé Tinto",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "portada",
+  "falar": "Portada",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "quinta da bolota prestige",
+  "falar": "Quinta da Bolota Prestige",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "the chocolate block",
+  "falar": "The Chocolate Block",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "spylano",
+  "falar": "Spylano",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "casa de santar",
+  "falar": "Casa de Santar",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "dona vitoria",
+  "falar": "Dona Vitória",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "herdade de s miguel",
+  "falar": "Herdade de São Miguel",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "casa da insua",
+  "falar": "Casa da Ínsua",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "instinto 1 l",
+  "falar": "Instinto de um litro",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "robertson winery branco",
+  "falar": "Robertson Winery Branco",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "aveleda alvarinho",
+  "falar": "Aveleda Alvarinho",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "aveleda fonte",
+  "falar": "Aveleda Fonte",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "fleur du cap",
+  "falar": "Fleur du Cap",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "pacheca",
+  "falar": "Pacheca",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "casal garcia branco",
+  "falar": "Casal Garcia Branco",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "casal garcia verde",
+  "falar": "Casal Garcia Verde",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "nederburg lyric branco",
+  "falar": "Nederburg Lyric Branco",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "quinta da bolota verde",
+  "falar": "Quinta da Bolota Verde",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "portada branco",
+  "falar": "Portada Branco",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "chardonnay verde",
+  "falar": "Chardonnay Verde",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "sauvignon blanc spier",
+  "falar": "Sauvignon Blanc Spier",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "petusco verde",
+  "falar": "Petusco Verde",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "robertson rose",
+  "falar": "Robertson Rosé",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "pluma verde",
+  "falar": "Pluma Verde",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "pudim de ovos",
+  "falar": "Pudim de ovos",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "mousse de malambe",
+  "falar": "Mousse de malambe",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "salada de frutas da epoca",
+  "falar": "Salada de frutas da época",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "arroz",
+  "falar": "Arroz",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "xima",
+  "falar": "Xima",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "legumes salteados",
+  "falar": "Legumes salteados",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "feijao preto",
+  "falar": "Feijão preto",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "salada mista",
+  "falar": "Salada mista",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "agua sem gas 0 5 l",
+  "falar": "Água sem gás pequena",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "agua sem gas 1 5 l",
+  "falar": "Água sem gás grande",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "agua com gas",
+  "falar": "Água com gás",
+  "grupo": "prato",
+  "lote": 3
+ },
+ {
+  "chave": "cafe expresso",
+  "falar": "Café expresso",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "cha",
+  "falar": "Chá",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "coca cola e outros",
+  "falar": "Coca-Cola",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "red bull",
+  "falar": "Red Bull",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "guarana",
+  "falar": "Guaraná",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "cappy todos os sabores",
+  "falar": "Cappy",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "compal grande",
+  "falar": "Compal grande",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "sumo natural c 1 sabor",
+  "falar": "Sumo natural de um sabor",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "sumo natural ate 2 sabores",
+  "falar": "Sumo natural de dois sabores",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "sidra",
+  "falar": "Sidra",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "bernini",
+  "falar": "Bernini",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "breezer varios sabores",
+  "falar": "Breezer",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "copo mini 20 ml",
+  "falar": "Copo mini de pressão",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "copo medio 35 ml",
+  "falar": "Copo médio de pressão",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "caneca 50 ml",
+  "falar": "Caneca de pressão",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "cerveja nacional",
+  "falar": "Cerveja nacional",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "heineken mini",
+  "falar": "Heineken Mini",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "corona",
+  "falar": "Corona",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "annabelle",
+  "falar": "Annabelle",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "tosti moscato",
+  "falar": "Tosti Moscato",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "j c le roux",
+  "falar": "J C Le Roux",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "espumante sem alcool",
+  "falar": "Espumante sem álcool",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "gordon s gin",
+  "falar": "Gordon's Gin",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "tanqueray london dry",
+  "falar": "Tanqueray London Dry",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "gin premium",
+  "falar": "Gin premium",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "gin",
+  "falar": "Gin",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "gin streeton",
+  "falar": "Gin Streeton",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "beefeater london",
+  "falar": "Beefeater London",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "bombay sapphire",
+  "falar": "Bombay Sapphire",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "sambuca shot",
+  "falar": "Sambuca",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "blow job shot",
+  "falar": "Blow Job",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "jagermeister shot",
+  "falar": "Jägermeister",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "lovoka shot",
+  "falar": "Lovoka",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "tequila cactus jack azul shot",
+  "falar": "Tequila Cactus Jack Azul",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "tequila olmeca silver shot",
+  "falar": "Tequila Olmeca Silver",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "whisky blended",
+  "falar": "Whisky blended",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "johnnie walker red label",
+  "falar": "Johnnie Walker Red Label",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "the glenfiddich 15",
+  "falar": "The Glenfiddich 15",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "chivas 12 anos",
+  "falar": "Chivas 12 anos",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "sao domingos",
+  "falar": "São Domingos",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "cognac",
+  "falar": "Cognac",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "vodka absolut",
+  "falar": "Vodka Absolut",
+  "grupo": "prato",
+  "lote": 4
+ },
+ {
+  "chave": "captain morgan",
+  "falar": "Captain Morgan",
+  "grupo": "prato",
+  "lote": 5
+ },
+ {
+  "chave": "licores e porto",
+  "falar": "Licores e Porto",
+  "grupo": "prato",
+  "lote": 5
+ },
+ {
+  "chave": "1920 brandy",
+  "falar": "1920 Brandy",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "2m lata grf",
+  "falar": "Dois M",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "amarula",
+  "falar": "Amarula",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "arroz branco",
+  "falar": "Arroz branco",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "arroz de coco",
+  "falar": "Arroz de coco",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "arroz de feijao c salsicha",
+  "falar": "Arroz de feijão com salsicha",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "arroz de legumes",
+  "falar": "Arroz de legumes",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "arroz de tomate",
+  "falar": "Arroz de tomate",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "ballantine s",
+  "falar": "Ballantine's",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "beefeater orange",
+  "falar": "Beefeater Orange",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "beefeater pink",
+  "falar": "Beefeater Pink",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "brutal",
+  "falar": "Brutal",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "bulldog",
+  "falar": "Bulldog",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "captain morgan black",
+  "falar": "Captain Morgan Black",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "captain morgan gold",
+  "falar": "Captain Morgan Gold",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "castle double malt",
+  "falar": "Castle Double Malt",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "castle lite",
+  "falar": "Castle Lite",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "cha preto",
+  "falar": "Chá preto",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "cha verde",
+  "falar": "Chá verde",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "coca zero",
+  "falar": "Coca Zero",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "com gas salgada",
+  "falar": "Água com gás salgada",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "com gas outros sabores",
+  "falar": "Água com gás de sabores",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "crf reserva",
+  "falar": "C R F Reserva",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "dewar s",
+  "falar": "Dewar's",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "dry lemon",
+  "falar": "Dry Lemon",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "ginger ale",
+  "falar": "Ginger Ale",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "grant s novo",
+  "falar": "Grant's Novo",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "heineken sem alcool",
+  "falar": "Heineken sem álcool",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "heineken silver",
+  "falar": "Heineken Silver",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "hendrick s",
+  "falar": "Hendrick's",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "hennessy",
+  "falar": "Hennessy",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "hunter s gold",
+  "falar": "Hunter's Gold",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "inverroche classic",
+  "falar": "Inverroche Classic",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "inverroche verdant",
+  "falar": "Inverroche Verdant",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "jack daniel s",
+  "falar": "Jack Daniel's",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "jameson black barrel",
+  "falar": "Jameson Black Barrel",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "jameson ipa",
+  "falar": "Jameson IPA",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "jameson novo",
+  "falar": "Jameson Novo",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "johnnie walker black label",
+  "falar": "Johnnie Walker Black Label",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "johnnie walker gold label",
+  "falar": "Johnnie Walker Gold Label",
+  "grupo": "opcao",
+  "lote": 5
+ },
+ {
+  "chave": "johnnie walker green label",
+  "falar": "Johnnie Walker Green Label",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "laurentina preta",
+  "falar": "Laurentina Preta",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "licor beirao",
+  "falar": "Licor Beirão",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "lovoka de caramelo",
+  "falar": "Lovoka de caramelo",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "lovoka de chocolate",
+  "falar": "Lovoka de chocolate",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "manica lata",
+  "falar": "Manica",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "martini branco",
+  "falar": "Martini Branco",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "martini tinto",
+  "falar": "Martini Tinto",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "musgrave",
+  "falar": "Musgrave",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "remy martin",
+  "falar": "Rémy Martin",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "sambuca black",
+  "falar": "Sambuca Black",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "sambuca white",
+  "falar": "Sambuca White",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "savanna dry",
+  "falar": "Savanna Dry",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "savanna lemon",
+  "falar": "Savanna Lemon",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "soda",
+  "falar": "Soda",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "stella artois",
+  "falar": "Stella Artois",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "streeton blue",
+  "falar": "Streeton Blue",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "streeton orange",
+  "falar": "Streeton Orange",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "streeton pink",
+  "falar": "Streeton Pink",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "super bock",
+  "falar": "Super Bock",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "tanqueray blackcurrant",
+  "falar": "Tanqueray Blackcurrant",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "tanqueray n ten",
+  "falar": "Tanqueray Ten",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "tanqueray sevilla",
+  "falar": "Tanqueray Sevilla",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "the botanist",
+  "falar": "The Botanist",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "the glenfiddich 12",
+  "falar": "The Glenfiddich 12",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "tia maria",
+  "falar": "Tia Maria",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "tonica",
+  "falar": "Tónica",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "txilar",
+  "falar": "Txilar",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "vinho branco",
+  "falar": "Vinho branco",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "vinho do porto ferreira",
+  "falar": "Vinho do Porto Ferreira",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "vinho tinto",
+  "falar": "Vinho tinto",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "vodka smirnoff",
+  "falar": "Vodka Smirnoff",
+  "grupo": "opcao",
+  "lote": 6
+ },
+ {
+  "chave": "xima caracata",
+  "falar": "Xima caracata",
+  "grupo": "opcao",
+  "lote": 6
+ }
+]

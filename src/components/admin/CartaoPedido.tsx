@@ -1,6 +1,7 @@
 import { formatarDataHora, formatarHora, formatarPreco, porAtender } from '../../lib/format'
 import type { EstadoPedido, Pedido } from '../../lib/types'
 import { EstadoBadge } from '../cliente/EstadoBadge'
+import { useRealtime } from './AdminLayout'
 
 interface Props {
   pedido: Pedido
@@ -12,8 +13,11 @@ interface Props {
 
 export function CartaoPedido({ pedido, mesaNome, comData, aoMudarEstado, ocupado }: Props) {
   const pendente = porAtender(pedido.estado)
+  const { lerDeNovo, aLer } = useRealtime()
   return (
-    <article className={`cartao p-4 ${pedido.estado === 'cancelado' ? 'opacity-60' : ''} ${pedido.estado === 'recebido' ? 'ring-2 ring-gold-400' : ''}`}>
+    <article
+      className={`cartao p-4 ${pedido.estado === 'cancelado' ? 'opacity-60' : ''} ${aLer === pedido.id ? 'ring-4 ring-ember-500' : pedido.estado === 'recebido' ? 'ring-2 ring-gold-400' : ''}`}
+    >
       <header className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {mesaNome && <span className="rounded-lg bg-ink-900 px-2 py-0.5 font-display text-gold-300">{mesaNome}</span>}
@@ -43,6 +47,15 @@ export function CartaoPedido({ pedido, mesaNome, comData, aoMudarEstado, ocupado
         <span className="text-lg font-semibold tabular-nums">{formatarPreco(Number(pedido.total))}</span>
         {aoMudarEstado && pendente && (
           <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              className="btn-secundario min-h-10 px-3"
+              onClick={() => lerDeNovo(pedido.id)}
+              aria-label="Ler o pedido em voz alta outra vez"
+              title="Ler de novo"
+            >
+              {aLer === pedido.id ? '🔊 A ler…' : '🔊 Ler de novo'}
+            </button>
             <button
               type="button"
               className="btn-secundario min-h-10 text-ember-600"

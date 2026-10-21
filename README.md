@@ -91,10 +91,28 @@ Abra `http://localhost:5173/admin` para o painel. Para o link de uma mesa, vá a
 - **Cardápio igual ao impresso**: a página da mesa replica os cartões do restaurante (buffets, Pasta/Lasanha, Cocktail, Carta de Vinhos e a folha do bar), com um botão **Pedir já** em cada item. O estilo escolhe-se pelo nome da categoria (`src/components/cliente/CardapioImpresso.tsx`); categorias novas aparecem no estilo da folha do bar. "Pedir já" junta o item ao pedido e abre logo **O meu pedido** (antes pergunta a opção ou o número de pessoas, se for preciso). Lá dentro, **Adicionar bebida** fecha o pedido e leva o cliente aos Cocktails. As notas ("sem cebola") escrevem-se no carrinho, e o botão final é **Pedir agora**.
 - **Opções**: linhas do cardápio com vários produtos ao mesmo preço (ex.: "Super Bock ou Castle Lite", gins, whiskies) têm `opcoes`; o cliente escolhe uma e ela aparece no pedido.
 - **Buffets**: pedem-se por pessoa (a quantidade é o número de pessoas) e mostram o que incluem.
-- **Tempo real**: o painel subscreve `orders` com Supabase Realtime (só o administrador recebe eventos). Pedido novo: aviso no topo, som (depois de carregar em **Ativar som**, porque os navegadores bloqueiam som sem um clique) e a mesa fica destacada. "Os meus pedidos" do cliente atualiza por polling a cada 10 s.
+- **Tempo real**: o painel subscreve `orders` com Supabase Realtime (só o administrador recebe eventos). Pedido novo: sininho, leitura em voz (ver **Voz dos pedidos**), aviso no canto que fica no ecrã e a mesa fica destacada. "Os meus pedidos" do cliente atualiza por polling a cada 10 s.
 - **Pedidos que desaparecem**: no painel, cada pedido por atender tem **✓ Atendido** (e Cancelar); ao carregar, sai da lista "Por atender". No detalhe da mesa, os atendidos ficam à vista 20 minutos e depois desaparecem. No telemóvel do cliente, "Os meus pedidos" mostra só os pedidos dos últimos 20 minutos (`get_table_orders`). Nada se apaga: tudo fica no **Histórico**. Os 20 minutos estão em `JANELA_MINUTOS` (`src/lib/format.ts`) e na migração `20261019000004_pedidos_recentes.sql`.
 - **Anti-spam**: no máximo 5 pedidos por mesa por minuto (verificado na base) e o botão de enviar ignora o duplo clique.
 - **Horas**: guardadas em UTC e mostradas em `Africa/Maputo`, formato 24h.
+
+## Voz dos pedidos
+
+Cada pedido novo no painel toca um sininho e a seguir é lido em voz alta, na voz **Dinis** (português de Portugal) da ElevenLabs: *"Mesa 1 pediu duas Massa Bolonhesa e Mojito."*
+
+- **Ligar**: abra o painel e carregue em **🔔 Ativar som e voz** (os navegadores só deixam tocar som depois de um toque). Deixe o painel aberto, com o ecrã ligado e o volume alto. O botão passa a **🔔🗣 Som e voz ativos**; um toque muda para **🔔 Só sininho**.
+- **Ordem**: com vários pedidos ao mesmo tempo, lê um de cada vez, pela ordem em que foram feitos. Nunca fala dois ao mesmo tempo.
+- **Aviso no ecrã**: cada pedido fica num cartão no canto (🔊 no que está a ser lido, notas a amarelo). Sai quando o pedido é marcado **✓ Atendido** (ou Cancelado), ou com ✕. **🔊 Ler de novo** no cartão do pedido repete a leitura.
+- **Notas**: são texto livre do cliente e não se podem gravar antes, por isso a voz diz *"Com nota, veja no ecrã"* e a nota aparece destacada.
+- **O que não tem voz gravada** (prato ou mesa criados depois, quantidade acima de 20, e por agora 64 bebidas de bar: whiskies, gins, licores, algumas cervejas e refrigerantes) é dito como *"…e mais itens, veja no ecrã"*, e uma mesa sem gravação como *"Novo pedido"*. O pedido aparece sempre completo no ecrã.
+
+Como funciona: não há chave de API no site. A voz foi gravada uma vez com a conta ElevenLabs, em pedaços (`public/voz/*.mp3`, índice em `public/voz/indice.json`), e o painel junta-os (`src/lib/frase.ts` monta a frase, `src/lib/anuncios.ts` toca a fila). O sininho (`public/sons/sino.mp3`) é sintetizado por `scripts/voz/sino.py`; se não carregar, toca um bip.
+
+**Gravar os pedaços em falta** (quando os créditos da ElevenLabs renovarem, ou depois de juntar pratos ou mesas):
+1. Atualize `scripts/voz/pedacos.json.in` com os nomes e opções da base (e `MESAS` em `pedacos.py`, se houver mais mesas).
+2. `python3 -I scripts/voz/pedacos.py --faltam 9000` → `scripts/voz/lotes/faltam.txt` (o que falta, os mais pedidos primeiro; baixe o número para caber nos créditos: ~0,35 créditos por caráter com o modelo Flash v2.5).
+3. Peça ao Claude para gravar `faltam.txt` na ElevenLabs (voz Dinis, `eleven_flash_v2_5`, 1 geração) e guardar o áudio como `<pasta>/faltam.mp3`.
+4. `python3 -I scripts/voz/cortar.py <pasta>` → corta pelos silêncios e atualiza o índice (pára se o número de trechos não bater com o de pedaços). Publique.
 
 ## Fora desta versão
 
