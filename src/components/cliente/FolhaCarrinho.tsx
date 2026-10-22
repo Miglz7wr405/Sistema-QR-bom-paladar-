@@ -1,7 +1,9 @@
-import { useState, type Dispatch } from 'react'
+import { useRef, useState, type Dispatch } from 'react'
 import { totalCarrinho, type AcaoCarrinho, type LinhaCarrinho } from '../../lib/cart'
+import { useDitado } from '../../lib/ditado'
 import { formatarPreco } from '../../lib/format'
 import { Aviso, Folha, Quantidade } from '../ui/Ui'
+import { BotaoDitar, EstadoDitado } from './BotaoDitar'
 
 interface Props {
   aberta: boolean
@@ -17,10 +19,17 @@ interface Props {
   aoAdicionarBebida?: () => void
 }
 
-/** Nota de um item ("sem cebola", "sem gelo"): guarda-se quando o campo perde o foco. */
+/** Nota de um item ("sem cebola", "sem gelo"): guarda-se quando o campo perde o foco ou quando acaba o ditado. */
 function NotaDaLinha({ linha, dispatch }: { linha: LinhaCarrinho; dispatch: Dispatch<AcaoCarrinho> }) {
   const [texto, setTexto] = useState(linha.nota)
   const [aberta, setAberta] = useState(Boolean(linha.nota))
+  const atual = useRef(texto)
+  atual.current = texto
+  const guardar = () => atual.current.trim() !== linha.nota && dispatch({ tipo: 'nota', chave: linha.chave, nota: atual.current.trim() })
+  const ditado = useDitado((t) => {
+    atual.current = t
+    setTexto(t)
+  }, guardar)
   if (!aberta) {
     return (
       <button type="button" className="w-fit text-sm font-semibold text-gold-600 underline underline-offset-2" onClick={() => setAberta(true)}>
@@ -29,21 +38,28 @@ function NotaDaLinha({ linha, dispatch }: { linha: LinhaCarrinho; dispatch: Disp
     )
   }
   return (
-    <input
-      className="campo min-h-10 py-1.5 text-sm"
-      placeholder="Nota: ex. sem cebola, sem gelo"
-      maxLength={200}
-      autoFocus={!linha.nota}
-      value={texto}
-      aria-label={`Nota para ${linha.prato.nome}`}
-      onChange={(e) => setTexto(e.target.value)}
-      onBlur={() => texto.trim() !== linha.nota && dispatch({ tipo: 'nota', chave: linha.chave, nota: texto.trim() })}
-    />
+    <div>
+      <div className="flex items-center gap-2">
+        <input
+          className="campo min-h-10 py-1.5 text-sm"
+          placeholder="Nota: ex. sem cebola, sem gelo"
+          maxLength={200}
+          autoFocus={!linha.nota}
+          value={texto}
+          aria-label={`Nota para ${linha.prato.nome}`}
+          onChange={(e) => setTexto(e.target.value)}
+          onBlur={guardar}
+        />
+        <BotaoDitar aOuvir={ditado.aOuvir} aoIniciar={() => ditado.iniciar(texto, 200)} aoParar={ditado.parar} />
+      </div>
+      <EstadoDitado aOuvir={ditado.aOuvir} erro={ditado.erro} />
+    </div>
   )
 }
 
 export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, setNotaGeral, aEnviar, erro, aoEnviar, aoAdicionarBebida }: Props) {
   const total = totalCarrinho(linhas)
+  const ditado = useDitado(setNotaGeral)
   return (
     <Folha aberta={aberta} aoFechar={aoFechar} titulo="O meu pedido">
       <div className="flex flex-col gap-4 px-5 py-4">
@@ -89,16 +105,20 @@ export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, s
 
         <div>
           <label htmlFor="nota-geral" className="rotulo">
-            Nota para o pedido <span className="font-normal text-muted">(opcional)</span>
+            Nota para o pedido <span className="font-normal text-muted">(opcional: escreva ou fale)</span>
           </label>
-          <textarea
-            id="nota-geral"
-            className="campo min-h-16 resize-none"
-            maxLength={500}
-            placeholder="Ex.: trazer as bebidas primeiro"
-            value={notaGeral}
-            onChange={(e) => setNotaGeral(e.target.value)}
-          />
+          <div className="flex items-start gap-2">
+            <textarea
+              id="nota-geral"
+              className="campo min-h-16 resize-none"
+              maxLength={500}
+              placeholder="Ex.: trazer as bebidas primeiro"
+              value={notaGeral}
+              onChange={(e) => setNotaGeral(e.target.value)}
+            />
+            <BotaoDitar aOuvir={ditado.aOuvir} aoIniciar={() => ditado.iniciar(notaGeral, 500)} aoParar={ditado.parar} />
+          </div>
+          <EstadoDitado aOuvir={ditado.aOuvir} erro={ditado.erro} />
         </div>
 
         {erro && <Aviso>{erro}</Aviso>}
