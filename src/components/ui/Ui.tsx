@@ -45,6 +45,10 @@ export function Logo({ claro = false }: { claro?: boolean }) {
 /** Folha que sobe do fundo do ecrã (telemóvel) ou janela central (ecrã grande). */
 export function Folha({ aberta, aoFechar, titulo, children }: { aberta: boolean; aoFechar: () => void; titulo: string; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
+  // aoFechar costuma ser uma função nova a cada render (ex.: a cada letra escrita numa nota).
+  // Se fosse dependência do efeito, o foco saltava para a folha a cada letra e o teclado do telemóvel fechava.
+  const fechar = useRef(aoFechar)
+  fechar.current = aoFechar
 
   useEffect(() => {
     if (!aberta) return
@@ -55,7 +59,7 @@ export function Folha({ aberta, aoFechar, titulo, children }: { aberta: boolean;
     // O resto da página fica inacessível (teclado e leitores de ecrã) enquanto a folha está aberta.
     raiz?.setAttribute('inert', '')
     ref.current?.focus()
-    const tecla = (e: KeyboardEvent) => e.key === 'Escape' && aoFechar()
+    const tecla = (e: KeyboardEvent) => e.key === 'Escape' && fechar.current()
     window.addEventListener('keydown', tecla)
     return () => {
       document.body.style.overflow = overflow
@@ -63,7 +67,7 @@ export function Folha({ aberta, aoFechar, titulo, children }: { aberta: boolean;
       window.removeEventListener('keydown', tecla)
       anterior?.focus({ preventScroll: true })
     }
-  }, [aberta, aoFechar])
+  }, [aberta])
 
   if (!aberta) return null
   return createPortal(
