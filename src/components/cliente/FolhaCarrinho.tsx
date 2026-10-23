@@ -48,7 +48,7 @@ function NotaDaLinha({ linha, dispatch }: { linha: LinhaCarrinho; dispatch: Disp
           value={texto}
           aria-label={`Nota para ${linha.prato.nome}`}
           onChange={(e) => setTexto(e.target.value)}
-          onBlur={guardar}
+          onBlur={() => { ditado.parar(); guardar() }}
         />
         <BotaoDitar aOuvir={ditado.aOuvir} aoIniciar={() => ditado.iniciar(texto, 200)} aoParar={ditado.parar} />
       </div>
@@ -115,6 +115,7 @@ export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, s
               placeholder="Ex.: trazer as bebidas primeiro"
               value={notaGeral}
               onChange={(e) => setNotaGeral(e.target.value)}
+              onBlur={() => ditado.parar()}
             />
             <BotaoDitar aOuvir={ditado.aOuvir} aoIniciar={() => ditado.iniciar(notaGeral, 500)} aoParar={ditado.parar} />
           </div>

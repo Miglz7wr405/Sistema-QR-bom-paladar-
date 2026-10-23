@@ -18,4 +18,8 @@ describe('juntarTexto (ditado das notas)', () => {
   it('não passa do limite do campo', () => {
     expect(juntarTexto('abc', 'defghij', 6)).toBe('abc de')
   })
+
+  it('espaços duplos (segmentos continuous) ficam normalizados antes de juntar', () => {
+    expect(juntarTexto('', ' sem cebola  e pouco sal ', 200)).toBe('Sem cebola e pouco sal')
+  })
 })

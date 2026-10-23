@@ -41,11 +41,12 @@ const MENSAGENS: Record<string, string> = {
   'language-not-supported': 'O ditado não está disponível neste telemóvel. Use o microfone do teclado.',
   'audio-capture': 'Não encontrámos o microfone.',
   network: 'Sem internet para ditar. Tente outra vez.',
+  'no-speech': 'Não ouvimos nada. Fale mais perto do telemóvel.',
 }
 
 /** Junta o que já estava escrito com o que foi dito, sem passar do limite do campo. */
 export function juntarTexto(base: string, falado: string, max: number): string {
-  const f = falado.trim()
+  const f = falado.replace(/\s+/g, ' ').trim()
   const b = base.trimEnd()
   if (!f) return base.slice(0, max)
   const texto = b ? `${b} ${f}` : f.charAt(0).toUpperCase() + f.slice(1)
@@ -54,7 +55,7 @@ export function juntarTexto(base: string, falado: string, max: number): string {
 
 /**
  * `iniciar(base, max)` começa a ouvir; cada pedaço reconhecido chama `aoMudar` com o texto completo do campo.
- * Pára sozinho quando a pessoa se cala (ou com `parar()`), e aí chama `aoAcabar`.
+ * Com `continuous: true`, aguenta pausas a meio da frase. Pára com `parar()` ou ao fechar o carrinho.
  */
 export function useDitado(aoMudar: (texto: string) => void, aoAcabar?: () => void) {
   const [aOuvir, setAOuvir] = useState(false)
@@ -78,10 +79,10 @@ export function useDitado(aoMudar: (texto: string) => void, aoAcabar?: () => voi
     const r = new Classe()
     r.lang = 'pt-PT'
     r.interimResults = true
-    r.continuous = false
+    r.continuous = true
     r.maxAlternatives = 1
     r.onresult = (e) => {
-      const falado = Array.from(e.results, (x) => x[0]?.transcript ?? '').join('')
+      const falado = Array.from(e.results, (x) => x[0]?.transcript ?? '').join(' ').replace(/\s+/g, ' ')
       callbacks.current.aoMudar(juntarTexto(base, falado, max))
     }
     r.onerror = (e) => setErro(MENSAGENS[e.error] ?? null)

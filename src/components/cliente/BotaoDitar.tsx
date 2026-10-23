@@ -30,7 +30,7 @@ export function BotaoDitar({ aOuvir, aoIniciar, aoParar }: Props) {
 
 /** Linha de estado por baixo do campo: "A ouvir…" ou a mensagem de erro. */
 export function EstadoDitado({ aOuvir, erro }: { aOuvir: boolean; erro: string | null }) {
-  if (aOuvir) return <p className="mt-1 text-xs font-semibold text-ember-600">🎤 A ouvir… fale agora (toque no microfone para parar)</p>
+  if (aOuvir) return <p className="mt-1 text-xs font-semibold text-ember-600">🎤 A ouvir… fale perto do telemóvel (toque para parar)</p>
   if (erro) return <p className="mt-1 text-xs text-ember-600">{erro}</p>
   return null
 }
