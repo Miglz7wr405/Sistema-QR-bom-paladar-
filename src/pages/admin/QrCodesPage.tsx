@@ -78,6 +78,9 @@ export function QrCodesPage() {
             <QrImagem texto={linkDaMesa(m.qr_token)} tamanho={200} rotulo={`QR Code da ${m.nome}`} />
             <p className="font-semibold text-ink-900">Aponte a câmara para ver o cardápio</p>
             <p className="text-xs text-muted">Peça pelo telemóvel e pague no fim, ao atendente ou no caixa.</p>
+            <p className="flex items-center gap-2 text-[11px] text-muted">
+              Feito por <img src="/marca/insight-escuro.png" alt="insight creative agency" className="h-4 w-auto" />
+            </p>
             <button
               type="button"
               className="btn-secundario nao-imprimir min-h-9 text-sm"

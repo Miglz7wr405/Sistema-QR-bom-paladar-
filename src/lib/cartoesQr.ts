@@ -87,10 +87,44 @@ export async function desenharCartao(nomeMesa: string, link: string): Promise<HT
   await QRCode.toCanvas(qr, link, { width: lado, margin: 0, errorCorrectionLevel: 'M', color: { dark: COR.fundo, light: '#ffffff' } })
   ctx.drawImage(qr, x, y, lado, lado)
 
-  textoCentrado(ctx, 'Aponte a câmara para ver', 1530, '700 54px Montserrat, Arial, sans-serif', COR.creme)
-  textoCentrado(ctx, 'o cardápio e pedir', 1600, '700 54px Montserrat, Arial, sans-serif', COR.creme)
-  textoCentrado(ctx, 'Pague no fim, ao atendente ou no caixa', 1665, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
+  textoCentrado(ctx, 'Aponte a câmara para ver', 1495, '700 54px Montserrat, Arial, sans-serif', COR.creme)
+  textoCentrado(ctx, 'o cardápio e pedir', 1560, '700 54px Montserrat, Arial, sans-serif', COR.creme)
+  textoCentrado(ctx, 'Pague no fim, ao atendente ou no caixa', 1610, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
+  await assinatura(ctx, 1658)
   return canvas
+}
+
+let logoInsight: Promise<HTMLImageElement | null> | undefined
+
+function carregarLogo() {
+  logoInsight ??= new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = () => resolve(null)
+    img.src = '/marca/insight.png'
+  })
+  return logoInsight
+}
+
+/** "Feito por" + logótipo da insight creative agency, centrados no fundo do cartão. */
+async function assinatura(ctx: CanvasRenderingContext2D, base: number) {
+  const logo = await carregarLogo()
+  const texto = 'Feito por'
+  ctx.font = '500 24px Montserrat, Arial, sans-serif'
+  ctx.fillStyle = COR.cinza
+  ctx.textAlign = 'left'
+  ctx.textBaseline = 'alphabetic'
+  if (!logo) {
+    textoCentrado(ctx, 'Feito por insight creative agency', base, '500 24px Montserrat, Arial, sans-serif', COR.cinza)
+    return
+  }
+  const alturaLogo = 38
+  const larguraLogo = (logo.width / logo.height) * alturaLogo
+  const espaco = 14
+  const larguraTexto = ctx.measureText(texto).width
+  const inicio = (LARGURA - larguraTexto - espaco - larguraLogo) / 2
+  ctx.fillText(texto, inicio, base)
+  ctx.drawImage(logo, inicio + larguraTexto + espaco, base - alturaLogo + 8, larguraLogo, alturaLogo)
 }
 
 function descarregar(url: string, nome: string) {
