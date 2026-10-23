@@ -1,8 +1,9 @@
 """Corta os lotes gravados na ElevenLabs em um ficheiro por pedaço e escreve o índice.
 
-Uso: python3 -I scripts/voz/cortar.py <pasta com lote1.mp3, lote2.mp3, ... e/ou faltam.mp3>
+Uso: python3 -I scripts/voz/cortar.py <pasta com lote1.mp3, lote2.mp3, ..., faltam.mp3 e/ou notas.mp3>
 Escreve public/voz/<n>.mp3 e public/voz/indice.json ({chave: ficheiro}).
-faltam.mp3 é a gravação de lotes/faltam.txt (pedacos.py --faltam) e corta-se pela lista lotes/faltam.json.
+faltam.mp3 é a gravação de lotes/faltam.txt (pedacos.py --faltam) e corta-se pela lista lotes/faltam.json;
+notas.mp3 é a gravação das notas comuns ("sem gelo", "sem cebola"…) de lotes/notas.txt, cortada por lotes/notas.json.
 Cada lote tem de ter tantos trechos de voz como pedaços (separados pelas pausas de 1 s; só pausas de 0,9 s ou mais contam, para não partir nomes como "Sauvignon Blanc Spier"); se não bater, pára.
 """
 
@@ -15,6 +16,7 @@ import sys
 RAIZ = pathlib.Path(__file__).resolve().parents[2]
 PEDACOS = RAIZ / 'scripts' / 'voz' / 'pedacos.json'
 FALTAM = RAIZ / 'scripts' / 'voz' / 'lotes' / 'faltam.json'
+NOTAS = RAIZ / 'scripts' / 'voz' / 'lotes' / 'notas.json'
 SAIDA = RAIZ / 'public' / 'voz'
 FOLGA = 0.05  # segundos de margem antes e depois de cada trecho
 
@@ -77,6 +79,8 @@ def main():
         cortar(f'lote {lote}', audio, [p['chave'] for p in pedacos if p['lote'] == lote], indice)
     if (pasta / 'faltam.mp3').exists():
         cortar('faltam', pasta / 'faltam.mp3', json.loads(FALTAM.read_text()), indice)
+    if (pasta / 'notas.mp3').exists():
+        cortar('notas', pasta / 'notas.mp3', json.loads(NOTAS.read_text()), indice)
     indice_ficheiro.write_text(json.dumps(dict(sorted(indice.items())), ensure_ascii=False, indent=1))
     print(f'{len(indice)} pedaços no índice')
 

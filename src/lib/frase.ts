@@ -24,6 +24,9 @@ export const PEDACO = {
   pessoas: 'pessoas',
   umaPessoa: 'para uma pessoa',
   comNota: 'com nota veja no ecra',
+  nota: 'nota',
+  notaPara: 'nota para',
+  notaDoPedido: 'nota do pedido',
   maisItens: 'e mais itens veja no ecra',
   novoPedido: 'novo pedido',
 } as const
@@ -54,9 +57,31 @@ function nomeFalado(item: ItemFalado): string[] {
   return agrupa || repete ? [item.opcao] : [item.nome, item.opcao]
 }
 
+/** "A, B e C" com o pedaço "e" antes do último. */
+function comE(partes: string[][]): string[] {
+  return partes.flatMap((p, i) => (i > 0 && i === partes.length - 1 ? [PEDACO.e, ...p] : p))
+}
+
+/**
+ * As frases de uma nota, se todas estiverem gravadas na voz Dinis ("sem gelo", "sem cebola"…; ver
+ * scripts/voz/lotes/notas.txt): "Sem gelo, sem cebola e sem alho" -> ["sem gelo", "sem cebola", "e", "sem alho"].
+ * Uma nota com alguma parte por gravar devolve null e a voz diz "Com nota, veja no ecrã".
+ */
+function frasesDaNota(nota: string, temAudio: (chave: string) => boolean): string[] | null {
+  const partes = nota
+    .toLowerCase()
+    .replace(/\bs\//g, 'sem ')
+    .replace(/\bc\//g, 'com ')
+    .split(/[,;.!\n+]|\s+e\s+/)
+    .map(chaveVoz)
+    .filter(Boolean)
+  return partes.length > 0 && partes.every(temAudio) ? comE(partes.map((p) => [p])) : null
+}
+
 /**
  * Lista de chaves a tocar. `temAudio` diz se um pedaço está gravado; o que não estiver
  * (prato novo, mesa nova, quantidade acima de 20) é trocado por "e mais itens, veja no ecrã" / "Novo pedido".
+ * As notas comuns gravadas são lidas ("Nota para Mojito: sem gelo"); as outras ficam em "Com nota, veja no ecrã".
  */
 export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral: string | null, temAudio: (chave: string) => boolean): string[] {
   const mesa = chaveVoz(`${mesaNome} pediu`)
@@ -77,12 +102,24 @@ export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral
     else faltou = true
   }
 
-  falados.forEach((partes, i) => {
-    if (i > 0 && i === falados.length - 1) saida.push(PEDACO.e)
-    saida.push(...partes)
-  })
+  saida.push(...comE(falados))
   if (faltou) saida.push(PEDACO.maisItens)
-  if (notaGeral?.trim() || itens.some((i) => i.nota?.trim())) saida.push(PEDACO.comNota)
+
+  let notaPorLer = false
+  for (const item of itens) {
+    if (!item.nota?.trim()) continue
+    const frases = frasesDaNota(item.nota, temAudio)
+    const nomes = nomeFalado(item).map(chaveVoz)
+    const quem = temAudio(PEDACO.notaPara) && nomes.every(temAudio) ? [PEDACO.notaPara, ...nomes] : [PEDACO.nota]
+    if (frases && quem.every(temAudio)) saida.push(...quem, ...frases)
+    else notaPorLer = true
+  }
+  if (notaGeral?.trim()) {
+    const frases = frasesDaNota(notaGeral, temAudio)
+    if (frases && temAudio(PEDACO.notaDoPedido)) saida.push(PEDACO.notaDoPedido, ...frases)
+    else notaPorLer = true
+  }
+  if (notaPorLer) saida.push(PEDACO.comNota)
   return saida
 }
 

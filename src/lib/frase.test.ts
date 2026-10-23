@@ -55,6 +55,20 @@ describe('frase do pedido', () => {
     expect(pedacosDoPedido('Mesa 1', [item('Buffet 2.000', 1)], null, temAudio)).toEqual(['mesa 1 pediu', 'buffet 2 000', 'para uma pessoa'])
   })
 
+  it('notas comuns gravadas: lidas na voz Dinis', () => {
+    const comNotas = new Set([...gravados, 'nota', 'nota para', 'nota do pedido', 'sem gelo', 'sem cebola', 'sem alho', 'bebidas primeiro'])
+    const tem = (c: string) => comNotas.has(c)
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 1, null, 'Sem gelo!')], null, tem)).toEqual(['mesa 1 pediu', 'mojito', 'nota para', 'mojito', 'sem gelo'])
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 1, null, 's/ cebola, sem alho e sem gelo')], null, tem)).toEqual([
+      'mesa 1 pediu', 'mojito', 'nota para', 'mojito', 'sem cebola', 'sem alho', 'e', 'sem gelo',
+    ])
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito')], 'Bebidas primeiro.', tem)).toEqual(['mesa 1 pediu', 'mojito', 'nota do pedido', 'bebidas primeiro'])
+    // Prato sem gravação: "Nota: sem gelo".
+    expect(pedacosDoPedido('Mesa 1', [item('Prato novo', 1, null, 'sem gelo')], null, tem)).toEqual(['mesa 1 pediu', 'e mais itens veja no ecra', 'nota', 'sem gelo'])
+    // Uma parte por gravar: a nota não é lida, diz-se "Com nota, veja no ecrã".
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 1, null, 'sem gelo e com duas rodelas')], null, tem)).toEqual(['mesa 1 pediu', 'mojito', 'com nota veja no ecra'])
+  })
+
   it('notas: "Com nota, veja no ecrã"', () => {
     expect(pedacosDoPedido('Mesa 1', [item('Mojito', 1, null, 'sem gelo')], null, temAudio).at(-1)).toBe('com nota veja no ecra')
     expect(pedacosDoPedido('Mesa 1', [item('Mojito')], 'bebidas primeiro', temAudio).at(-1)).toBe('com nota veja no ecra')
