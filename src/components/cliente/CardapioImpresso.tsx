@@ -190,11 +190,31 @@ function Assinatura({ claro = true, pequena = false, className = '' }: { claro?:
   )
 }
 
+// Fotos em losango de cada cartão de buffet, recortadas dos cartões impressos.
+const FOTOS_BUFFET: Record<number, string[]> = {
+  1500: ['/fotos/buffet-1500-1.webp', '/fotos/buffet-1500-2.webp', '/fotos/buffet-1500-3.webp'],
+  2000: ['/fotos/buffet-2000-1.webp', '/fotos/buffet-2000-2.webp', '/fotos/buffet-2000-3.webp'],
+  2800: ['/fotos/buffet-2800-1.webp', '/fotos/buffet-2800-2.webp', '/fotos/buffet-2800-3.webp'],
+}
+
+const LOSANGO = '[clip-path:polygon(50%_0,100%_50%,50%_100%,0_50%)]'
+
+/** Foto em losango com moldura cinzenta, como nos cartões de buffet. */
+function Losango({ src, className = '' }: { src: string; className?: string }) {
+  return (
+    <div className={`aspect-square bg-ink-600 p-1.5 shadow-lg ${LOSANGO} ${className}`}>
+      <img src={src} alt="" loading="lazy" className={`h-full w-full object-cover ${LOSANGO}`} />
+    </div>
+  )
+}
+
 /** Cartão "MENU BUFFET 1.500,00 MTs P/ PESSOA": cabeçalho branco e lista dourada em fundo preto. */
 function QuadroBuffet({ secao, qtd, aoPedir }: { secao: Secao } & QuadroProps) {
   return (
     <section id={ancora(secao.categoria)} aria-label={secao.categoria.nome} className="flex flex-col gap-8">
-      {secao.pratos.map((p) => (
+      {secao.pratos.map((p) => {
+        const fotos = FOTOS_BUFFET[p.preco] ?? (p.foto_url ? [p.foto_url] : [])
+        return (
         <article key={p.id} className={`overflow-hidden rounded-md shadow-2xl ring-1 ring-gold-500/40 ${p.disponivel ? '' : 'opacity-60 grayscale'}`}>
           <header className="flex items-center justify-between gap-3 bg-papel px-5 py-4">
             <div className="shrink-0 rounded-sm bg-ink-900 px-2.5 py-2 ring-2 ring-gold-500">
@@ -208,6 +228,13 @@ function QuadroBuffet({ secao, qtd, aoPedir }: { secao: Secao } & QuadroProps) {
               </p>
             </div>
           </header>
+          {fotos.length > 0 && (
+            <div className="flex items-start justify-center bg-gradient-to-b from-papel to-cream-200 px-3 pb-4" aria-hidden>
+              {fotos.map((f, i) => (
+                <Losango key={f} src={f} className={`w-[36%] max-w-40 ${i > 0 ? '-ml-[5%]' : ''} ${i === 1 ? 'mt-[9%]' : ''}`} />
+              ))}
+            </div>
+          )}
           <div className="h-1 bg-gold-500" />
           <div className="bg-ink-900 px-5 pb-5 pt-4 text-gold-300">
             <p className="mb-3 font-menu text-sm font-extrabold uppercase tracking-wide text-cream-50">Pratos principais do buffet</p>
@@ -235,49 +262,66 @@ function QuadroBuffet({ secao, qtd, aoPedir }: { secao: Secao } & QuadroProps) {
             </div>
           </div>
         </article>
-      ))}
+        )
+      })}
     </section>
   )
 }
 
-/** Cartão "MENU Pasta" / "Lasanha": barras pretas com nome dourado e preço à direita. */
+/** Cartão "MENU Pasta" / "Lasanha": foto no cabeçalho, barras pretas com nome dourado, coluna de fotos à direita e lasanha em baixo. */
 function QuadroPasta({ secoes, qtd, aoPedir }: { secoes: Secao[] } & QuadroProps) {
-  const fotos = secoes.flatMap((s) => s.pratos).filter((p) => p.foto_url).slice(0, 4)
+  const fotos = secoes.flatMap((s) => s.pratos).filter((p) => p.foto_url)
   return (
     <article className="overflow-hidden rounded-md bg-ink-900 shadow-2xl ring-1 ring-gold-500/40">
-      <header className="flex items-center justify-between gap-3 bg-ink-700 px-5 py-4">
-        <Assinatura />
-        <p className="text-right leading-none">
-          <span className="block font-menu text-2xl font-extrabold text-cream-50">MENU</span>
-          <span className="font-script text-5xl text-gold-400">Pasta</span>
-        </p>
+      <header className="relative flex min-h-32 items-center justify-end bg-ink-700 px-4 py-4">
+        <img
+          src="/fotos/pasta-topo.webp"
+          alt=""
+          aria-hidden
+          className="absolute inset-y-0 left-0 h-full w-[44%] object-cover [clip-path:polygon(0_0,100%_0,78%_100%,0_100%)]"
+        />
+        <div className="relative flex flex-col items-end gap-1">
+          <Assinatura pequena />
+          <p className="flex items-baseline gap-1.5 leading-none">
+            <span className="font-menu text-lg font-extrabold text-cream-50">MENU</span>
+            <span className="font-script text-5xl text-gold-400">Pasta</span>
+          </p>
+        </div>
       </header>
-      <div className="flex flex-col gap-6 px-4 py-5">
-        {secoes.map((s) => (
-          <section key={s.categoria.id} id={ancora(s.categoria)} aria-label={s.categoria.nome} className="rounded-sm bg-cream-50 p-3">
-            <h2 className="mb-3 text-center font-script text-4xl text-gold-600">{s.categoria.nome.replace(/^menu\s+/i, '')}</h2>
-            <ul className="flex flex-col gap-3">
-              {s.pratos.map((p) => (
-                <li key={p.id} className={`flex items-center gap-3 bg-ink-900 px-3 py-3 ${p.disponivel ? '' : 'opacity-60'}`}>
-                  <div className="min-w-0 flex-1 border-l-2 border-t-2 border-gold-500 pl-2.5 pt-1.5">
-                    <p className="font-menu text-sm font-extrabold uppercase leading-tight text-gold-400">{p.nome}</p>
-                    {p.descricao && <p className="mt-1 font-menu text-[11px] lowercase leading-snug text-cream-50">({p.descricao.replace(/\.$/, '')})</p>}
-                    <p className="mt-1.5 font-menu text-sm font-extrabold text-gold-300">{formatarPreco(p.preco)}</p>
-                  </div>
-                  <PedirJa prato={p} qtd={qtd} aoPedir={aoPedir} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-      {fotos.length > 0 && (
-        <div className="grid grid-cols-4 gap-1.5 px-4 pb-4" aria-hidden>
-          {fotos.map((p) => (
-            <img key={p.id} src={p.foto_url!} alt="" loading="lazy" className="aspect-square w-full border-2 border-ink-600 object-cover" />
+      <div className="h-1 bg-gold-500" />
+      <div className="flex gap-2 px-3 py-5">
+        <div className="flex min-w-0 flex-1 flex-col gap-6">
+          {secoes.map((s, i) => (
+            <section key={s.categoria.id} id={ancora(s.categoria)} aria-label={s.categoria.nome} className="rounded-sm bg-cream-50 p-2.5">
+              <h2 className="mb-3 text-center font-script text-4xl text-gold-600">{s.categoria.nome.replace(/^menu\s+/i, '')}</h2>
+              <ul className="flex flex-col gap-2.5">
+                {s.pratos.map((p) => (
+                  <li key={p.id} className={`bg-ink-900 px-2.5 py-2.5 ${p.disponivel ? '' : 'opacity-60'}`}>
+                    <div className="border-l-2 border-t-2 border-gold-500 pl-2 pt-1.5">
+                      <p className="font-menu text-[13px] font-extrabold uppercase leading-tight text-gold-400">{p.nome}</p>
+                      {p.descricao && <p className="mt-1 font-menu text-[11px] lowercase leading-snug text-cream-50">({p.descricao.replace(/\.$/, '')})</p>}
+                      <div className="mt-2 flex items-center justify-between gap-2">
+                        <p className="font-menu text-sm font-extrabold text-gold-300">{formatarPreco(p.preco)}</p>
+                        <PedirJa prato={p} qtd={qtd} aoPedir={aoPedir} compacto />
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              {i === secoes.length - 1 && (
+                <img src="/fotos/lasanha-grande.webp" alt="" aria-hidden loading="lazy" className="mt-3 aspect-[15/4] w-full border-2 border-ink-600 object-cover" />
+              )}
+            </section>
           ))}
         </div>
-      )}
+        {fotos.length > 0 && (
+          <div className="flex w-[74px] shrink-0 flex-col gap-2 sm:w-28" aria-hidden>
+            {fotos.map((p) => (
+              <img key={p.id} src={p.foto_url!} alt="" loading="lazy" className="aspect-[4/5] w-full border-[3px] border-ink-600 bg-ink-600 object-cover" />
+            ))}
+          </div>
+        )}
+      </div>
     </article>
   )
 }
