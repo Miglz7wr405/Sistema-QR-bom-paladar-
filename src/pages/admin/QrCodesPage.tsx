@@ -79,7 +79,7 @@ export function QrCodesPage() {
             <p className="font-semibold text-ink-900">Aponte a câmara para ver o cardápio</p>
             <p className="text-xs text-muted">Peça pelo telemóvel e pague no fim, ao atendente ou no caixa.</p>
             <p className="flex items-center gap-2 text-[11px] text-muted">
-              Feito por <img src="/marca/insight-escuro.png" alt="insight creative agency" className="h-4 w-auto" />
+              Desenvolvido pela <img src="/marca/insight-escuro.png" alt="insight creative agency" className="h-4 w-auto" />
             </p>
             <button
               type="button"

@@ -106,16 +106,16 @@ function carregarLogo() {
   return logoInsight
 }
 
-/** "Feito por" + logótipo da insight creative agency, centrados no fundo do cartão. */
+/** "Desenvolvido pela" + logótipo da insight creative agency, centrados no fundo do cartão. */
 async function assinatura(ctx: CanvasRenderingContext2D, base: number) {
   const logo = await carregarLogo()
-  const texto = 'Feito por'
+  const texto = 'Desenvolvido pela'
   ctx.font = '500 32px Montserrat, Arial, sans-serif'
   ctx.fillStyle = COR.cinza
   ctx.textAlign = 'left'
   ctx.textBaseline = 'alphabetic'
   if (!logo) {
-    textoCentrado(ctx, 'Feito por insight creative agency', base, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
+    textoCentrado(ctx, 'Desenvolvido pela insight creative agency', base, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
     return
   }
   const alturaLogo = 64
