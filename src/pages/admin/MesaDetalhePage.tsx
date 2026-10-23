@@ -83,7 +83,8 @@ export function MesaDetalhePage() {
   if (mesa === null) return <Vazio titulo="Mesa não encontrada" />
 
   const validos = pedidos.filter((p) => p.estado !== 'cancelado')
-  const pendentes = pedidos.filter((p) => porAtender(p.estado)).reverse()
+  // Mais recentes primeiro (a consulta já vem por ordem descendente).
+  const pendentes = pedidos.filter((p) => porAtender(p.estado))
   const recentes = pedidos.filter((p) => !porAtender(p.estado) && dentroDaJanela(p.atualizado_em, agora))
   const total = validos.reduce((s, p) => s + Number(p.total), 0)
 

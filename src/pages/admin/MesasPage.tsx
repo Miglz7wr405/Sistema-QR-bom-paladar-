@@ -52,7 +52,8 @@ export function MesasPage() {
       })
       if (ativo) {
         setMesas(resumo)
-        setPendentes(lista.filter((x) => porAtender(x.estado)))
+        // Mais recentes primeiro: o pedido que acabou de chegar fica no topo.
+        setPendentes(lista.filter((x) => porAtender(x.estado)).reverse())
         setErro(null)
       }
     }
