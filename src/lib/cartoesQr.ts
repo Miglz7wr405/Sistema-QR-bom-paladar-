@@ -69,12 +69,12 @@ export async function desenharCartao(nomeMesa: string, link: string): Promise<HT
   ctx.fillRect(LARGURA / 2 - 160, 400, 320, 4)
 
   const titulo = nomeMesa.toUpperCase()
-  textoCentrado(ctx, titulo, 560, fonteQueCabe(ctx, titulo, 800, 150, LARGURA - 220, 'Montserrat, Arial, sans-serif'), COR.ouroClaro, 4)
+  textoCentrado(ctx, titulo, 540, fonteQueCabe(ctx, titulo, 800, 115, LARGURA - 220, 'Montserrat, Arial, sans-serif'), COR.ouroClaro, 4)
 
   // QR Code num quadrado branco.
-  const lado = 760
+  const lado = 660
   const x = (LARGURA - lado) / 2
-  const y = 630
+  const y = 615
   ctx.fillStyle = '#ffffff'
   if (typeof ctx.roundRect === 'function') {
     ctx.beginPath()
@@ -87,10 +87,10 @@ export async function desenharCartao(nomeMesa: string, link: string): Promise<HT
   await QRCode.toCanvas(qr, link, { width: lado, margin: 0, errorCorrectionLevel: 'M', color: { dark: COR.fundo, light: '#ffffff' } })
   ctx.drawImage(qr, x, y, lado, lado)
 
-  textoCentrado(ctx, 'Aponte a câmara para ver', 1495, '700 54px Montserrat, Arial, sans-serif', COR.creme)
-  textoCentrado(ctx, 'o cardápio e pedir', 1560, '700 54px Montserrat, Arial, sans-serif', COR.creme)
-  textoCentrado(ctx, 'Pague no fim, ao atendente ou no caixa', 1610, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
-  await assinatura(ctx, 1658)
+  textoCentrado(ctx, 'Aponte a câmara para ver', 1400, '700 54px Montserrat, Arial, sans-serif', COR.creme)
+  textoCentrado(ctx, 'o cardápio e pedir', 1463, '700 54px Montserrat, Arial, sans-serif', COR.creme)
+  textoCentrado(ctx, 'Pague no fim, ao atendente ou no caixa', 1515, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
+  await assinatura(ctx, 1632)
   return canvas
 }
 
@@ -110,21 +110,21 @@ function carregarLogo() {
 async function assinatura(ctx: CanvasRenderingContext2D, base: number) {
   const logo = await carregarLogo()
   const texto = 'Feito por'
-  ctx.font = '500 24px Montserrat, Arial, sans-serif'
+  ctx.font = '500 32px Montserrat, Arial, sans-serif'
   ctx.fillStyle = COR.cinza
   ctx.textAlign = 'left'
   ctx.textBaseline = 'alphabetic'
   if (!logo) {
-    textoCentrado(ctx, 'Feito por insight creative agency', base, '500 24px Montserrat, Arial, sans-serif', COR.cinza)
+    textoCentrado(ctx, 'Feito por insight creative agency', base, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
     return
   }
-  const alturaLogo = 38
+  const alturaLogo = 64
   const larguraLogo = (logo.width / logo.height) * alturaLogo
-  const espaco = 14
+  const espaco = 18
   const larguraTexto = ctx.measureText(texto).width
   const inicio = (LARGURA - larguraTexto - espaco - larguraLogo) / 2
   ctx.fillText(texto, inicio, base)
-  ctx.drawImage(logo, inicio + larguraTexto + espaco, base - alturaLogo + 8, larguraLogo, alturaLogo)
+  ctx.drawImage(logo, inicio + larguraTexto + espaco, base - alturaLogo + 12, larguraLogo, alturaLogo)
 }
 
 function descarregar(url: string, nome: string) {
