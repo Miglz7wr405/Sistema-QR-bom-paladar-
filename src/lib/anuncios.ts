@@ -42,19 +42,28 @@ export class Locutor {
   vozLigada = true
   /** Avisa quem está a ser lido (null quando a fila fica parada). */
   aoMudar: (pedidoId: string | null) => void = () => undefined
+  /** Avisa quando o som fica ligado ou é suspenso pelo navegador (ex.: ecrã bloqueado). */
+  aoMudarEstado: (ativo: boolean) => void = () => undefined
 
   get ativo() {
-    return this.ctx !== null
+    return this.ctx?.state === 'running'
   }
 
-  /** Os navegadores só deixam tocar som depois de um toque: chamar isto num clique. */
-  async ativar() {
-    this.ctx ??= new AudioContext()
-    await this.ctx.resume()
+  /**
+   * Liga o som. Os navegadores só deixam depois de um toque na página: sem ele, resume() fica
+   * pendente, por isso não se espera mais do que um instante. Devolve se o som ficou mesmo ligado.
+   */
+  async ativar(): Promise<boolean> {
+    if (!this.ctx) {
+      this.ctx = new AudioContext()
+      this.ctx.onstatechange = () => this.aoMudarEstado(this.ativo)
+    }
+    await Promise.race([this.ctx.resume(), esperar(300)])
     this.indice ??= fetch('/voz/indice.json')
       .then((r) => (r.ok ? (r.json() as Promise<Record<string, string>>) : {}))
       .catch(() => ({}))
     void this.som('/sons/sino.mp3')
+    return this.ativo
   }
 
   private som(url: string): Promise<AudioBuffer | null> {
@@ -89,7 +98,7 @@ export class Locutor {
    * em que anunciar() foi chamado (a dos eventos do Realtime), não a ordem em que os dados chegam.
    */
   anunciar(id: string, dados: Promise<PedidoFalado | null>, repetir = false) {
-    if (!this.ctx) return
+    if (!this.ativo) return
     if (this.lidos.has(id) && !repetir) return
     this.lidos.add(id)
     // Prepara já os áudios, enquanto o pedido anterior ainda está a ser lido.

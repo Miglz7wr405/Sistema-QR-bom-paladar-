@@ -81,6 +81,7 @@ export function AdminLayout() {
   useEffect(() => {
     const l = locutor.current!
     l.aoMudar = setALer
+    l.aoMudarEstado = setSomAtivo
     l.vozLigada = vozLigada
   }, [vozLigada])
 
@@ -149,11 +150,20 @@ export function AdminLayout() {
     })
   }, [])
 
-  async function ativarSom() {
-    // Os navegadores só deixam tocar som depois de um clique.
-    await locutor.current!.ativar()
-    setSomAtivo(true)
-  }
+  const ativarSom = useCallback(async () => {
+    if (await locutor.current!.ativar()) setSomAtivo(true)
+  }, [])
+
+  // O som liga-se sozinho: logo ao entrar, se a página já teve um toque (por exemplo o do login),
+  // ou no primeiro toque em qualquer sítio do painel. Os navegadores não deixam sem nenhum toque.
+  useEffect(() => {
+    if (somAtivo) return
+    void ativarSom()
+    const aoTocar = () => void ativarSom()
+    const eventos = ['pointerup', 'touchend', 'click', 'keydown'] as const
+    eventos.forEach((e) => document.addEventListener(e, aoTocar, true))
+    return () => eventos.forEach((e) => document.removeEventListener(e, aoTocar, true))
+  }, [somAtivo, ativarSom])
 
   function mudarVoz() {
     const nova = !vozLigada
@@ -168,12 +178,11 @@ export function AdminLayout() {
   const lerDeNovo = useCallback(
     (id: string) => {
       void (async () => {
-        await locutor.current!.ativar()
-        setSomAtivo(true)
+        await ativarSom()
         locutor.current!.anunciar(id, carregarPedido(id), true)
       })()
     },
-    [carregarPedido],
+    [carregarPedido, ativarSom],
   )
 
   async function sair() {
@@ -234,9 +243,9 @@ export function AdminLayout() {
           <button
             type="button"
             onClick={() => void ativarSom()}
-            className="nao-imprimir block w-full bg-gold-500 px-4 py-2.5 text-center font-semibold text-ink-950"
+            className="nao-imprimir block w-full bg-gold-500 px-4 py-1.5 text-center text-sm font-semibold text-ink-950"
           >
-            🔔 Toque aqui para ouvir os pedidos (sininho e voz). O navegador só deixa tocar som depois de um toque.
+            🔔 Toque em qualquer sítio do ecrã para ligar o sininho e a voz
           </button>
         )}
 

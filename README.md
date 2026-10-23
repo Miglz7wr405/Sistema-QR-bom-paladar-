@@ -100,7 +100,7 @@ Abra `http://localhost:5173/admin` para o painel. Para o link de uma mesa, vá a
 
 Cada pedido novo no painel toca um sininho e a seguir é lido em voz alta, na voz **Dinis** (português de Portugal) da ElevenLabs: *"Mesa 1 pediu duas Massa Bolonhesa e Mojito."*
 
-- **Ligar**: abra o painel e carregue em **🔔 Ativar som e voz** (os navegadores só deixam tocar som depois de um toque). Deixe o painel aberto, com o ecrã ligado e o volume alto. O botão passa a **🔔🗣 Som e voz ativos**; um toque muda para **🔔 Só sininho**.
+- **Ligar**: liga-se sozinho ao entrar no painel; se o navegador ainda não deixar (só deixa tocar som depois de um toque), liga-se no primeiro toque em qualquer sítio do ecrã. Deixe o painel aberto, com o ecrã ligado e o volume alto. O botão passa a **🔔🗣 Som e voz ativos**; um toque muda para **🔔 Só sininho**.
 - **Ordem**: com vários pedidos ao mesmo tempo, lê um de cada vez, pela ordem em que foram feitos. Nunca fala dois ao mesmo tempo.
 - **Aviso no ecrã**: cada pedido fica num cartão no canto (🔊 no que está a ser lido, notas a amarelo). Sai quando o pedido é marcado **✓ Atendido** (ou Cancelado), ou com ✕. **🔊 Ler de novo** no cartão do pedido repete a leitura.
 - **Notas**: são texto livre do cliente e não se podem gravar antes, por isso a voz diz *"Com nota, veja no ecrã"* e a nota aparece destacada.
