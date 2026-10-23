@@ -57,15 +57,8 @@ function nomeFalado(item: ItemFalado): string[] {
 /**
  * Lista de chaves a tocar. `temAudio` diz se um pedaço está gravado; o que não estiver
  * (prato novo, mesa nova, quantidade acima de 20) é trocado por "e mais itens, veja no ecrã" / "Novo pedido".
- * Com `notasLidas`, as notas vão ser lidas à parte (textoDasNotas) e não se diz "Com nota, veja no ecrã".
  */
-export function pedacosDoPedido(
-  mesaNome: string,
-  itens: ItemFalado[],
-  notaGeral: string | null,
-  temAudio: (chave: string) => boolean,
-  notasLidas = false,
-): string[] {
+export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral: string | null, temAudio: (chave: string) => boolean): string[] {
   const mesa = chaveVoz(`${mesaNome} pediu`)
   const saida: string[] = [temAudio(mesa) ? mesa : PEDACO.novoPedido]
   const falados: string[][] = []
@@ -89,15 +82,8 @@ export function pedacosDoPedido(
     saida.push(...partes)
   })
   if (faltou) saida.push(PEDACO.maisItens)
-  if (!notasLidas && textoDasNotas(itens, notaGeral)) saida.push(PEDACO.comNota)
+  if (notaGeral?.trim() || itens.some((i) => i.nota?.trim())) saida.push(PEDACO.comNota)
   return saida
-}
-
-/** As notas do cliente, para ler em voz alta: "Nota para Mojito: sem gelo. Nota do pedido: bebidas primeiro." */
-export function textoDasNotas(itens: ItemFalado[], notaGeral: string | null): string | null {
-  const frases = itens.filter((i) => i.nota?.trim()).map((i) => `Nota para ${i.nome}: ${i.nota!.trim()}.`)
-  if (notaGeral?.trim()) frases.push(`Nota do pedido: ${notaGeral.trim()}.`)
-  return frases.length ? frases.join(' ').replace(/([.!?])\./g, '$1') : null
 }
 
 /** Texto do aviso no ecrã: "2× Massa Bolonhesa · Cerveja nacional (Txilar)". */

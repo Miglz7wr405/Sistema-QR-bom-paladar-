@@ -1,10 +1,8 @@
-import { pedacosDoPedido, textoDasNotas, type ItemFalado } from './frase'
+import { pedacosDoPedido, type ItemFalado } from './frase'
 
 // Lê os pedidos novos em voz alta, um de cada vez e pela ordem de chegada:
 // sininho (public/sons/sino.mp3) e depois a frase, feita com os pedaços gravados na voz Dinis
 // da ElevenLabs (public/voz, índice em public/voz/indice.json).
-// As notas são texto livre e não se podem gravar antes: são lidas pela voz portuguesa do próprio
-// aparelho (speechSynthesis). Sem voz portuguesa, diz-se "Com nota, veja no ecrã".
 
 export interface PedidoFalado {
   id: string
@@ -16,29 +14,6 @@ export interface PedidoFalado {
 const INTERVALO = 0.06 // segundos entre pedaços
 
 const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms))
-
-/** Voz portuguesa do aparelho (de Portugal, se houver), ou null. */
-function vozPortuguesa(): SpeechSynthesisVoice | null {
-  if (!('speechSynthesis' in window)) return null
-  const vozes = speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().startsWith('pt'))
-  return vozes.find((v) => v.lang.toLowerCase() === 'pt-pt') ?? vozes[0] ?? null
-}
-
-/** Lê um texto com a voz do aparelho; resolve quando acaba (ou ao fim de um tempo máximo, se o aparelho não avisar). */
-function falar(texto: string, voz: SpeechSynthesisVoice): Promise<void> {
-  return new Promise((resolve) => {
-    const u = new SpeechSynthesisUtterance(texto)
-    u.voice = voz
-    u.lang = voz.lang
-    u.rate = 0.95
-    const limite = setTimeout(resolve, 3000 + texto.length * 120)
-    u.onend = u.onerror = () => {
-      clearTimeout(limite)
-      resolve()
-    }
-    speechSynthesis.speak(u)
-  })
-}
 
 /** Bip de recurso, se o sininho não carregar. */
 function bip(ctx: AudioContext) {
@@ -79,11 +54,6 @@ export class Locutor {
    * pendente, por isso não se espera mais do que um instante. Devolve se o som ficou mesmo ligado.
    */
   async ativar(): Promise<boolean> {
-    // Alguns telemóveis (iPhone) só deixam ler com a voz do aparelho se a primeira leitura vier de um toque.
-    if ('speechSynthesis' in window && !this.ctx) {
-      speechSynthesis.getVoices() // o Chrome só carrega a lista de vozes quando alguém a pede
-      speechSynthesis.speak(new SpeechSynthesisUtterance(''))
-    }
     if (!this.ctx) {
       this.ctx = new AudioContext()
       this.ctx.onstatechange = () => this.aoMudarEstado(this.ativo)
@@ -135,15 +105,9 @@ export class Locutor {
     const preparado = dados.then(async (p) => {
       if (!p) return null
       const indice = await this.indice!
-      const notas = textoDasNotas(p.itens, p.notaGeral)
-      const vozNotas = notas ? vozPortuguesa() : null
-      const chaves = this.vozLigada ? pedacosDoPedido(p.mesaNome, p.itens, p.notaGeral, (c) => c in indice, vozNotas !== null) : []
+      const chaves = this.vozLigada ? pedacosDoPedido(p.mesaNome, p.itens, p.notaGeral, (c) => c in indice) : []
       const voz = await Promise.all(chaves.map((c) => this.som(`/voz/${indice[c]}`)))
-      return {
-        sino: await this.som('/sons/sino.mp3'),
-        voz: voz.filter((b): b is AudioBuffer => b !== null),
-        notas: this.vozLigada && notas && vozNotas ? { texto: notas, voz: vozNotas } : null,
-      }
+      return { sino: await this.som('/sons/sino.mp3'), voz: voz.filter((b): b is AudioBuffer => b !== null) }
     })
     this.fila = this.fila
       .then(async () => {
@@ -153,7 +117,6 @@ export class Locutor {
         if (p.sino) await this.tocar([p.sino])
         else await esperar(bip(this.ctx!) * 1000)
         if (p.voz.length) await this.tocar(p.voz)
-        if (p.notas) await falar(p.notas.texto, p.notas.voz)
         await esperar(400)
       })
       .catch(() => undefined)
