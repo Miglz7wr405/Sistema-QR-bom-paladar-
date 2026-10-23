@@ -1,6 +1,6 @@
 # Bom Paladar — Pedidos por QR Code
 
-Cada mesa do Bom Paladar tem um QR Code próprio. O cliente lê o QR com o telemóvel, vê o cardápio, escolhe e envia o pedido; o pedido chega na hora ao painel do administrador, já com a mesa. Não há app, conta nem pagamento online: o cliente paga no fim, ao empregado ou no caixa.
+Cada mesa do Bom Paladar tem um QR Code próprio. O cliente lê o QR com o telemóvel, vê o cardápio, escolhe e envia o pedido; o pedido chega na hora ao painel do administrador, já com a mesa. Não há app, conta nem pagamento online: o cliente paga no fim, ao atendente ou no caixa.
 
 - **Cliente** (público): `/m/<token>` — cardápio, carrinho, envio e "Os meus pedidos".
 - **Administrador** (com senha): `/admin` — mesas em tempo real, detalhe e estados, histórico, cardápio, mesas e QR Codes.
@@ -104,7 +104,7 @@ Cada pedido novo no painel toca um sininho e a seguir é lido em voz alta, na vo
 - **Ordem**: com vários pedidos ao mesmo tempo, lê um de cada vez, pela ordem em que foram feitos. Nunca fala dois ao mesmo tempo.
 - **Aviso no ecrã**: cada pedido fica num cartão no canto (🔊 no que está a ser lido, notas a amarelo). Sai quando o pedido é marcado **✓ Atendido** (ou Cancelado), ou com ✕. **🔊 Ler de novo** no cartão do pedido repete a leitura.
 - **Notas**: são texto livre do cliente e não se podem gravar antes, por isso a voz diz *"Com nota, veja no ecrã"* e a nota aparece destacada.
-- **O que não tem voz gravada** (prato ou mesa criados depois, quantidade acima de 20, e por agora 64 bebidas de bar: whiskies, gins, licores, algumas cervejas e refrigerantes) é dito como *"…e mais itens, veja no ecrã"*, e uma mesa sem gravação como *"Novo pedido"*. O pedido aparece sempre completo no ecrã.
+- **O que não tem voz gravada** (prato ou mesa criados depois ou quantidade acima de 20) é dito como *"…e mais itens, veja no ecrã"*, e uma mesa sem gravação como *"Novo pedido"*. O pedido aparece sempre completo no ecrã.
 
 Como funciona: não há chave de API no site. A voz foi gravada uma vez com a conta ElevenLabs, em pedaços (`public/voz/*.mp3`, índice em `public/voz/indice.json`), e o painel junta-os (`src/lib/frase.ts` monta a frase, `src/lib/anuncios.ts` toca a fila). O sininho (`public/sons/sino.mp3`) é sintetizado por `scripts/voz/sino.py`; se não carregar, toca um bip.
 

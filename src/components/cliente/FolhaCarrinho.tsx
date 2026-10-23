@@ -136,7 +136,7 @@ export function FolhaCarrinho({ aberta, aoFechar, linhas, dispatch, notaGeral, s
         >
           {aEnviar ? 'A enviar…' : 'Pedir agora'}
         </button>
-        <p className="text-center text-xs text-muted">Paga no fim, ao empregado ou no caixa.</p>
+        <p className="text-center text-xs text-muted">Paga no fim, ao atendente ou no caixa.</p>
       </div>
     </Folha>
   )

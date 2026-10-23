@@ -51,7 +51,7 @@ export function MeusPedidos({ pedidos, aoVerCardapio }: Props) {
         <span>Total destes pedidos</span>
         <span className="font-display text-xl text-gold-300 tabular-nums">{formatarPreco(total)}</span>
       </div>
-      <p className="pb-4 text-center text-xs text-muted">Paga no fim, ao empregado ou no caixa.</p>
+      <p className="pb-4 text-center text-xs text-muted">Paga no fim, ao atendente ou no caixa.</p>
     </div>
   )
 }

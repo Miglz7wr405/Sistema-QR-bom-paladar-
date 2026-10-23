@@ -89,7 +89,7 @@ export async function desenharCartao(nomeMesa: string, link: string): Promise<HT
 
   textoCentrado(ctx, 'Aponte a câmara para ver', 1530, '700 54px Montserrat, Arial, sans-serif', COR.creme)
   textoCentrado(ctx, 'o cardápio e pedir', 1600, '700 54px Montserrat, Arial, sans-serif', COR.creme)
-  textoCentrado(ctx, 'Pague no fim, ao empregado ou no caixa', 1665, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
+  textoCentrado(ctx, 'Pague no fim, ao atendente ou no caixa', 1665, '500 32px Montserrat, Arial, sans-serif', COR.cinza)
   return canvas
 }
 

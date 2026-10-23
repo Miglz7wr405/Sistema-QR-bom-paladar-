@@ -77,7 +77,7 @@ export function QrCodesPage() {
             <p className="font-display text-4xl text-ink-900">{m.nome}</p>
             <QrImagem texto={linkDaMesa(m.qr_token)} tamanho={200} rotulo={`QR Code da ${m.nome}`} />
             <p className="font-semibold text-ink-900">Aponte a câmara para ver o cardápio</p>
-            <p className="text-xs text-muted">Peça pelo telemóvel e pague no fim, ao empregado ou no caixa.</p>
+            <p className="text-xs text-muted">Peça pelo telemóvel e pague no fim, ao atendente ou no caixa.</p>
             <button
               type="button"
               className="btn-secundario nao-imprimir min-h-9 text-sm"

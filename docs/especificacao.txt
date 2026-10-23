@@ -16,7 +16,7 @@ cliente.
 
 Decisões que tomei por ti (diz se quiseres mudar alguma):
 
-     Sem pagamento online. O cliente pede e paga no fim, no caixa ou ao empregado. O
+     Sem pagamento online. O cliente pede e paga no fim, no caixa ou ao atendente. O
      sistema nunca processa pagamentos, nem agora nem mais tarde.
      QR Code com código secreto, não com o número da mesa. O link é tipo /m/k7x9q2 ,
      não /mesa/3 . Assim ninguém consegue fazer pedidos para outra mesa só mudando o
@@ -117,7 +117,7 @@ Painel do administrador
 
 Fora desta versão, para não complicar: contas para empregados e cozinha, impressão
 automática de talão. Pagamento online fica de fora de vez: o cliente paga sempre ao
-empregado ou no caixa.
+atendente ou no caixa.
 
 
 Como o pedido anda de mesa em mesa
@@ -249,7 +249,7 @@ aberto. Se já tiveres o cardápio real (pratos e preços), cola-o a seguir ao p
   escolhe pratos, escreve notas e envia o pedido. O pedido chega em tempo real
   a um painel de administrador, já identificado pela mesa. O cliente não
   instala app e não cria conta. O sistema não processa pagamentos de nenhum
-  tipo: o cliente paga no fim, ao empregado ou no caixa.
+  tipo: o cliente paga no fim, ao atendente ou no caixa.
 
 
   # Stack
@@ -329,7 +329,7 @@ aberto. Se já tiveres o cardápio real (pratos e preços), cola-o a seguir ao p
 
 
   - Rota /m/:token (React Router). Token inválido mostra uma página amigável
-  "QR Code inválido, chame um empregado".
+  "QR Code inválido, chame um atendente".
   - Topo fixo com o nome do restaurante e "Mesa N".
   - Cardápio por categorias, com navegação rápida entre elas. Cada prato mostra
   foto, nome, descrição e preço. Pratos esgotados aparecem a cinzento e não se
@@ -430,7 +430,7 @@ aberto. Se já tiveres o cardápio real (pratos e preços), cola-o a seguir ao p
   # Fora do âmbito desta versão
   Pagamento online está PROIBIDO: não o construas, não integres M-Pesa, e-Mola,
   cartões nem gateways, e não deixes botões ou campos de pagamento na
-  interface. O cliente paga sempre ao empregado ou no caixa. Também ficam de
+  interface. O cliente paga sempre ao atendente ou no caixa. Também ficam de
   fora: contas para empregados ou cozinha, impressão de talão e relatórios.
 
 
