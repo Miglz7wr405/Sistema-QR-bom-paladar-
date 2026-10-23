@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-import { Aviso, Logo } from '../../components/ui/Ui'
+import { AssinaturaInsight, Aviso, Logo } from '../../components/ui/Ui'
 import { useAuth } from '../../lib/auth'
 import { mensagemDeErro } from '../../lib/errors'
 import { supabase } from '../../lib/supabase'
@@ -38,7 +38,7 @@ export function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-ink-900 px-4">
+    <main className="flex min-h-dvh flex-col items-center justify-center gap-8 bg-ink-900 px-4">
       <form onSubmit={(e) => void entrar(e)} noValidate className="w-full max-w-sm rounded-3xl bg-cream-50 p-6 shadow-2xl">
         <div className="mb-6 flex flex-col items-center gap-2 text-center">
           <Logo />
@@ -72,6 +72,7 @@ export function LoginPage() {
           </button>
         </div>
       </form>
+      <AssinaturaInsight fundoEscuro />
     </main>
   )
 }

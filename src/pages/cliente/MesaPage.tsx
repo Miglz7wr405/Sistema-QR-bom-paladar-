@@ -4,7 +4,7 @@ import { CardapioImpresso } from '../../components/cliente/CardapioImpresso'
 import { FolhaCarrinho } from '../../components/cliente/FolhaCarrinho'
 import { FolhaPrato } from '../../components/cliente/FolhaPrato'
 import { MeusPedidos } from '../../components/cliente/MeusPedidos'
-import { Aviso, Logo, Spinner } from '../../components/ui/Ui'
+import { AssinaturaInsight, Aviso, Logo, Spinner } from '../../components/ui/Ui'
 import { enviarPedido, obterCardapio, obterMesa, obterPedidosDaMesa } from '../../lib/api'
 import { carrinhoReducer, contarItens, paraPedido, totalCarrinho, type LinhaCarrinho } from '../../lib/cart'
 import { mensagemDeErro } from '../../lib/errors'
@@ -125,10 +125,11 @@ export function MesaPage() {
 
   if (estado.fase === 'invalida') {
     return (
-      <main className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-ink-900 px-6 text-center text-cream-50">
+      <main className="relative flex min-h-dvh flex-col items-center justify-center gap-4 bg-ink-900 px-6 text-center text-cream-50">
         <Logo claro />
         <h1 className="font-display text-2xl text-gold-300">QR Code inválido</h1>
         <p className="max-w-xs text-cream-200">Este código não corresponde a nenhuma mesa. Por favor, chame um atendente.</p>
+        <AssinaturaInsight fundoEscuro className="absolute inset-x-0 bottom-[max(1.5rem,env(safe-area-inset-bottom))]" />
       </main>
     )
   }
@@ -216,6 +217,7 @@ export function MesaPage() {
             <MeusPedidos pedidos={pedidos} aoVerCardapio={() => setSeparador('cardapio')} />
           </div>
         )}
+        <AssinaturaInsight fundoEscuro className="mt-10" />
       </div>
 
       {nItens > 0 && !confirmado && (
@@ -288,6 +290,7 @@ export function MesaPage() {
               Ver os meus pedidos
             </button>
           </div>
+          <AssinaturaInsight fundoEscuro className="absolute inset-x-0 bottom-[max(1.5rem,env(safe-area-inset-bottom))]" />
         </div>
       )}
     </div>

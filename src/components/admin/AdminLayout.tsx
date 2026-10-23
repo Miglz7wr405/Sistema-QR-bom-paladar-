@@ -6,7 +6,7 @@ import { formatarHora, porAtender } from '../../lib/format'
 import { resumoDoPedido } from '../../lib/frase'
 import { supabase } from '../../lib/supabase'
 import type { EstadoPedido, Pedido } from '../../lib/types'
-import { Aviso, Logo } from '../ui/Ui'
+import { AssinaturaInsight, Aviso, Logo } from '../ui/Ui'
 
 interface Realtime {
   /** Muda sempre que um pedido é criado ou alterado: as páginas voltam a carregar os dados. */
@@ -292,6 +292,9 @@ export function AdminLayout() {
           )}
           <Outlet />
         </main>
+        <footer className="border-t border-cream-200 py-5">
+          <AssinaturaInsight />
+        </footer>
       </div>
     </RealtimeContext.Provider>
   )

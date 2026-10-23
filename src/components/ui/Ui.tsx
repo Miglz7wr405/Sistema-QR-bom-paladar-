@@ -42,6 +42,21 @@ export function Logo({ claro = false }: { claro?: boolean }) {
   )
 }
 
+/** "Sistema desenvolvido pela" + logótipo da insight creative agency, discreto no fundo das páginas. */
+export function AssinaturaInsight({ fundoEscuro = false, className = '' }: { fundoEscuro?: boolean; className?: string }) {
+  return (
+    <p className={`nao-imprimir flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs ${fundoEscuro ? 'text-cream-200/60' : 'text-muted'} ${className}`}>
+      Sistema desenvolvido pela
+      <img
+        src={fundoEscuro ? '/marca/insight.png' : '/marca/insight-escuro.png'}
+        alt="insight creative agency"
+        className="h-6 w-auto opacity-80"
+        loading="lazy"
+      />
+    </p>
+  )
+}
+
 /** Folha que sobe do fundo do ecrã (telemóvel) ou janela central (ecrã grande). */
 export function Folha({ aberta, aoFechar, titulo, children }: { aberta: boolean; aoFechar: () => void; titulo: string; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
