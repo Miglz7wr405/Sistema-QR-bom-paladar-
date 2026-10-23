@@ -268,9 +268,8 @@ function QuadroBuffet({ secao, qtd, aoPedir }: { secao: Secao } & QuadroProps) {
   )
 }
 
-/** Cartão "MENU Pasta" / "Lasanha": foto no cabeçalho, barras pretas com nome dourado, coluna de fotos à direita e lasanha em baixo. */
+/** Cartão "MENU Pasta" / "Lasanha": foto no cabeçalho, barras pretas com nome dourado e lasanha em baixo. */
 function QuadroPasta({ secoes, qtd, aoPedir }: { secoes: Secao[] } & QuadroProps) {
-  const fotos = secoes.flatMap((s) => s.pratos).filter((p) => p.foto_url)
   return (
     <article className="overflow-hidden rounded-md bg-ink-900 shadow-2xl ring-1 ring-gold-500/40">
       <header className="relative flex min-h-32 items-center justify-end bg-ink-700 px-4 py-4">
@@ -289,38 +288,29 @@ function QuadroPasta({ secoes, qtd, aoPedir }: { secoes: Secao[] } & QuadroProps
         </div>
       </header>
       <div className="h-1 bg-gold-500" />
-      <div className="flex gap-2 px-3 py-5">
-        <div className="flex min-w-0 flex-1 flex-col gap-6">
-          {secoes.map((s, i) => (
-            <section key={s.categoria.id} id={ancora(s.categoria)} aria-label={s.categoria.nome} className="rounded-sm bg-cream-50 p-2.5">
-              <h2 className="mb-3 text-center font-script text-4xl text-gold-600">{s.categoria.nome.replace(/^menu\s+/i, '')}</h2>
-              <ul className="flex flex-col gap-2.5">
-                {s.pratos.map((p) => (
-                  <li key={p.id} className={`bg-ink-900 px-2.5 py-2.5 ${p.disponivel ? '' : 'opacity-60'}`}>
-                    <div className="border-l-2 border-t-2 border-gold-500 pl-2 pt-1.5">
-                      <p className="font-menu text-[13px] font-extrabold uppercase leading-tight text-gold-400">{p.nome}</p>
-                      {p.descricao && <p className="mt-1 font-menu text-[11px] lowercase leading-snug text-cream-50">({p.descricao.replace(/\.$/, '')})</p>}
-                      <div className="mt-2 flex items-center justify-between gap-2">
-                        <p className="font-menu text-sm font-extrabold text-gold-300">{formatarPreco(p.preco)}</p>
-                        <PedirJa prato={p} qtd={qtd} aoPedir={aoPedir} compacto />
-                      </div>
+      <div className="flex flex-col gap-6 px-4 py-5">
+        {secoes.map((s, i) => (
+          <section key={s.categoria.id} id={ancora(s.categoria)} aria-label={s.categoria.nome} className="rounded-sm bg-cream-50 p-2.5">
+            <h2 className="mb-3 text-center font-script text-4xl text-gold-600">{s.categoria.nome.replace(/^menu\s+/i, '')}</h2>
+            <ul className="flex flex-col gap-2.5">
+              {s.pratos.map((p) => (
+                <li key={p.id} className={`bg-ink-900 px-2.5 py-2.5 ${p.disponivel ? '' : 'opacity-60'}`}>
+                  <div className="border-l-2 border-t-2 border-gold-500 pl-2 pt-1.5">
+                    <p className="font-menu text-[13px] font-extrabold uppercase leading-tight text-gold-400">{p.nome}</p>
+                    {p.descricao && <p className="mt-1 font-menu text-[11px] lowercase leading-snug text-cream-50">({p.descricao.replace(/\.$/, '')})</p>}
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <p className="font-menu text-sm font-extrabold text-gold-300">{formatarPreco(p.preco)}</p>
+                      <PedirJa prato={p} qtd={qtd} aoPedir={aoPedir} compacto />
                     </div>
-                  </li>
-                ))}
-              </ul>
-              {i === secoes.length - 1 && (
-                <img src="/fotos/lasanha-grande.webp" alt="" aria-hidden loading="lazy" className="mt-3 aspect-[15/4] w-full border-2 border-ink-600 object-cover" />
-              )}
-            </section>
-          ))}
-        </div>
-        {fotos.length > 0 && (
-          <div className="flex w-[74px] shrink-0 flex-col gap-2 sm:w-28" aria-hidden>
-            {fotos.map((p) => (
-              <img key={p.id} src={p.foto_url!} alt="" loading="lazy" className="aspect-[4/5] w-full border-[3px] border-ink-600 bg-ink-600 object-cover" />
-            ))}
-          </div>
-        )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {i === secoes.length - 1 && (
+              <img src="/fotos/lasanha-grande.webp" alt="" aria-hidden loading="lazy" className="mt-3 aspect-[15/4] w-full border-2 border-ink-600 object-cover" />
+            )}
+          </section>
+        ))}
       </div>
     </article>
   )
