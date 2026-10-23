@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { chaveVoz, pedacosDoPedido, resumoDoPedido, type ItemFalado } from './frase'
+import { chaveVoz, pedacosDoPedido, resumoDoPedido, textoDasNotas, type ItemFalado } from './frase'
 
 // Pedaços gravados neste teste (no site, vêm de public/voz/indice.json).
 const gravados = new Set([
@@ -53,6 +53,14 @@ describe('frase do pedido', () => {
   it('buffet por pessoas', () => {
     expect(pedacosDoPedido('Mesa 1', [item('Buffet 2.000', 3)], null, temAudio)).toEqual(['mesa 1 pediu', 'buffet 2 000', 'para', 'n3', 'pessoas'])
     expect(pedacosDoPedido('Mesa 1', [item('Buffet 2.000', 1)], null, temAudio)).toEqual(['mesa 1 pediu', 'buffet 2 000', 'para uma pessoa'])
+  })
+
+  it('notas lidas à parte: sem "Com nota, veja no ecrã"', () => {
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 1, null, 'sem gelo')], null, temAudio, true)).not.toContain('com nota veja no ecra')
+    expect(textoDasNotas([item('Mojito', 1, null, 'sem gelo'), item('Massa Bolonhesa')], 'bebidas primeiro.')).toBe(
+      'Nota para Mojito: sem gelo. Nota do pedido: bebidas primeiro.',
+    )
+    expect(textoDasNotas([item('Mojito')], '  ')).toBeNull()
   })
 
   it('notas: "Com nota, veja no ecrã"', () => {
