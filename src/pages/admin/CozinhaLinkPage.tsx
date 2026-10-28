@@ -57,9 +57,13 @@ export function CozinhaLinkPage() {
         <h1 className="font-display text-2xl">🍳 Ecrã da cozinha</h1>
         <p className="text-sm text-muted">
           Os pedidos com comida aparecem na cozinha tal como o cliente os escolheu (opção e notas), sem papel. A cozinha carrega “Começar” e “✓ Pronto”, e a
-          recepção é avisada.
+          recepção é avisada. Os QR Codes das mesas não mudam.
         </p>
       </div>
+
+      <a href={link} className="btn-dourado mb-6 w-full py-5 text-xl sm:w-auto sm:px-10">
+        🍳 Entrar no ecrã da cozinha
+      </a>
       {erro && (
         <div className="mb-4">
           <Aviso>{erro}</Aviso>
@@ -83,8 +87,8 @@ export function CozinhaLinkPage() {
             <p className="break-all rounded-xl border border-cream-200 bg-white px-3 py-2.5 font-mono text-sm">{link}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <a href={link} target="_blank" rel="noreferrer" className="btn-dourado">
-              Abrir o ecrã da cozinha
+            <a href={link} target="_blank" rel="noreferrer" className="btn-secundario">
+              Abrir noutro separador
             </a>
             <button type="button" className="btn-secundario" onClick={() => void copiar()}>
               Copiar link

@@ -181,7 +181,8 @@ export function AdminLayout() {
         <header className="nao-imprimir sticky top-0 z-30 bg-ink-900 text-cream-50 shadow">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
             <Logo claro />
-            <nav aria-label="Painel" className="order-3 flex w-full gap-1 overflow-x-auto md:order-none md:w-auto">
+            {/* Os separadores passam para a linha seguinte em vez de ficarem escondidos à direita no telemóvel. */}
+            <nav aria-label="Painel" className="order-3 flex w-full flex-wrap gap-1 md:order-none md:w-auto">
               {links.map(([para, rotulo]) => (
                 <NavLink
                   key={para}
@@ -189,7 +190,10 @@ export function AdminLayout() {
                   end={para === '/admin' || para === '/admin/mesas'}
                   className={({ isActive }) => {
                     const ativo = isActive || (para === '/admin' && /^\/admin\/mesas\/[^/]+/.test(local.pathname))
-                    return `shrink-0 rounded-lg px-3 py-2 text-sm font-medium ${ativo ? 'bg-gold-500 text-ink-950' : 'text-cream-200 hover:bg-ink-800'}`
+                    const cozinha = para === '/admin/cozinha'
+                    return `shrink-0 rounded-lg px-3 py-2 text-sm font-medium ${
+                      ativo ? 'bg-gold-500 text-ink-950' : cozinha ? 'text-gold-300 ring-1 ring-gold-500/60 hover:bg-ink-800' : 'text-cream-200 hover:bg-ink-800'
+                    }`
                   }}
                 >
                   {rotulo}
