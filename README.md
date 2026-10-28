@@ -102,9 +102,10 @@ Cada pedido novo no painel toca um sininho e a seguir é lido em voz alta, na vo
 
 - **Ligar**: liga-se sozinho ao entrar no painel; se o navegador ainda não deixar (só deixa tocar som depois de um toque), liga-se no primeiro toque em qualquer sítio do ecrã. Deixe o painel aberto, com o ecrã ligado e o volume alto. O botão passa a **🔔🗣 Som e voz ativos**; um toque muda para **🔔 Só sininho**.
 - **Ordem**: com vários pedidos ao mesmo tempo, lê um de cada vez, pela ordem em que foram feitos. Nunca fala dois ao mesmo tempo.
-- **Aviso no ecrã**: cada pedido fica num cartão no canto (🔊 no que está a ser lido, notas a amarelo). Sai quando o pedido é marcado **✓ Atendido** (ou Cancelado), ou com ✕. **🔊 Ler de novo** no cartão do pedido repete a leitura.
+- **Aviso no ecrã**: cada pedido fica num cartão no canto (🔊 no que está a ser lido, notas a amarelo). O mesmo cartão muda quando a cozinha carrega **Começar** (🍳 *a cozinha começou*) e **Pronto** (✅ *pronto, levar à mesa*, a verde, com a comida); se tiver sido fechado com ✕, volta a aparecer quando muda. Sai quando o pedido é marcado **✓ Atendido** (ou Cancelado), ou com ✕. **🔊 Ler de novo** no cartão do pedido repete a leitura.
 - **Notas**: as notas comuns estão gravadas na voz Dinis (`scripts/voz/lotes/notas.txt`: "sem gelo", "sem cebola", "bem passado", "bebidas primeiro"…) e são lidas assim: *"Nota para Mojito: sem gelo e sem cebola."* Uma nota com alguma parte que não esteja gravada é dita como *"Com nota, veja no ecrã"*. A nota aparece sempre destacada no ecrã. Para gravar mais notas: acrescente-as a `notas.txt`/`notas.json`, grave com a voz Dinis (`eleven_flash_v2_5`, 1 geração), guarde como `<pasta>/notas.mp3` e corra `cortar.py`.
-- **O que não tem voz gravada** (prato ou mesa criados depois ou quantidade acima de 20) é dito como *"…e mais itens, veja no ecrã"*, e uma mesa sem gravação como *"Novo pedido"*. O pedido aparece sempre completo no ecrã.
+- **Quantidades**: até 99, juntando pedaços (*"vinte e cinco Massa Fettuccine"*, *"trinta e uma Massa Bolonhesa"*; buffet: *"para vinte e uma pessoas"*).
+- **O que não tem voz gravada** (prato ou mesa criados depois, ou quantidade acima de 99) é dito como *"…e mais itens, veja no ecrã"*, e uma mesa sem gravação como *"Novo pedido"*. O pedido aparece sempre completo no ecrã.
 
 Como funciona: não há chave de API no site. A voz foi gravada uma vez com a conta ElevenLabs, em pedaços (`public/voz/*.mp3`, índice em `public/voz/indice.json`), e o painel junta-os (`src/lib/frase.ts` monta a frase, `src/lib/anuncios.ts` toca a fila). O sininho (`public/sons/sino.mp3`) é sintetizado por `scripts/voz/sino.py`; se não carregar, toca um bip.
 
@@ -121,7 +122,11 @@ Os pedidos com comida aparecem também num ecrã na cozinha (tablet ou telemóve
 - **Abrir**: no painel, separador **🍳 Cozinha** → leia o QR com o tablet da cozinha (ou **Abrir o ecrã da cozinha** / **Copiar link**) e guarde a página. O link é `/cozinha/<código>` e não pede palavra-passe. **Gerar novo link** faz o antigo deixar de funcionar.
 - **Na cozinha**: toque uma vez no ecrã para ligar o som (o ecrã fica aceso). Cada pedido novo com comida toca o sininho e a voz Dinis lê só a comida. Os talões ficam do mais antigo para o mais recente; "há N min" fica vermelho a partir de 20 minutos. **Começar** → "A preparar" (o cliente vê "Em preparação"); **✓ Pronto** → o talão sai. Um pedido cancelado na recepção fica vermelho, "CANCELADO: não fazer", até carregarem **OK**. Atualiza de 4 em 4 segundos.
 - **O que vai para a cozinha**: as categorias com 🍳 no **Cardápio** do painel (carregue em 🍳 na categoria para ligar ou desligar). Começou com Menu Pasta, Lasanhas, Buffet, Sobremesas e Extras; as bebidas ficam com a recepção. A escolha é copiada para cada item quando o pedido é feito.
-- **Na recepção**: no bloco da mesa, cada pedido com comida mostra 🍳 *Na cozinha*, *A preparar* ou *Pronto, levar à mesa*. Quando a cozinha carrega Pronto, toca o sininho e a voz diz *"Mesa 5, pedido pronto"* (`scripts/voz/lotes/prontos.txt`). O **✓ Atendido** continua na recepção.
+- **Na recepção**: no bloco da mesa, cada pedido com comida mostra 🍳 *Na cozinha*, *A preparar* ou *Pronto, levar à mesa*. Com o sininho, a voz Dinis e o cartão de aviso no canto (uma vez por pedido):
+  - a cozinha carrega **Começar** → *"Mesa 9, o pedido já está a ser preparado."*
+  - a cozinha carrega **✓ Pronto** → *"Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa."* (só a comida).
+
+  Gravações: `scripts/voz/lotes/prontos.txt` e `cozinha.txt` (com os números de 30 a 90, "um" e "uma"). O **✓ Atendido** continua na recepção.
 
 Como funciona: migração `20261028000001_cozinha.sql` (colunas `para_cozinha`, `cozinha_inicio_em`, `cozinha_pronto_em`, tabela `cozinha_acesso` com o código do link) e as funções `get_kitchen_orders` / `set_kitchen_state`, que só respondem com o código certo. O ecrã está em `src/pages/cozinha/CozinhaPage.tsx`.
 

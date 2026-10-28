@@ -4,7 +4,9 @@ Uso: python3 -I scripts/voz/cortar.py <pasta com lote1.mp3, lote2.mp3, ..., falt
 Escreve public/voz/<n>.mp3 e public/voz/indice.json ({chave: ficheiro}).
 faltam.mp3 é a gravação de lotes/faltam.txt (pedacos.py --faltam) e corta-se pela lista lotes/faltam.json;
 notas.mp3 é a gravação das notas comuns ("sem gelo", "sem cebola"…) de lotes/notas.txt, cortada por lotes/notas.json;
-prontos.mp3 é "Mesa N, pedido pronto" (aviso da cozinha na recepção), de lotes/prontos.txt, cortada por lotes/prontos.json.
+prontos.mp3 é "Mesa N, pedido pronto" (aviso da cozinha na recepção), de lotes/prontos.txt, cortada por lotes/prontos.json;
+cozinha.mp3 é "Mesa N, o pedido já está a ser preparado", "Pode levar à mesa" e os números de 30 a 90, "um" e "uma"
+(quantidades de 21 a 99), de lotes/cozinha.txt, cortada por lotes/cozinha.json.
 Cada lote tem de ter tantos trechos de voz como pedaços (separados pelas pausas de 1 s; só pausas de 0,9 s ou mais contam, para não partir nomes como "Sauvignon Blanc Spier"); se não bater, pára.
 """
 
@@ -19,6 +21,7 @@ PEDACOS = RAIZ / 'scripts' / 'voz' / 'pedacos.json'
 FALTAM = RAIZ / 'scripts' / 'voz' / 'lotes' / 'faltam.json'
 NOTAS = RAIZ / 'scripts' / 'voz' / 'lotes' / 'notas.json'
 PRONTOS = RAIZ / 'scripts' / 'voz' / 'lotes' / 'prontos.json'
+COZINHA = RAIZ / 'scripts' / 'voz' / 'lotes' / 'cozinha.json'
 SAIDA = RAIZ / 'public' / 'voz'
 FOLGA = 0.05  # segundos de margem antes e depois de cada trecho
 
@@ -85,6 +88,8 @@ def main():
         cortar('notas', pasta / 'notas.mp3', json.loads(NOTAS.read_text()), indice)
     if (pasta / 'prontos.mp3').exists():
         cortar('prontos', pasta / 'prontos.mp3', json.loads(PRONTOS.read_text()), indice)
+    if (pasta / 'cozinha.mp3').exists():
+        cortar('cozinha', pasta / 'cozinha.mp3', json.loads(COZINHA.read_text()), indice)
     indice_ficheiro.write_text(json.dumps(dict(sorted(indice.items())), ensure_ascii=False, indent=1))
     print(f'{len(indice)} pedaços no índice')
 

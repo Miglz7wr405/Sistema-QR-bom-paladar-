@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { chaveVoz, pedacosDoPedido, resumoDoPedido, type ItemFalado } from './frase'
+import { chaveVoz, pedacosComecou, pedacosDoPedido, pedacosPronto, resumoDoPedido, type ItemFalado } from './frase'
 
 // Pedaços gravados neste teste (no site, vêm de public/voz/indice.json).
 const gravados = new Set([
@@ -77,7 +77,40 @@ describe('frase do pedido', () => {
   it('sem áudio: prato novo, mesa nova ou quantidade alta', () => {
     expect(pedacosDoPedido('Mesa 1', [item('Prato novo'), item('Mojito')], null, temAudio)).toEqual(['mesa 1 pediu', 'mojito', 'e mais itens veja no ecra'])
     expect(pedacosDoPedido('Esplanada', [item('Mojito')], null, temAudio)).toEqual(['novo pedido', 'mojito'])
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 120)], null, temAudio)).toEqual(['mesa 1 pediu', 'e mais itens veja no ecra'])
+    // 25 sem os pedaços "vinte" e "cinco" gravados.
     expect(pedacosDoPedido('Mesa 1', [item('Mojito', 25)], null, temAudio)).toEqual(['mesa 1 pediu', 'e mais itens veja no ecra'])
+  })
+
+  it('quantidades de 21 a 99: "vinte e cinco", "vinte e uma", "noventa e nove"', () => {
+    const numeros = new Set([...gravados, 'n1', 'n1f', 'n5', 'n9', 'n20', 'n30', 'n90', 'massa fettuccine', 'caipirosca'])
+    const tem = (c: string) => numeros.has(c)
+    expect(pedacosDoPedido('Mesa 1', [item('Massa Fettuccine', 25), item('Caipirosca')], null, tem)).toEqual([
+      'mesa 1 pediu', 'n20', 'e', 'n5', 'massa fettuccine', 'e', 'caipirosca',
+    ])
+    expect(pedacosDoPedido('Mesa 1', [item('Massa Bolonhesa', 21)], null, tem)).toEqual(['mesa 1 pediu', 'n20', 'e', 'n1f', 'massa bolonhesa'])
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 21)], null, tem)).toEqual(['mesa 1 pediu', 'n20', 'e', 'n1', 'mojito'])
+    expect(pedacosDoPedido('Mesa 1', [item('Massa Bolonhesa', 22)], null, tem)).toEqual(['mesa 1 pediu', 'n20', 'e', 'n2f', 'massa bolonhesa'])
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 30)], null, tem)).toEqual(['mesa 1 pediu', 'n30', 'mojito'])
+    expect(pedacosDoPedido('Mesa 1', [item('Mojito', 99)], null, tem)).toEqual(['mesa 1 pediu', 'n90', 'e', 'n9', 'mojito'])
+    expect(pedacosDoPedido('Mesa 1', [item('Buffet 2.000', 21)], null, tem)).toEqual(['mesa 1 pediu', 'buffet 2 000', 'para', 'n20', 'e', 'n1f', 'pessoas'])
+  })
+
+  it('cozinha começou: "Mesa 9, o pedido já está a ser preparado"', () => {
+    const tem = (c: string) => ['mesa 9 o pedido ja esta a ser preparado', 'um pedido ja esta a ser preparado'].includes(c)
+    expect(pedacosComecou('Mesa 9', tem)).toEqual(['mesa 9 o pedido ja esta a ser preparado'])
+    expect(pedacosComecou('Esplanada', tem)).toEqual(['um pedido ja esta a ser preparado'])
+    expect(pedacosComecou('Mesa 9', () => false)).toEqual([])
+  })
+
+  it('cozinha pronto: "Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa."', () => {
+    const prontos = new Set([...gravados, 'mesa 9 pedido pronto', 'pedido pronto', 'pode levar a mesa'])
+    const tem = (c: string) => prontos.has(c)
+    expect(pedacosPronto('Mesa 9', [item('Massa Bolonhesa', 2), item('Arroz', 1, 'Arroz de coco')], tem)).toEqual([
+      'mesa 9 pedido pronto', 'n2f', 'massa bolonhesa', 'e', 'arroz de coco', 'pode levar a mesa',
+    ])
+    expect(pedacosPronto('Esplanada', [item('Prato novo')], tem)).toEqual(['pedido pronto', 'e mais itens veja no ecra', 'pode levar a mesa'])
+    expect(pedacosPronto('Mesa 9', [], tem)).toEqual(['mesa 9 pedido pronto', 'pode levar a mesa'])
   })
 
   it('resumo para o ecrã', () => {

@@ -1,5 +1,6 @@
-// Monta a frase que a voz do painel lê quando chega um pedido, como uma lista de pedaços já gravados
-// (public/voz, voz Dinis da ElevenLabs): "Mesa 1 pediu" + "dois" + "Massa Bolonhesa" + "e" + "Mojito".
+// Monta as frases que a voz lê, como uma lista de pedaços já gravados (public/voz, voz Dinis da
+// ElevenLabs): "Mesa 1 pediu" + "dois" + "Massa Bolonhesa" + "e" + "Mojito"; e os avisos da cozinha
+// na recepção: "Mesa 9, o pedido já está a ser preparado" e "Mesa 9, pedido pronto" + comida + "Pode levar à mesa".
 // As chaves são o texto normalizado, igual ao de scripts/voz/pedacos.py.
 
 export interface ItemFalado {
@@ -29,6 +30,9 @@ export const PEDACO = {
   notaDoPedido: 'nota do pedido',
   /** Recepção: a cozinha acabou um pedido de uma mesa sem gravação "Mesa N, pedido pronto". */
   pedidoPronto: 'pedido pronto',
+  /** Recepção: a cozinha carregou "Começar" num pedido de uma mesa sem gravação "Mesa N, o pedido já está a ser preparado". */
+  umPedidoAPreparar: 'um pedido ja esta a ser preparado',
+  podeLevar: 'pode levar a mesa',
   maisItens: 'e mais itens veja no ecra',
   novoPedido: 'novo pedido',
 } as const
@@ -40,9 +44,19 @@ function feminino(nome: string): boolean {
   return /a$/.test(primeiraPalavra(nome))
 }
 
-function numero(q: number, fem: boolean): string | null {
-  if (q === 2) return fem ? 'n2f' : 'n2'
-  if (q >= 3 && q <= 20) return `n${q}`
+/**
+ * A quantidade em pedaços: "n2f" (duas), "n15" (quinze); de 21 a 99 junta dezenas e unidades:
+ * 25 → "vinte" + "e" + "cinco", 31 Massas → "trinta" + "e" + "uma". null fora de 2 a 99.
+ */
+function numero(q: number, fem: boolean): string[] | null {
+  if (q === 2) return [fem ? 'n2f' : 'n2']
+  if (q >= 3 && q <= 20) return [`n${q}`]
+  if (q > 20 && q <= 99) {
+    const dezenas = `n${q - (q % 10)}`
+    const u = q % 10
+    if (u === 0) return [dezenas]
+    return [dezenas, PEDACO.e, u === 1 ? (fem ? 'n1f' : 'n1') : u === 2 ? (fem ? 'n2f' : 'n2') : `n${u}`]
+  }
   return null
 }
 
@@ -81,31 +95,38 @@ function frasesDaNota(nota: string, temAudio: (chave: string) => boolean): strin
 }
 
 /**
- * Lista de chaves a tocar. `temAudio` diz se um pedaço está gravado; o que não estiver
- * (prato novo, mesa nova, quantidade acima de 20) é trocado por "e mais itens, veja no ecrã" / "Novo pedido".
- * As notas comuns gravadas são lidas ("Nota para Mojito: sem gelo"); as outras ficam em "Com nota, veja no ecrã".
+ * Os itens em pedaços: "duas Massa Bolonhesa e Mojito". Um item com algum pedaço por gravar (prato novo,
+ * quantidade acima de 99) é trocado por "e mais itens, veja no ecrã" no fim.
  */
-export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral: string | null, temAudio: (chave: string) => boolean): string[] {
-  const mesa = chaveVoz(`${mesaNome} pediu`)
-  const saida: string[] = [temAudio(mesa) ? mesa : PEDACO.novoPedido]
+export function pedacosDosItens(itens: ItemFalado[], temAudio: (chave: string) => boolean): string[] {
   const falados: string[][] = []
   let faltou = false
 
   for (const item of itens) {
     const nomes = nomeFalado(item).map(chaveVoz)
-    let partes: (string | null)[]
+    let partes: string[] | null
     if (/buffet/i.test(item.nome)) {
-      partes = item.quantidade === 1 ? [...nomes, PEDACO.umaPessoa] : [...nomes, PEDACO.para, numero(item.quantidade, true), PEDACO.pessoas]
+      const n = numero(item.quantidade, true)
+      partes = item.quantidade === 1 ? [...nomes, PEDACO.umaPessoa] : n && [...nomes, PEDACO.para, ...n, PEDACO.pessoas]
     } else {
-      const fem = feminino(item.opcao && nomes.length === 1 ? item.opcao : item.nome)
-      partes = item.quantidade === 1 ? nomes : [numero(item.quantidade, fem), ...nomes]
+      const n = numero(item.quantidade, feminino(item.opcao && nomes.length === 1 ? item.opcao : item.nome))
+      partes = item.quantidade === 1 ? nomes : n && [...n, ...nomes]
     }
-    if (partes.every((p): p is string => p !== null && temAudio(p))) falados.push(partes as string[])
+    if (partes?.every(temAudio)) falados.push(partes)
     else faltou = true
   }
 
-  saida.push(...comE(falados))
-  if (faltou) saida.push(PEDACO.maisItens)
+  return [...comE(falados), ...(faltou ? [PEDACO.maisItens] : [])]
+}
+
+/**
+ * Lista de chaves a tocar. `temAudio` diz se um pedaço está gravado; o que não estiver
+ * (prato novo, mesa nova) é trocado por "e mais itens, veja no ecrã" / "Novo pedido".
+ * As notas comuns gravadas são lidas ("Nota para Mojito: sem gelo"); as outras ficam em "Com nota, veja no ecrã".
+ */
+export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral: string | null, temAudio: (chave: string) => boolean): string[] {
+  const mesa = chaveVoz(`${mesaNome} pediu`)
+  const saida: string[] = [temAudio(mesa) ? mesa : PEDACO.novoPedido, ...pedacosDosItens(itens, temAudio)]
 
   let notaPorLer = false
   for (const item of itens) {
@@ -123,6 +144,20 @@ export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral
   }
   if (notaPorLer) saida.push(PEDACO.comNota)
   return saida
+}
+
+/** Recepção, quando a cozinha carrega "Começar": "Mesa 9, o pedido já está a ser preparado". */
+export function pedacosComecou(mesaNome: string, temAudio: (chave: string) => boolean): string[] {
+  const daMesa = chaveVoz(`${mesaNome}, o pedido já está a ser preparado`)
+  if (temAudio(daMesa)) return [daMesa]
+  return temAudio(PEDACO.umPedidoAPreparar) ? [PEDACO.umPedidoAPreparar] : []
+}
+
+/** Recepção, quando a cozinha carrega "Pronto": "Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa." */
+export function pedacosPronto(mesaNome: string, itens: ItemFalado[], temAudio: (chave: string) => boolean): string[] {
+  const daMesa = chaveVoz(`${mesaNome} pedido pronto`)
+  const inicio = temAudio(daMesa) ? [daMesa] : temAudio(PEDACO.pedidoPronto) ? [PEDACO.pedidoPronto] : []
+  return [...inicio, ...pedacosDosItens(itens, temAudio), ...(temAudio(PEDACO.podeLevar) ? [PEDACO.podeLevar] : [])]
 }
 
 /** Texto do aviso no ecrã: "2× Massa Bolonhesa · Cerveja nacional (Txilar)". */

@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-do
 import type { PedidoFalado } from '../../lib/anuncios'
 import { useAuth } from '../../lib/auth'
 import { formatarHora, porAtender } from '../../lib/format'
-import { resumoDoPedido } from '../../lib/frase'
+import { resumoDoPedido, type ItemFalado } from '../../lib/frase'
 import { useLocutor } from '../../lib/som'
 import { supabase } from '../../lib/supabase'
 import type { Pedido } from '../../lib/types'
@@ -39,14 +39,27 @@ const links = [
   ['/admin/cozinha', '🍳 Cozinha'],
 ] as const
 
+/** Pedido novo, a cozinha carregou "Começar", a cozinha carregou "Pronto". */
+type Fase = 'novo' | 'a_preparar' | 'pronto'
+
 interface AvisoPedido {
   id: string
   tableId: string
   mesaNome: string
-  criadoEm: string
+  /** Hora do pedido, do "Começar" ou do "Pronto", conforme a fase. */
+  quando: string
+  fase: Fase
   resumo: string
   notas: string[]
 }
+
+type PedidoCarregado = Omit<PedidoFalado, 'itens'> & { tableId: string; itens: (ItemFalado & { para_cozinha: boolean })[] }
+
+/** Só a comida: o que a cozinha prepara e a recepção leva à mesa. */
+const soCozinha = (p: PedidoCarregado | null): PedidoCarregado | null => p && { ...p, itens: p.itens.filter((i) => i.para_cozinha) }
+
+/** Carregaram "Começar"/"Pronto" há pouco (os eventos antigos que chegam ao abrir o painel não contam). */
+const recente = (hora: string | null | undefined): hora is string => Boolean(hora) && Date.now() - new Date(hora!).getTime() < 5 * 60_000
 
 const LS_VOZ = 'painel:voz-ligada'
 
@@ -69,6 +82,8 @@ export function AdminLayout() {
   const [ligado, setLigado] = useState(true)
   const { locutor, somAtivo, aLer, ativarSom } = useLocutor()
   const nomesMesas = useRef<Map<string, string>>(new Map())
+  // Fase que cada pedido já mostrou no aviso: um aviso fechado com ✕ só volta quando muda de fase.
+  const fasesMostradas = useRef<Map<string, Fase>>(new Map())
 
   useEffect(() => {
     supabase
@@ -82,10 +97,10 @@ export function AdminLayout() {
   }, [locutor, vozLigada])
 
   /** Itens do pedido e nome da mesa, para a voz e para o aviso no ecrã. */
-  const carregarPedido = useCallback(async (id: string): Promise<(PedidoFalado & { tableId: string; criadoEm: string }) | null> => {
+  const carregarPedido = useCallback(async (id: string): Promise<PedidoCarregado | null> => {
     const { data, error } = await supabase
       .from('orders')
-      .select('id, table_id, nota_geral, criado_em, order_items(nome, opcao, quantidade, nota)')
+      .select('id, table_id, nota_geral, order_items(nome, opcao, quantidade, nota, para_cozinha)')
       .eq('id', id)
       .maybeSingle()
     if (error || !data) return null
@@ -98,18 +113,19 @@ export function AdminLayout() {
     return {
       id: data.id,
       tableId: data.table_id,
-      criadoEm: data.criado_em,
       mesaNome,
       notaGeral: data.nota_geral,
       itens: data.order_items,
     }
   }, [])
 
-  const mostrarAviso = useCallback((p: Awaited<ReturnType<typeof carregarPedido>>) => {
+  /** Mostra o aviso do pedido nesta fase; se já havia um aviso do mesmo pedido, passa a ser este. */
+  const mostrarAviso = useCallback((p: PedidoCarregado | null, fase: Fase, quando: string) => {
     if (!p) return
+    fasesMostradas.current.set(p.id, fase)
     const notas = [...p.itens.filter((i) => i.nota?.trim()).map((i) => `${i.nome}: ${i.nota}`), ...(p.notaGeral?.trim() ? [p.notaGeral] : [])]
-    const aviso: AvisoPedido = { id: p.id, tableId: p.tableId, mesaNome: p.mesaNome, criadoEm: p.criadoEm, resumo: resumoDoPedido(p.itens), notas }
-    setAvisos((l) => (l.some((a) => a.id === p.id) ? l : [...l, aviso].sort((a, b) => a.criadoEm.localeCompare(b.criadoEm))))
+    const aviso: AvisoPedido = { id: p.id, tableId: p.tableId, mesaNome: p.mesaNome, quando, fase, resumo: resumoDoPedido(p.itens), notas }
+    setAvisos((l) => [...l.filter((a) => a.id !== p.id), aviso].sort((a, b) => a.quando.localeCompare(b.quando)))
   }, [])
 
   const tirarAviso = useCallback((id: string) => setAvisos((l) => l.filter((a) => a.id !== id)), [])
@@ -125,13 +141,26 @@ export function AdminLayout() {
           // A fila de voz segue a ordem dos eventos (a ordem em que os pedidos foram gravados).
           const dados = carregarPedido(pedido.id)
           locutor.anunciar(pedido.id, dados)
-          void dados.then(mostrarAviso)
+          void dados.then((p) => mostrarAviso(p, 'novo', pedido.criado_em))
         } else if (msg.eventType === 'UPDATE') {
           const pedido = msg.new as Pedido
+          const fase = fasesMostradas.current.get(pedido.id)
           if (!porAtender(pedido.estado)) tirarAviso(pedido.id)
-          // A cozinha acabou de carregar "Pronto": "Mesa 5, pedido pronto" (uma só vez por pedido).
-          else if (pedido.cozinha_pronto_em && Date.now() - new Date(pedido.cozinha_pronto_em).getTime() < 5 * 60_000) {
-            locutor.anunciarPronto(pedido.id, nomesMesas.current.get(pedido.table_id) ?? 'Mesa')
+          // A cozinha carregou "Pronto": aviso verde e "Mesa 9, pedido pronto. <a comida>. Pode levar à mesa." (uma só vez).
+          else if (recente(pedido.cozinha_pronto_em)) {
+            if (fase === 'pronto') return
+            const hora = pedido.cozinha_pronto_em
+            const dados = carregarPedido(pedido.id).then(soCozinha)
+            locutor.anunciarPronto(pedido.id, dados)
+            void dados.then((p) => mostrarAviso(p, 'pronto', hora))
+          }
+          // A cozinha carregou "Começar": aviso e "Mesa 9, o pedido já está a ser preparado" (uma só vez).
+          else if (!pedido.cozinha_pronto_em && recente(pedido.cozinha_inicio_em)) {
+            if (fase === 'a_preparar' || fase === 'pronto') return
+            const hora = pedido.cozinha_inicio_em
+            const dados = carregarPedido(pedido.id).then(soCozinha)
+            locutor.anunciarComecou(pedido.id, dados)
+            void dados.then((p) => mostrarAviso(p, 'a_preparar', hora))
           }
         }
       })
@@ -240,20 +269,23 @@ export function AdminLayout() {
 
         {avisos.length > 0 && (
           <aside
-            aria-label="Pedidos novos"
+            aria-label="Avisos de pedidos"
             className="nao-imprimir pointer-events-none fixed bottom-3 right-3 z-40 flex max-h-[45dvh] w-[min(22rem,calc(100vw-1.5rem))] flex-col gap-2 overflow-y-auto"
           >
             {avisos.map((a) => (
               <div
                 key={a.id}
                 role="status"
-                className={`pointer-events-auto rounded-2xl border-2 bg-white p-3 shadow-2xl ${aLer === a.id ? 'border-ember-500' : 'border-gold-500'}`}
+                className={`pointer-events-auto rounded-2xl border-2 p-3 shadow-2xl ${
+                  a.fase === 'pronto' ? 'bg-[#ecf2eb]' : a.fase === 'a_preparar' ? 'bg-[#faf3e1]' : 'bg-white'
+                } ${aLer === a.id ? 'border-ember-500' : a.fase === 'pronto' ? 'border-basil-500' : 'border-gold-500'}`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <Link to={`/admin/mesas/${a.tableId}`} className="min-w-0 flex-1" onClick={() => marcarVista(a.tableId)}>
-                    <p className="font-display text-lg leading-tight">
+                    <p className={`font-display text-lg leading-tight ${a.fase === 'pronto' ? 'text-basil-600' : ''}`}>
                       {aLer === a.id && <span aria-label="A ler">🔊 </span>}
-                      {a.mesaNome} pediu <span className="text-sm font-sans font-normal text-muted">· {formatarHora(a.criadoEm)}</span>
+                      {a.fase === 'pronto' ? `✅ ${a.mesaNome}: pronto, levar à mesa` : a.fase === 'a_preparar' ? `🍳 ${a.mesaNome}: a cozinha começou` : `${a.mesaNome} pediu`}{' '}
+                      <span className="whitespace-nowrap font-sans text-sm font-normal text-muted">· {formatarHora(a.quando)}</span>
                     </p>
                     <p className="mt-0.5 text-sm text-ink-800">{a.resumo}</p>
                     {a.notas.map((n, i) => (

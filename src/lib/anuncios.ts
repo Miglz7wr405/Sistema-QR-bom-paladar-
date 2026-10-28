@@ -1,8 +1,9 @@
-import { chaveVoz, PEDACO, pedacosDoPedido, type ItemFalado } from './frase'
+import { pedacosComecou, pedacosDoPedido, pedacosPronto, type ItemFalado } from './frase'
 
 // Lê os pedidos novos em voz alta, um de cada vez e pela ordem de chegada:
 // sininho (public/sons/sino.mp3) e depois a frase, feita com os pedaços gravados na voz Dinis
-// da ElevenLabs (public/voz, índice em public/voz/indice.json).
+// da ElevenLabs (public/voz, índice em public/voz/indice.json). Na recepção lê também os avisos
+// da cozinha ("o pedido já está a ser preparado", "pedido pronto… pode levar à mesa").
 
 export interface PedidoFalado {
   id: string
@@ -112,18 +113,28 @@ export class Locutor {
     )
   }
 
-  /** A cozinha acabou um pedido: sininho e "Mesa 5, pedido pronto" (ou "Pedido pronto" se a mesa não tiver gravação). */
-  anunciarPronto(id: string, mesaNome: string) {
-    if (!this.ativo) return
-    const chave = `pronto:${id}`
-    if (this.lidos.has(chave)) return
+  /** A cozinha carregou "Começar": sininho e "Mesa 9, o pedido já está a ser preparado" (uma só vez por pedido). */
+  anunciarComecou(id: string, dados: Promise<PedidoFalado | null>) {
+    this.anunciarUmaVez(`comecou:${id}`, id, dados, (p, tem) => pedacosComecou(p.mesaNome, tem))
+  }
+
+  /**
+   * A cozinha carregou "Pronto": sininho e "Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa."
+   * `dados.itens` deve trazer só a comida (o que sai da cozinha).
+   */
+  anunciarPronto(id: string, dados: Promise<PedidoFalado | null>) {
+    this.anunciarUmaVez(`pronto:${id}`, id, dados, (p, tem) => pedacosPronto(p.mesaNome, p.itens, tem))
+  }
+
+  private anunciarUmaVez(chave: string, id: string, dados: Promise<PedidoFalado | null>, frase: (p: PedidoFalado, temAudio: (c: string) => boolean) => string[]) {
+    if (!this.ativo || this.lidos.has(chave)) return
     this.lidos.add(chave)
     this.enfileirar(
       id,
-      this.indice!.then((indice) => {
-        if (!this.vozLigada) return []
-        const daMesa = chaveVoz(`${mesaNome} pedido pronto`)
-        return daMesa in indice ? [daMesa] : PEDACO.pedidoPronto in indice ? [PEDACO.pedidoPronto] : []
+      dados.then(async (p) => {
+        if (!p) return null
+        const indice = await this.indice!
+        return this.vozLigada ? frase(p, (c) => c in indice) : []
       }),
     )
   }
