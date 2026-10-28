@@ -128,7 +128,7 @@ export function MesaPage() {
       <main className="relative flex min-h-dvh flex-col items-center justify-center gap-4 bg-ink-900 px-6 text-center text-cream-50">
         <Logo claro />
         <h1 className="font-display text-2xl text-gold-300">QR Code inválido</h1>
-        <p className="max-w-xs text-cream-200">Este código não corresponde a nenhuma mesa. Por favor, chame um atendente.</p>
+        <p className="max-w-xs text-cream-200">Este código não corresponde a nenhuma mesa. Por favor, chame um garçom.</p>
         <AssinaturaInsight fundoEscuro className="absolute inset-x-0 bottom-[max(1.5rem,env(safe-area-inset-bottom))]" />
       </main>
     )

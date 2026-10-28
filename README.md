@@ -1,6 +1,6 @@
 # Bom Paladar — Pedidos por QR Code
 
-Cada mesa do Bom Paladar tem um QR Code próprio. O cliente lê o QR com o telemóvel, vê o cardápio, escolhe e envia o pedido; o pedido chega na hora ao painel do administrador, já com a mesa. Não há app, conta nem pagamento online: o cliente paga no fim, ao atendente ou no caixa.
+Cada mesa do Bom Paladar tem um QR Code próprio. O cliente lê o QR com o telemóvel, vê o cardápio, escolhe e envia o pedido; o pedido chega na hora ao painel do administrador, já com a mesa. Não há app, conta nem pagamento online: o cliente paga no fim, ao garçom ou no caixa.
 
 - **Cliente** (público): `/m/<token>` — cardápio, carrinho, envio e "Os meus pedidos".
 - **Administrador** (com senha): `/admin` — mesas em tempo real, detalhe e estados, histórico, cardápio, mesas e QR Codes.

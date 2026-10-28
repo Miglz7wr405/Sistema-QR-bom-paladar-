@@ -2,6 +2,8 @@
 export function mensagemDeErro(erro: unknown): string {
   if (!erro) return 'Ocorreu um erro. Tente de novo.'
   const e = erro as { message?: string; code?: string; hint?: string }
+  // A mensagem da base ainda diz "atendente"; para o cliente é "garçom".
+  if (e.hint === 'mesa_invalida') return 'QR Code inválido. Chame um garçom.'
   // As funções da base levantam mensagens já em português (errcode P0001).
   if (e.code === 'P0001' && e.message) return e.message
   const msg = e.message ?? String(erro)
