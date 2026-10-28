@@ -53,11 +53,7 @@ export const ESTADOS: Record<EstadoPedido, { rotulo: string; classe: string }> =
   cancelado: { rotulo: 'Cancelado', classe: 'bg-ink-600 text-white line-through' },
 }
 
-/** Pedidos atendidos (painel) e todos os pedidos (telemóvel do cliente) desaparecem da vista depois disto. */
+/** No telemóvel do cliente, os pedidos desaparecem da vista depois disto (no painel ficam até fechar a mesa). */
 export const JANELA_MINUTOS = 20
-
-export function dentroDaJanela(iso: string, agora = Date.now()): boolean {
-  return agora - new Date(iso).getTime() < JANELA_MINUTOS * 60 * 1000
-}
 
 export const porAtender = (estado: EstadoPedido) => estado === 'recebido' || estado === 'em_preparacao'
