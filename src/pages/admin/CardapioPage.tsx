@@ -135,6 +135,10 @@ export function CardapioPage() {
     void correr(() => supabase.from('categories').update({ nome: r.data }).eq('id', c.id))
   }
 
+  function mudarCozinha(c: Categoria) {
+    void correr(() => supabase.from('categories').update({ para_cozinha: !c.para_cozinha }).eq('id', c.id))
+  }
+
   function apagarCategoria(c: Categoria) {
     if (pratos.some((p) => p.category_id === c.id)) return setErro(`A categoria “${c.nome}” tem pratos. Mova-os ou apague-os primeiro.`)
     if (!window.confirm(`Apagar a categoria “${c.nome}”?`)) return
@@ -231,6 +235,7 @@ export function CardapioPage() {
             {categorias.map((c, i) => (
               <li key={c.id} className={`flex items-center gap-1 rounded-xl ${catAtiva === c.id ? 'bg-ink-900 text-gold-300' : 'hover:bg-cream-100'}`}>
                 <button type="button" className="min-h-10 flex-1 px-3 text-left text-sm font-medium" onClick={() => setCatAtiva(c.id)}>
+                  {c.para_cozinha && <span title="Vai para o ecrã da cozinha">🍳 </span>}
                   {c.nome} <span className="opacity-60">({pratos.filter((p) => p.category_id === c.id).length})</span>
                 </button>
                 {catAtiva === c.id && (
@@ -246,6 +251,17 @@ export function CardapioPage() {
                       onClick={() => mover(categorias, c.id, 1, 'categories')}
                     >
                       ↓
+                    </button>
+                    <button
+                      type="button"
+                      className={`h-8 w-7 rounded ${c.para_cozinha ? 'bg-gold-500/30' : 'opacity-50'}`}
+                      aria-label={c.para_cozinha ? 'Deixar de enviar para a cozinha' : 'Enviar para a cozinha'}
+                      aria-pressed={Boolean(c.para_cozinha)}
+                      title={c.para_cozinha ? 'Vai para a cozinha (carregue para tirar)' : 'Não vai para a cozinha (carregue para enviar)'}
+                      disabled={ocupado}
+                      onClick={() => mudarCozinha(c)}
+                    >
+                      🍳
                     </button>
                     <button type="button" className="h-8 w-7" aria-label="Renomear" onClick={() => renomearCategoria(c)}>
                       ✎

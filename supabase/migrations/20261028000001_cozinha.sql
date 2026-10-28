@@ -26,15 +26,14 @@ where m.id = i.menu_item_id;
 
 -- cozinha_inicio_em: "Começar". cozinha_pronto_em: "Pronto" (ou "OK" num talão cancelado):
 -- o talão sai do ecrã da cozinha.
+-- Os pedidos de antes do ecrã da cozinha já foram tratados no papel: ficam como "prontos" ao criar a
+-- coluna (o default preenche-os sem UPDATE, por isso a hora em que foram atendidos não muda) e não
+-- aparecem na cozinha. Logo a seguir o default sai: os pedidos novos começam sem hora de pronto.
 alter table public.orders
   add column cozinha_inicio_em timestamptz,
-  add column cozinha_pronto_em timestamptz;
+  add column cozinha_pronto_em timestamptz default now();
 
--- Os pedidos de antes do ecrã da cozinha já foram tratados no papel: não aparecem na cozinha.
--- (Sem o gatilho, para não mexer na hora em que cada pedido foi atendido.)
-alter table public.orders disable trigger orders_atualizado_em;
-update public.orders set cozinha_pronto_em = now();
-alter table public.orders enable trigger orders_atualizado_em;
+alter table public.orders alter column cozinha_pronto_em drop default;
 
 -- ---------------------------------------------------------------------------
 -- Link da cozinha

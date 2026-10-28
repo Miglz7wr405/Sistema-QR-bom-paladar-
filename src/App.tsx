@@ -14,6 +14,9 @@ const HistoricoPage = lazy(() => import('./pages/admin/HistoricoPage').then((m) 
 const CardapioPage = lazy(() => import('./pages/admin/CardapioPage').then((m) => ({ default: m.CardapioPage })))
 const GerirMesasPage = lazy(() => import('./pages/admin/GerirMesasPage').then((m) => ({ default: m.GerirMesasPage })))
 const QrCodesPage = lazy(() => import('./pages/admin/QrCodesPage').then((m) => ({ default: m.QrCodesPage })))
+const CozinhaLinkPage = lazy(() => import('./pages/admin/CozinhaLinkPage').then((m) => ({ default: m.CozinhaLinkPage })))
+// Ecrã da cozinha: carregado à parte, como o painel.
+const CozinhaPage = lazy(() => import('./pages/cozinha/CozinhaPage').then((m) => ({ default: m.CozinhaPage })))
 
 function Inicio() {
   return (
@@ -45,6 +48,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/m/:token" element={<MesaPage />} />
+            <Route path="/cozinha/:token" element={<CozinhaPage />} />
             <Route path="/admin/login" element={<LoginPage />} />
             <Route
               path="/admin"
@@ -60,6 +64,7 @@ export function App() {
               <Route path="historico" element={<HistoricoPage />} />
               <Route path="cardapio" element={<CardapioPage />} />
               <Route path="qrcodes" element={<QrCodesPage />} />
+              <Route path="cozinha" element={<CozinhaLinkPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

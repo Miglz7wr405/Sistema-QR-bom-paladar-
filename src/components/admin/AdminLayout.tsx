@@ -1,11 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Locutor, type PedidoFalado } from '../../lib/anuncios'
+import type { PedidoFalado } from '../../lib/anuncios'
 import { useAuth } from '../../lib/auth'
 import { formatarHora, porAtender } from '../../lib/format'
 import { resumoDoPedido } from '../../lib/frase'
+import { useLocutor } from '../../lib/som'
 import { supabase } from '../../lib/supabase'
-import type { EstadoPedido, Pedido } from '../../lib/types'
+import type { Pedido } from '../../lib/types'
 import { AssinaturaInsight, Aviso, Logo } from '../ui/Ui'
 
 interface Realtime {
@@ -35,6 +36,7 @@ const links = [
   ['/admin/cardapio', 'Cardápio'],
   ['/admin/mesas', 'Gerir mesas'],
   ['/admin/qrcodes', 'QR Codes'],
+  ['/admin/cozinha', '🍳 Cozinha'],
 ] as const
 
 interface AvisoPedido {
@@ -63,12 +65,9 @@ export function AdminLayout() {
   const [versao, setVersao] = useState(0)
   const [mesasNovas, setMesasNovas] = useState<Set<string>>(new Set())
   const [avisos, setAvisos] = useState<AvisoPedido[]>([])
-  const [somAtivo, setSomAtivo] = useState(false)
   const [vozLigada, setVozLigada] = useState(lerPreferenciaVoz)
-  const [aLer, setALer] = useState<string | null>(null)
   const [ligado, setLigado] = useState(true)
-  const locutor = useRef<Locutor | null>(null)
-  locutor.current ??= new Locutor()
+  const { locutor, somAtivo, aLer, ativarSom } = useLocutor()
   const nomesMesas = useRef<Map<string, string>>(new Map())
 
   useEffect(() => {
@@ -79,11 +78,8 @@ export function AdminLayout() {
   }, [versao])
 
   useEffect(() => {
-    const l = locutor.current!
-    l.aoMudar = setALer
-    l.aoMudarEstado = setSomAtivo
-    l.vozLigada = vozLigada
-  }, [vozLigada])
+    locutor.vozLigada = vozLigada
+  }, [locutor, vozLigada])
 
   /** Itens do pedido e nome da mesa, para a voz e para o aviso no ecrã. */
   const carregarPedido = useCallback(async (id: string): Promise<(PedidoFalado & { tableId: string; criadoEm: string }) | null> => {
@@ -128,18 +124,22 @@ export function AdminLayout() {
           setMesasNovas((s) => new Set(s).add(pedido.table_id))
           // A fila de voz segue a ordem dos eventos (a ordem em que os pedidos foram gravados).
           const dados = carregarPedido(pedido.id)
-          locutor.current!.anunciar(pedido.id, dados)
+          locutor.anunciar(pedido.id, dados)
           void dados.then(mostrarAviso)
         } else if (msg.eventType === 'UPDATE') {
-          const pedido = msg.new as { id: string; estado: EstadoPedido }
+          const pedido = msg.new as Pedido
           if (!porAtender(pedido.estado)) tirarAviso(pedido.id)
+          // A cozinha acabou de carregar "Pronto": "Mesa 5, pedido pronto" (uma só vez por pedido).
+          else if (pedido.cozinha_pronto_em && Date.now() - new Date(pedido.cozinha_pronto_em).getTime() < 5 * 60_000) {
+            locutor.anunciarPronto(pedido.id, nomesMesas.current.get(pedido.table_id) ?? 'Mesa')
+          }
         }
       })
       .subscribe((estado) => setLigado(estado === 'SUBSCRIBED'))
     return () => {
       void supabase.removeChannel(canal)
     }
-  }, [carregarPedido, mostrarAviso, tirarAviso])
+  }, [carregarPedido, mostrarAviso, tirarAviso, locutor])
 
   const marcarVista = useCallback((tableId: string) => {
     setMesasNovas((s) => {
@@ -149,21 +149,6 @@ export function AdminLayout() {
       return n
     })
   }, [])
-
-  const ativarSom = useCallback(async () => {
-    if (await locutor.current!.ativar()) setSomAtivo(true)
-  }, [])
-
-  // O som liga-se sozinho: logo ao entrar, se a página já teve um toque (por exemplo o do login),
-  // ou no primeiro toque em qualquer sítio do painel. Os navegadores não deixam sem nenhum toque.
-  useEffect(() => {
-    if (somAtivo) return
-    void ativarSom()
-    const aoTocar = () => void ativarSom()
-    const eventos = ['pointerup', 'touchend', 'click', 'keydown'] as const
-    eventos.forEach((e) => document.addEventListener(e, aoTocar, true))
-    return () => eventos.forEach((e) => document.removeEventListener(e, aoTocar, true))
-  }, [somAtivo, ativarSom])
 
   function mudarVoz() {
     const nova = !vozLigada
@@ -179,10 +164,10 @@ export function AdminLayout() {
     (id: string) => {
       void (async () => {
         await ativarSom()
-        locutor.current!.anunciar(id, carregarPedido(id), true)
+        locutor.anunciar(id, carregarPedido(id), true)
       })()
     },
-    [carregarPedido, ativarSom],
+    [carregarPedido, ativarSom, locutor],
   )
 
   async function sair() {

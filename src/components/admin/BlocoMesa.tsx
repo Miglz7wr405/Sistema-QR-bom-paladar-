@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { mensagemDeErro } from '../../lib/errors'
+import { estadoCozinha, ROTULO_COZINHA } from '../../lib/cozinha'
 import { formatarHora, formatarPreco, porAtender } from '../../lib/format'
 import { textoFecharMesa, type ContaMesa } from '../../lib/mesas'
 import { supabase } from '../../lib/supabase'
@@ -56,6 +57,7 @@ export function BlocoMesa({ conta, mesaNome, comLink, ocupado, aoMudarEstado, ao
       <ol>
         {conta.pedidos.map((p, n) => {
           const pendente = porAtender(p.estado)
+          const cozinha = estadoCozinha(p)
           // Subtotal só quando acrescenta alguma coisa: vários pedidos e vários itens neste pedido.
           const comSubtotal = conta.pedidos.length > 1 && (p.order_items?.length ?? 0) > 1
           return (
@@ -66,10 +68,21 @@ export function BlocoMesa({ conta, mesaNome, comLink, ocupado, aoMudarEstado, ao
               } ${p.estado === 'cancelado' ? 'opacity-50 [&_ul]:line-through' : p.estado === 'entregue' ? 'opacity-60' : ''}`}
             >
               <div className="mb-2 flex items-center justify-between gap-2">
-                <span className="font-semibold">
+                <span className="whitespace-nowrap font-semibold">
                   {n + 1}.º pedido <span className="font-normal text-muted">· {formatarHora(p.criado_em)}</span>
                 </span>
-                <EstadoBadge estado={p.estado} />
+                {/* Com comida, o estado da cozinha diz mais do que "Recebido"/"Em preparação". */}
+                {cozinha ? (
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                      cozinha === 'pronto' ? 'animate-pulse bg-basil-500 text-white' : cozinha === 'a_preparar' ? 'bg-gold-300 text-ink-950' : 'bg-cream-200 text-ink-800'
+                    }`}
+                  >
+                    {ROTULO_COZINHA[cozinha]}
+                  </span>
+                ) : (
+                  <EstadoBadge estado={p.estado} />
+                )}
               </div>
               <ItensDoPedido pedido={p} />
               {(comSubtotal || pendente) && (

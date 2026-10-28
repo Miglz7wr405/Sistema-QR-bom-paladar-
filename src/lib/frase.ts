@@ -27,6 +27,8 @@ export const PEDACO = {
   nota: 'nota',
   notaPara: 'nota para',
   notaDoPedido: 'nota do pedido',
+  /** Recepção: a cozinha acabou um pedido de uma mesa sem gravação "Mesa N, pedido pronto". */
+  pedidoPronto: 'pedido pronto',
   maisItens: 'e mais itens veja no ecra',
   novoPedido: 'novo pedido',
 } as const

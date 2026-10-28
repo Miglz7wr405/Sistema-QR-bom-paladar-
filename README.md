@@ -114,9 +114,20 @@ Como funciona: não há chave de API no site. A voz foi gravada uma vez com a co
 3. Peça ao Claude para gravar `faltam.txt` na ElevenLabs (voz Dinis, `eleven_flash_v2_5`, 1 geração) e guardar o áudio como `<pasta>/faltam.mp3`.
 4. `python3 -I scripts/voz/cortar.py <pasta>` → corta pelos silêncios e atualiza o índice (pára se o número de trechos não bater com o de pedaços). Publique.
 
+## Ecrã da cozinha
+
+Os pedidos com comida aparecem também num ecrã na cozinha (tablet ou telemóvel fixo), tal como o cliente os escolheu: quantidade, opção em destaque (ex. **Camarão tigre · GRANDE**) e notas. Acaba com os erros do papel entre a recepção e a cozinha.
+
+- **Abrir**: no painel, separador **🍳 Cozinha** → leia o QR com o tablet da cozinha (ou **Abrir o ecrã da cozinha** / **Copiar link**) e guarde a página. O link é `/cozinha/<código>` e não pede palavra-passe. **Gerar novo link** faz o antigo deixar de funcionar.
+- **Na cozinha**: toque uma vez no ecrã para ligar o som (o ecrã fica aceso). Cada pedido novo com comida toca o sininho e a voz Dinis lê só a comida. Os talões ficam do mais antigo para o mais recente; "há N min" fica vermelho a partir de 20 minutos. **Começar** → "A preparar" (o cliente vê "Em preparação"); **✓ Pronto** → o talão sai. Um pedido cancelado na recepção fica vermelho, "CANCELADO: não fazer", até carregarem **OK**. Atualiza de 4 em 4 segundos.
+- **O que vai para a cozinha**: as categorias com 🍳 no **Cardápio** do painel (carregue em 🍳 na categoria para ligar ou desligar). Começou com Menu Pasta, Lasanhas, Buffet, Sobremesas e Extras; as bebidas ficam com a recepção. A escolha é copiada para cada item quando o pedido é feito.
+- **Na recepção**: no bloco da mesa, cada pedido com comida mostra 🍳 *Na cozinha*, *A preparar* ou *Pronto, levar à mesa*. Quando a cozinha carrega Pronto, toca o sininho e a voz diz *"Mesa 5, pedido pronto"* (`scripts/voz/lotes/prontos.txt`). O **✓ Atendido** continua na recepção.
+
+Como funciona: migração `20261028000001_cozinha.sql` (colunas `para_cozinha`, `cozinha_inicio_em`, `cozinha_pronto_em`, tabela `cozinha_acesso` com o código do link) e as funções `get_kitchen_orders` / `set_kitchen_state`, que só respondem com o código certo. O ecrã está em `src/pages/cozinha/CozinhaPage.tsx`.
+
 ## Fora desta versão
 
-Pagamento online (proibido: sem M-Pesa, e-Mola, cartões ou gateways), contas de empregado/cozinha, impressão de talão e relatórios.
+Pagamento online (proibido: sem M-Pesa, e-Mola, cartões ou gateways), contas de empregado/cozinha (a cozinha entra pelo link), impressão de talão e relatórios.
 
 ## Por confirmar com o restaurante
 

@@ -1,4 +1,4 @@
-import { pedacosDoPedido, type ItemFalado } from './frase'
+import { chaveVoz, PEDACO, pedacosDoPedido, type ItemFalado } from './frase'
 
 // Lê os pedidos novos em voz alta, um de cada vez e pela ordem de chegada:
 // sininho (public/sons/sino.mp3) e depois a frase, feita com os pedaços gravados na voz Dinis
@@ -102,11 +102,38 @@ export class Locutor {
     if (this.lidos.has(id) && !repetir) return
     this.lidos.add(id)
     // Prepara já os áudios, enquanto o pedido anterior ainda está a ser lido.
-    const preparado = dados.then(async (p) => {
-      if (!p) return null
+    this.enfileirar(
+      id,
+      dados.then(async (p) => {
+        if (!p) return null
+        const indice = await this.indice!
+        return this.vozLigada ? pedacosDoPedido(p.mesaNome, p.itens, p.notaGeral, (c) => c in indice) : []
+      }),
+    )
+  }
+
+  /** A cozinha acabou um pedido: sininho e "Mesa 5, pedido pronto" (ou "Pedido pronto" se a mesa não tiver gravação). */
+  anunciarPronto(id: string, mesaNome: string) {
+    if (!this.ativo) return
+    const chave = `pronto:${id}`
+    if (this.lidos.has(chave)) return
+    this.lidos.add(chave)
+    this.enfileirar(
+      id,
+      this.indice!.then((indice) => {
+        if (!this.vozLigada) return []
+        const daMesa = chaveVoz(`${mesaNome} pedido pronto`)
+        return daMesa in indice ? [daMesa] : PEDACO.pedidoPronto in indice ? [PEDACO.pedidoPronto] : []
+      }),
+    )
+  }
+
+  /** Toca o sininho e os pedaços de voz pela ordem da fila; nunca fala por cima de outro anúncio. */
+  private enfileirar(id: string, chaves: Promise<string[] | null>) {
+    const preparado = chaves.then(async (lista) => {
+      if (!lista) return null
       const indice = await this.indice!
-      const chaves = this.vozLigada ? pedacosDoPedido(p.mesaNome, p.itens, p.notaGeral, (c) => c in indice) : []
-      const voz = await Promise.all(chaves.map((c) => this.som(`/voz/${indice[c]}`)))
+      const voz = await Promise.all(lista.map((c) => this.som(`/voz/${indice[c]}`)))
       return { sino: await this.som('/sons/sino.mp3'), voz: voz.filter((b): b is AudioBuffer => b !== null) }
     })
     this.fila = this.fila

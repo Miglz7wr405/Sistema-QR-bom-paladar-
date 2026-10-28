@@ -1,5 +1,5 @@
 import { supabase } from './supabase'
-import type { Categoria, MesaInfo, PedidoCliente, Prato } from './types'
+import type { AcaoCozinha, Categoria, MesaInfo, PedidoCliente, Prato, TalaoCozinha } from './types'
 
 export async function obterCardapio(): Promise<{ categorias: Categoria[]; pratos: Prato[] }> {
   const [cats, pratos] = await Promise.all([
@@ -44,4 +44,17 @@ export async function enviarPedido(token: string, itens: ItemParaEnviar[], nota:
   const { data, error } = await supabase.rpc('create_order', { p_token: token, p_items: itens, p_nota: nota })
   if (error) throw error
   return data as { id: string; total: number; criado_em: string }
+}
+
+/** Talões do ecrã da cozinha (só os itens da cozinha, do mais antigo para o mais recente). */
+export async function obterTaloesCozinha(token: string): Promise<TalaoCozinha[]> {
+  const { data, error } = await supabase.rpc('get_kitchen_orders', { p_token: token })
+  if (error) throw error
+  return (data as TalaoCozinha[] | null) ?? []
+}
+
+/** "Começar", "Pronto" ou "OK" (talão cancelado) no ecrã da cozinha. */
+export async function mudarTalaoCozinha(token: string, pedidoId: string, acao: AcaoCozinha) {
+  const { error } = await supabase.rpc('set_kitchen_state', { p_token: token, p_order_id: pedidoId, p_acao: acao })
+  if (error) throw error
 }
