@@ -126,7 +126,7 @@ Os pedidos com comida aparecem também num ecrã na cozinha (tablet ou telemóve
   - a cozinha carrega **Começar** → *"Mesa 9, a cozinha está a preparar: duas Massa Bolonhesa."*
   - a cozinha carrega **✓ Pronto** → *"Mesa 9, a cozinha terminou de fazer: duas Massa Bolonhesa. Pode levar à mesa."*
 
-  Só lê a comida. Gravações: `scripts/voz/lotes/avisos.txt` (o número da mesa vai escrito por extenso, "Mesa um", porque "Mesa 1, pedido pronto" saiu em espanhol) e `cozinha.txt` (números de 30 a 90, "um", "uma" e "Pode levar à mesa"). O **✓ Atendido** continua na recepção.
+  Só lê a comida. "A cozinha terminou de fazer" é a voz B (Dinis com o modelo `eleven_v3`, escolhida pelo dono): para a Mesa 1 está gravada inteira; nas outras mesas junta-se "Mesa N", cortado das gravações "Mesa N pediu" por `scripts/voz/mesas.py`. Gravações: `scripts/voz/lotes/avisos.txt` (o número da mesa vai escrito por extenso, "Mesa um", porque "Mesa 1, pedido pronto" saiu em espanhol) e `cozinha.txt` (números de 30 a 90, "um", "uma" e "Pode levar à mesa"). O **✓ Atendido** continua na recepção.
 
 Como funciona: migração `20261028000001_cozinha.sql` (colunas `para_cozinha`, `cozinha_inicio_em`, `cozinha_pronto_em`, tabela `cozinha_acesso` com o código do link) e as funções `get_kitchen_orders` / `set_kitchen_state`, que só respondem com o código certo. O ecrã está em `src/pages/cozinha/CozinhaPage.tsx`.
 

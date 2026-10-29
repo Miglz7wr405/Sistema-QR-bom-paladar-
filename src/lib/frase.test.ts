@@ -120,6 +120,13 @@ describe('frase do pedido', () => {
     expect(pedacosPronto('Mesa 9', [], temAviso)).toEqual(['mesa 9 a cozinha terminou de fazer', 'pode levar a mesa'])
   })
 
+  it('sem a frase inteira da mesa: "Mesa 9" + "a cozinha terminou de fazer"', () => {
+    const tem = (c: string) => ['mesa 1 a cozinha terminou de fazer', 'mesa 9', 'a cozinha terminou de fazer', 'massa bolonhesa'].includes(c)
+    expect(pedacosPronto('Mesa 9', [item('Massa Bolonhesa')], tem)).toEqual(['mesa 9', 'a cozinha terminou de fazer', 'massa bolonhesa'])
+    expect(pedacosPronto('Mesa 1', [item('Massa Bolonhesa')], tem)).toEqual(['mesa 1 a cozinha terminou de fazer', 'massa bolonhesa'])
+    expect(pedacosPronto('Mesa 31', [item('Massa Bolonhesa')], tem)).toEqual(['a cozinha terminou de fazer', 'massa bolonhesa'])
+  })
+
   it('resumo para o ecrã', () => {
     expect(resumoDoPedido([item('Massa Bolonhesa', 2), item('Cerveja nacional', 1, 'Txilar')])).toBe('2× Massa Bolonhesa · Cerveja nacional (Txilar)')
   })

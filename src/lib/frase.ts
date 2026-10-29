@@ -145,10 +145,16 @@ export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral
   return saida
 }
 
-/** "Mesa 9, a cozinha está a preparar" (gravado por mesa) ou, sem gravação da mesa, "A cozinha está a preparar". */
+/**
+ * "Mesa 9, a cozinha está a preparar": a frase gravada para a mesa; senão "Mesa 9" + a frase (o "terminou de fazer"
+ * da voz B só está gravado inteiro para a Mesa 1, ver scripts/voz/mesas.py); senão só a frase, sem o número.
+ */
 function inicioDaCozinha(mesaNome: string, frase: string, temAudio: (chave: string) => boolean): string[] {
   const daMesa = chaveVoz(`${mesaNome}, ${frase}`)
-  return temAudio(daMesa) ? [daMesa] : temAudio(frase) ? [frase] : []
+  if (temAudio(daMesa)) return [daMesa]
+  if (!temAudio(frase)) return []
+  const mesa = chaveVoz(mesaNome)
+  return temAudio(mesa) ? [mesa, frase] : [frase]
 }
 
 /** Recepção, quando a cozinha carrega "Começar": "Mesa 9, a cozinha está a preparar: duas Massa Bolonhesa." */
