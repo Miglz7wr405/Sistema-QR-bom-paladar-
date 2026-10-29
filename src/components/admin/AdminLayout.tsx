@@ -146,7 +146,7 @@ export function AdminLayout() {
           const pedido = msg.new as Pedido
           const fase = fasesMostradas.current.get(pedido.id)
           if (!porAtender(pedido.estado)) tirarAviso(pedido.id)
-          // A cozinha carregou "Pronto": aviso verde e "Mesa 9, pedido pronto. <a comida>. Pode levar à mesa." (uma só vez).
+          // A cozinha carregou "Pronto": aviso verde e "Mesa 9, a cozinha terminou de fazer: <a comida>. Pode levar à mesa." (uma só vez).
           else if (recente(pedido.cozinha_pronto_em)) {
             if (fase === 'pronto') return
             const hora = pedido.cozinha_pronto_em
@@ -154,7 +154,7 @@ export function AdminLayout() {
             locutor.anunciarPronto(pedido.id, dados)
             void dados.then((p) => mostrarAviso(p, 'pronto', hora))
           }
-          // A cozinha carregou "Começar": aviso e "Mesa 9, o pedido já está a ser preparado" (uma só vez).
+          // A cozinha carregou "Começar": aviso e "Mesa 9, a cozinha está a preparar: <a comida>" (uma só vez).
           else if (!pedido.cozinha_pronto_em && recente(pedido.cozinha_inicio_em)) {
             if (fase === 'a_preparar' || fase === 'pronto') return
             const hora = pedido.cozinha_inicio_em
@@ -284,7 +284,11 @@ export function AdminLayout() {
                   <Link to={`/admin/mesas/${a.tableId}`} className="min-w-0 flex-1" onClick={() => marcarVista(a.tableId)}>
                     <p className={`font-display text-lg leading-tight ${a.fase === 'pronto' ? 'text-basil-600' : ''}`}>
                       {aLer === a.id && <span aria-label="A ler">🔊 </span>}
-                      {a.fase === 'pronto' ? `✅ ${a.mesaNome}: pronto, levar à mesa` : a.fase === 'a_preparar' ? `🍳 ${a.mesaNome}: a cozinha começou` : `${a.mesaNome} pediu`}{' '}
+                      {a.fase === 'pronto'
+                        ? `✅ O pedido da ${a.mesaNome} está pronto para levar à mesa`
+                        : a.fase === 'a_preparar'
+                          ? `🍳 O pedido da ${a.mesaNome} está a ser preparado`
+                          : `${a.mesaNome} pediu`}{' '}
                       <span className="whitespace-nowrap font-sans text-sm font-normal text-muted">· {formatarHora(a.quando)}</span>
                     </p>
                     <p className="mt-0.5 text-sm text-ink-800">{a.resumo}</p>

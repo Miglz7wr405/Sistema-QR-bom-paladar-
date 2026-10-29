@@ -3,7 +3,7 @@ import { pedacosComecou, pedacosDoPedido, pedacosPronto, type ItemFalado } from 
 // Lê os pedidos novos em voz alta, um de cada vez e pela ordem de chegada:
 // sininho (public/sons/sino.mp3) e depois a frase, feita com os pedaços gravados na voz Dinis
 // da ElevenLabs (public/voz, índice em public/voz/indice.json). Na recepção lê também os avisos
-// da cozinha ("o pedido já está a ser preparado", "pedido pronto… pode levar à mesa").
+// da cozinha ("a cozinha está a preparar…", "a cozinha terminou de fazer… pode levar à mesa").
 
 export interface PedidoFalado {
   id: string
@@ -113,13 +113,16 @@ export class Locutor {
     )
   }
 
-  /** A cozinha carregou "Começar": sininho e "Mesa 9, o pedido já está a ser preparado" (uma só vez por pedido). */
+  /**
+   * A cozinha carregou "Começar": sininho e "Mesa 9, a cozinha está a preparar: duas Massa Bolonhesa" (uma só vez por pedido).
+   * `dados.itens` deve trazer só a comida (o que sai da cozinha), como em anunciarPronto.
+   */
   anunciarComecou(id: string, dados: Promise<PedidoFalado | null>) {
-    this.anunciarUmaVez(`comecou:${id}`, id, dados, (p, tem) => pedacosComecou(p.mesaNome, tem))
+    this.anunciarUmaVez(`comecou:${id}`, id, dados, (p, tem) => pedacosComecou(p.mesaNome, p.itens, tem))
   }
 
   /**
-   * A cozinha carregou "Pronto": sininho e "Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa."
+   * A cozinha carregou "Pronto": sininho e "Mesa 9, a cozinha terminou de fazer: duas Massa Bolonhesa. Pode levar à mesa."
    * `dados.itens` deve trazer só a comida (o que sai da cozinha).
    */
   anunciarPronto(id: string, dados: Promise<PedidoFalado | null>) {

@@ -1,6 +1,6 @@
 // Monta as frases que a voz lê, como uma lista de pedaços já gravados (public/voz, voz Dinis da
 // ElevenLabs): "Mesa 1 pediu" + "dois" + "Massa Bolonhesa" + "e" + "Mojito"; e os avisos da cozinha
-// na recepção: "Mesa 9, o pedido já está a ser preparado" e "Mesa 9, pedido pronto" + comida + "Pode levar à mesa".
+// na recepção: "Mesa 9, a cozinha está a preparar" / "Mesa 9, a cozinha terminou de fazer" + comida (+ "Pode levar à mesa").
 // As chaves são o texto normalizado, igual ao de scripts/voz/pedacos.py.
 
 export interface ItemFalado {
@@ -28,10 +28,9 @@ export const PEDACO = {
   nota: 'nota',
   notaPara: 'nota para',
   notaDoPedido: 'nota do pedido',
-  /** Recepção: a cozinha acabou um pedido de uma mesa sem gravação "Mesa N, pedido pronto". */
-  pedidoPronto: 'pedido pronto',
-  /** Recepção: a cozinha carregou "Começar" num pedido de uma mesa sem gravação "Mesa N, o pedido já está a ser preparado". */
-  umPedidoAPreparar: 'um pedido ja esta a ser preparado',
+  /** Recepção, para uma mesa sem gravação "Mesa N, a cozinha está a preparar" / "…terminou de fazer". */
+  cozinhaAPreparar: 'a cozinha esta a preparar',
+  cozinhaTerminou: 'a cozinha terminou de fazer',
   podeLevar: 'pode levar a mesa',
   maisItens: 'e mais itens veja no ecra',
   novoPedido: 'novo pedido',
@@ -146,18 +145,24 @@ export function pedacosDoPedido(mesaNome: string, itens: ItemFalado[], notaGeral
   return saida
 }
 
-/** Recepção, quando a cozinha carrega "Começar": "Mesa 9, o pedido já está a ser preparado". */
-export function pedacosComecou(mesaNome: string, temAudio: (chave: string) => boolean): string[] {
-  const daMesa = chaveVoz(`${mesaNome}, o pedido já está a ser preparado`)
-  if (temAudio(daMesa)) return [daMesa]
-  return temAudio(PEDACO.umPedidoAPreparar) ? [PEDACO.umPedidoAPreparar] : []
+/** "Mesa 9, a cozinha está a preparar" (gravado por mesa) ou, sem gravação da mesa, "A cozinha está a preparar". */
+function inicioDaCozinha(mesaNome: string, frase: string, temAudio: (chave: string) => boolean): string[] {
+  const daMesa = chaveVoz(`${mesaNome}, ${frase}`)
+  return temAudio(daMesa) ? [daMesa] : temAudio(frase) ? [frase] : []
 }
 
-/** Recepção, quando a cozinha carrega "Pronto": "Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa." */
+/** Recepção, quando a cozinha carrega "Começar": "Mesa 9, a cozinha está a preparar: duas Massa Bolonhesa." */
+export function pedacosComecou(mesaNome: string, itens: ItemFalado[], temAudio: (chave: string) => boolean): string[] {
+  return [...inicioDaCozinha(mesaNome, PEDACO.cozinhaAPreparar, temAudio), ...pedacosDosItens(itens, temAudio)]
+}
+
+/** Recepção, quando a cozinha carrega "Pronto": "Mesa 9, a cozinha terminou de fazer: duas Massa Bolonhesa. Pode levar à mesa." */
 export function pedacosPronto(mesaNome: string, itens: ItemFalado[], temAudio: (chave: string) => boolean): string[] {
-  const daMesa = chaveVoz(`${mesaNome} pedido pronto`)
-  const inicio = temAudio(daMesa) ? [daMesa] : temAudio(PEDACO.pedidoPronto) ? [PEDACO.pedidoPronto] : []
-  return [...inicio, ...pedacosDosItens(itens, temAudio), ...(temAudio(PEDACO.podeLevar) ? [PEDACO.podeLevar] : [])]
+  return [
+    ...inicioDaCozinha(mesaNome, PEDACO.cozinhaTerminou, temAudio),
+    ...pedacosDosItens(itens, temAudio),
+    ...(temAudio(PEDACO.podeLevar) ? [PEDACO.podeLevar] : []),
+  ]
 }
 
 /** Texto do aviso no ecrã: "2× Massa Bolonhesa · Cerveja nacional (Txilar)". */

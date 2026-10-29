@@ -96,21 +96,28 @@ describe('frase do pedido', () => {
     expect(pedacosDoPedido('Mesa 1', [item('Buffet 2.000', 21)], null, tem)).toEqual(['mesa 1 pediu', 'buffet 2 000', 'para', 'n20', 'e', 'n1f', 'pessoas'])
   })
 
-  it('cozinha começou: "Mesa 9, o pedido já está a ser preparado"', () => {
-    const tem = (c: string) => ['mesa 9 o pedido ja esta a ser preparado', 'um pedido ja esta a ser preparado'].includes(c)
-    expect(pedacosComecou('Mesa 9', tem)).toEqual(['mesa 9 o pedido ja esta a ser preparado'])
-    expect(pedacosComecou('Esplanada', tem)).toEqual(['um pedido ja esta a ser preparado'])
-    expect(pedacosComecou('Mesa 9', () => false)).toEqual([])
+  const avisos = new Set([
+    ...gravados,
+    'mesa 9 a cozinha esta a preparar',
+    'a cozinha esta a preparar',
+    'mesa 9 a cozinha terminou de fazer',
+    'a cozinha terminou de fazer',
+    'pode levar a mesa',
+  ])
+  const temAviso = (c: string) => avisos.has(c)
+
+  it('cozinha começou: "Mesa 9, a cozinha está a preparar: duas Massa Bolonhesa"', () => {
+    expect(pedacosComecou('Mesa 9', [item('Massa Bolonhesa', 2)], temAviso)).toEqual(['mesa 9 a cozinha esta a preparar', 'n2f', 'massa bolonhesa'])
+    expect(pedacosComecou('Esplanada', [item('Massa Bolonhesa')], temAviso)).toEqual(['a cozinha esta a preparar', 'massa bolonhesa'])
+    expect(pedacosComecou('Mesa 9', [], () => false)).toEqual([])
   })
 
-  it('cozinha pronto: "Mesa 9, pedido pronto. Duas Massa Bolonhesa. Pode levar à mesa."', () => {
-    const prontos = new Set([...gravados, 'mesa 9 pedido pronto', 'pedido pronto', 'pode levar a mesa'])
-    const tem = (c: string) => prontos.has(c)
-    expect(pedacosPronto('Mesa 9', [item('Massa Bolonhesa', 2), item('Arroz', 1, 'Arroz de coco')], tem)).toEqual([
-      'mesa 9 pedido pronto', 'n2f', 'massa bolonhesa', 'e', 'arroz de coco', 'pode levar a mesa',
+  it('cozinha pronto: "Mesa 9, a cozinha terminou de fazer: duas Massa Bolonhesa. Pode levar à mesa."', () => {
+    expect(pedacosPronto('Mesa 9', [item('Massa Bolonhesa', 2), item('Arroz', 1, 'Arroz de coco')], temAviso)).toEqual([
+      'mesa 9 a cozinha terminou de fazer', 'n2f', 'massa bolonhesa', 'e', 'arroz de coco', 'pode levar a mesa',
     ])
-    expect(pedacosPronto('Esplanada', [item('Prato novo')], tem)).toEqual(['pedido pronto', 'e mais itens veja no ecra', 'pode levar a mesa'])
-    expect(pedacosPronto('Mesa 9', [], tem)).toEqual(['mesa 9 pedido pronto', 'pode levar a mesa'])
+    expect(pedacosPronto('Esplanada', [item('Prato novo')], temAviso)).toEqual(['a cozinha terminou de fazer', 'e mais itens veja no ecra', 'pode levar a mesa'])
+    expect(pedacosPronto('Mesa 9', [], temAviso)).toEqual(['mesa 9 a cozinha terminou de fazer', 'pode levar a mesa'])
   })
 
   it('resumo para o ecrã', () => {
