@@ -11,7 +11,7 @@ type Estilo = 'buffet' | 'pasta' | 'cocktail' | 'vinho' | 'bar'
 function estiloDe(nome: string): Estilo {
   if (/buffet/i.test(nome)) return 'buffet'
   if (/pasta|massa|lasanha/i.test(nome)) return 'pasta'
-  if (/cocktail/i.test(nome)) return 'cocktail'
+  if (/cocktail|drinks/i.test(nome)) return 'cocktail'
   if (/vinho|brancos|verdes|ros[eé]/i.test(nome)) return 'vinho'
   return 'bar'
 }
