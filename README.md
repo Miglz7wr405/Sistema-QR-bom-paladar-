@@ -137,3 +137,10 @@ Pagamento online (proibido: sem M-Pesa, e-Mola, cartões ou gateways), contas de
 ## Por confirmar com o restaurante
 
 Ver a lista em [`dados/CARDAPIO.md`](dados/CARDAPIO.md#por-confirmar-com-o-restaurante) (nomes de vinhos, cerveja de pressão em ml/cl, shots sem preço, menu de pizzas que ainda falta).
+
+## Supabase sempre ligado
+
+No plano gratuito, o Supabase pausa o projeto ao fim de ~7 dias sem pedidos (o site abre mas fica sem cardápio nem pedidos). Para nunca acontecer:
+- **Vercel (principal):** `vercel.json` → `crons` chama `/api/manter-ligado` todos os dias às 06:00 UTC; a função (`api/manter-ligado.ts`) lê 1 categoria da base. Verificar: abrir `https://<site>/api/manter-ligado` → "ok"; histórico em Vercel → projeto → Settings → Cron Jobs.
+- **GitHub (reserva):** `.github/workflows/manter-supabase-ligado.yml` faz o mesmo de 2 em 2 dias (pode correr-se à mão em Actions). O GitHub desliga tarefas agendadas em repositórios sem commits há 60 dias; por isso a principal é a do Vercel.
+- A garantia total é o plano Pro do Supabase, que nunca pausa.
